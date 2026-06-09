@@ -37,7 +37,10 @@
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  font-size: 112.5%; /* 18px base — tous les rem s'adaptent */
+}
 
 body {
   background-color: var(--bg);
@@ -102,7 +105,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 
 .section__title {
-  font-size: clamp(1.75rem, 3.5vw, 2.6rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 300;
   margin-bottom: 1rem;
   letter-spacing: 0.02em;
@@ -283,7 +286,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   width: auto;
 }
 .hero__tagline {
-  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-size: clamp(1.9rem, 4.5vw, 3.5rem);
   font-weight: 700;
   line-height: 1.2;
   color: var(--white);
