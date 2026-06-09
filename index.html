@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCCITEM — Electrical Motors</title>
+  <meta name="description" content="OCCITEM conçoit, développe et fabrique des moteurs électriques haute performance en petite série. Technologie U-PIN, made in France.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="#accueil" class="nav__logo">
+        <img src="assets/logo-blanc.png" alt="OCCITEM Electrical Motors">
+      </a>
+      <nav class="nav__links">
+        <a href="#apropos" data-key="nav.about"></a>
+        <a href="#technologie" data-key="nav.tech"></a>
+        <a href="#services" data-key="nav.services"></a>
+        <a href="#marches" data-key="nav.markets"></a>
+        <a href="#video" data-key="nav.video"></a>
+        <a href="#contact" data-key="nav.contact"></a>
+      </nav>
+      <div class="nav__actions">
+        <button class="lang-switch" id="langSwitch" aria-label="Switch language">FR / EN</button>
+        <button class="nav__burger" id="navBurger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="accueil">
+    <div class="hero__bg" style="background-image: url('assets/hero-bg.jpg')"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content container">
+      <img src="assets/logo-blanc.png" alt="OCCITEM" class="hero__logo reveal">
+      <h1 class="hero__tagline reveal reveal--delay-1">
+        <span data-key="hero.tagline"></span><br>
+        <span class="hero__tagline--accent" data-key="hero.tagline2"></span>
+      </h1>
+      <a href="#contact" class="btn btn--primary reveal reveal--delay-2" data-key="hero.cta"></a>
+    </div>
+    <a href="#apropos" class="hero__scroll" aria-label="Défiler vers le bas">
+      <span class="hero__scroll-icon"></span>
+    </a>
+  </section>
+
+  <!-- À PROPOS -->
+  <section class="section about" id="apropos">
+    <div class="container">
+      <div class="section__label reveal" data-key="about.label"></div>
+      <div class="about__grid">
+        <div class="about__text">
+          <h2 class="section__title reveal" data-key="about.title"></h2>
+          <p class="about__lead reveal reveal--delay-1" data-key="about.text1"></p>
+          <p class="about__body reveal reveal--delay-2" data-key="about.text2"></p>
+        </div>
+        <div class="about__gallery reveal reveal--delay-1">
+          <div class="about__photos">
+            <img src="assets/atelier-1.png" alt="Atelier OCCITEM — machine de bobinage" class="about__photo">
+            <img src="assets/atelier-2.png" alt="Atelier OCCITEM — vue panoramique" class="about__photo">
+          </div>
+          <p class="about__caption reveal reveal--delay-3" data-key="about.atelier_caption"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGIE U-PIN -->
+  <section class="section tech" id="technologie">
+    <div class="container">
+      <div class="section__label reveal" data-key="tech.label"></div>
+      <h2 class="section__title reveal reveal--delay-1" data-key="tech.title"></h2>
+      <p class="tech__intro reveal reveal--delay-2" data-key="tech.intro"></p>
+
+      <div class="tech__compare reveal reveal--delay-2">
+        <div class="tech__compare-item tech__compare-item--active">
+          <img src="assets/rotor.png" alt="Bobinage épingle U-PIN">
+          <span data-key="tech.compare_upin"></span>
+        </div>
+        <div class="tech__compare-sep">VS</div>
+        <div class="tech__compare-item">
+          <img src="assets/bobinage-comparaison.png" alt="Bobinage fil rond">
+          <span data-key="tech.compare_round"></span>
+        </div>
+      </div>
+
+      <h3 class="tech__advantages-title reveal" data-key="tech.advantages_title"></h3>
+      <div class="tech__grid" id="techAdvantages">
+        <!-- Généré par JS depuis content.json -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section services" id="services">
+    <div class="container">
+      <div class="section__label reveal" data-key="services.label"></div>
+      <h2 class="section__title reveal reveal--delay-1" data-key="services.title"></h2>
+      <p class="services__subtitle reveal reveal--delay-2" data-key="services.subtitle"></p>
+
+      <div class="services__grid" id="servicesGrid">
+        <!-- Généré par JS depuis content.json -->
+      </div>
+
+      <div class="services__extra reveal">
+        <h3 class="services__extra-title" data-key="services.extra_title"></h3>
+        <ul class="services__list" id="servicesExtra">
+          <!-- Généré par JS depuis content.json -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCHÉS -->
+  <section class="section markets" id="marches">
+    <div class="container">
+      <div class="section__label reveal" data-key="markets.label"></div>
+      <h2 class="section__title reveal reveal--delay-1" data-key="markets.title"></h2>
+      <p class="markets__subtitle reveal reveal--delay-2" data-key="markets.subtitle"></p>
+
+      <div class="markets__grid" id="marketsGrid">
+        <!-- Généré par JS depuis content.json -->
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDÉO -->
+  <section class="section video-section" id="video">
+    <div class="container">
+      <div class="section__label reveal" data-key="video.label"></div>
+      <h2 class="section__title reveal reveal--delay-1" data-key="video.title"></h2>
+      <p class="video-section__subtitle reveal reveal--delay-2" data-key="video.subtitle"></p>
+      <div class="video-section__player reveal reveal--delay-2">
+        <video controls preload="metadata" poster="assets/hero-bg.jpg">
+          <source src="assets/video.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section__label reveal" data-key="contact.label"></div>
+      <h2 class="section__title reveal reveal--delay-1" data-key="contact.title"></h2>
+      <p class="contact__subtitle reveal reveal--delay-2" data-key="contact.subtitle"></p>
+
+      <div class="contact__grid" id="contactGrid">
+        <!-- Généré par JS depuis content.json -->
+      </div>
+
+      <div class="contact__address reveal reveal--delay-2">
+        <div class="contact__address-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact__address-label" data-key="contact.address_label"></div>
+          <div class="contact__address-text" data-key="contact.address"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <img src="assets/logo-blanc.png" alt="OCCITEM" class="footer__logo">
+      <span class="footer__tagline" data-key="footer.tagline"></span>
+      <span class="footer__legal" data-key="footer.legal"></span>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
