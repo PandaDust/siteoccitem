@@ -7,6 +7,8 @@
   // ============================================================
   // INIT
   // ============================================================
+  initPhotoCarousel(); // images statiques — pas besoin d'attendre content.json
+
   fetch('content.json')
     .then(r => r.json())
     .then(data => {
@@ -150,6 +152,23 @@
       </div>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // ============================================================
+  // DIAPORAMA PHOTOS — section À propos
+  // ============================================================
+  function initPhotoCarousel() {
+    const photos = Array.from(document.querySelectorAll('.about__photo'));
+    if (photos.length < 2) return;
+
+    let current = 0;
+    photos[0].classList.add('is-active');
+
+    setInterval(() => {
+      photos[current].classList.remove('is-active');
+      current = (current + 1) % photos.length;
+      photos[current].classList.add('is-active');
+    }, 4000);
   }
 
   // ============================================================
