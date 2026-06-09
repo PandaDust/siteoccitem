@@ -206,6 +206,24 @@
   // ============================================================
   // HERO SNAP — snap vers le haut ou la section suivante
   // ============================================================
+  function scrollTo(target, duration) {
+    const start = window.scrollY;
+    const delta = target - start;
+    const startTime = performance.now();
+
+    function easeOutExpo(t) {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, start + delta * easeOutExpo(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   function initHeroSnap() {
     const hero = document.getElementById('accueil');
     if (!hero) return;
@@ -224,9 +242,9 @@
       clearTimeout(snapTimer);
       snapTimer = setTimeout(() => {
         isSnapping = true;
-        const target = scrollY < heroHeight * 0.5 ? 0 : heroHeight;
-        window.scrollTo({ top: target, behavior: 'smooth' });
-        setTimeout(() => { isSnapping = false; }, 700);
+        const target = scrollY < heroHeight * 0.3 ? 0 : heroHeight;
+        scrollTo(target, 750);
+        setTimeout(() => { isSnapping = false; }, 800);
       }, 150);
     }, { passive: true });
   }
