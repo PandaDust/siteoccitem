@@ -5,6 +5,7 @@
       "tech": "Technologie",
       "services": "Services",
       "markets": "Marchés",
+      "trust": "Confiance",
       "video": "Vidéo",
       "contact": "Contact"
     },
@@ -13,6 +14,7 @@
       "tech": "Technology",
       "services": "Services",
       "markets": "Markets",
+      "trust": "Trust",
       "video": "Video",
       "contact": "Contact"
     }
@@ -184,6 +186,48 @@
           "desc": "Electric traction for two-wheelers, light vehicles and industrial machinery. High power density, compactness and robustness.",
           "img": "assets/marche-terrestre.png"
         }
+      ]
+    }
+  },
+  "trust": {
+    "fr": {
+      "label": "Ils nous font confiance",
+      "title": "Des partenaires exigeants",
+      "subtitle": "Depuis notre création en 2019, PME, ETI et grands groupes internationaux nous confient leurs projets de motorisation électrique.",
+      "partners": [
+        { "name": "SAFRAN",             "img": "assets/logos/safran.png" },
+        { "name": "Nidec PSA Emotors",  "img": "assets/logos/nidec-psa.png" },
+        { "name": "TotalEnergies",      "img": "assets/logos/totalenergies.png" },
+        { "name": "NEXTER",             "img": "assets/logos/nexter.png" },
+        { "name": "Fountaine Pajot",    "img": "assets/logos/fountaine-pajot.png" },
+        { "name": "ONERA",              "img": "assets/logos/onera.png" },
+        { "name": "Ingeteam",           "img": "assets/logos/ingeteam.png" },
+        { "name": "Poclain Hydraulics", "img": "assets/logos/poclain.png" },
+        { "name": "CIRTEM",             "img": "assets/logos/cirtem.png" },
+        { "name": "Gehring",            "img": "assets/logos/gehring.png" },
+        { "name": "Danielson",          "img": "assets/logos/danielson.png" },
+        { "name": "Autos Énergies",     "img": "assets/logos/autos-energies.png" },
+        { "name": "Alt. Énergies",      "img": "assets/logos/alternatives-energies.png" }
+      ]
+    },
+    "en": {
+      "label": "They trust us",
+      "title": "Demanding partners",
+      "subtitle": "Since our creation in 2019, SMEs, mid-caps and international large groups have entrusted us with their electric motor projects.",
+      "partners": [
+        { "name": "SAFRAN",             "img": "assets/logos/safran.png" },
+        { "name": "Nidec PSA Emotors",  "img": "assets/logos/nidec-psa.png" },
+        { "name": "TotalEnergies",      "img": "assets/logos/totalenergies.png" },
+        { "name": "NEXTER",             "img": "assets/logos/nexter.png" },
+        { "name": "Fountaine Pajot",    "img": "assets/logos/fountaine-pajot.png" },
+        { "name": "ONERA",              "img": "assets/logos/onera.png" },
+        { "name": "Ingeteam",           "img": "assets/logos/ingeteam.png" },
+        { "name": "Poclain Hydraulics", "img": "assets/logos/poclain.png" },
+        { "name": "CIRTEM",             "img": "assets/logos/cirtem.png" },
+        { "name": "Gehring",            "img": "assets/logos/gehring.png" },
+        { "name": "Danielson",          "img": "assets/logos/danielson.png" },
+        { "name": "Autos Energies",     "img": "assets/logos/autos-energies.png" },
+        { "name": "Alt. Energies",      "img": "assets/logos/alternatives-energies.png" }
       ]
     }
   },

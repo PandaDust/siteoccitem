@@ -591,6 +591,53 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 }
 
 /* ============================================================
+   ILS NOUS FONT CONFIANCE
+   ============================================================ */
+.trust { background-color: var(--bg-alt); }
+
+.trust__subtitle {
+  color: var(--muted);
+  margin-bottom: 3rem;
+  max-width: 600px;
+}
+
+.trust__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.trust-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+.trust-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-3px);
+}
+.trust-card img {
+  max-height: 44px;
+  max-width: 120px;
+  width: auto;
+  object-fit: contain;
+  /* Logos sur fond blanc → filtre pour fond sombre */
+  filter: grayscale(1) brightness(0) invert(1);
+  opacity: 0.65;
+  transition: opacity var(--transition), filter var(--transition);
+}
+.trust-card:hover img {
+  opacity: 0.9;
+}
+
+/* ============================================================
    VIDÉO
    ============================================================ */
 .video-section__subtitle {

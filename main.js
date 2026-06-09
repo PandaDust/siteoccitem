@@ -45,6 +45,7 @@
     renderTechAdvantages(lang);
     renderServices(lang);
     renderMarkets(lang);
+    renderTrust(lang);
     renderContact(lang);
   }
 
@@ -104,6 +105,21 @@
         <img class="market-card__img" src="${item.img}" alt="${item.title}">
         <div class="market-card__title">${item.title}</div>
         <div class="market-card__desc">${item.desc}</div>
+      </div>
+    `).join('');
+    grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // ============================================================
+  // TRUST — grille logos partenaires
+  // ============================================================
+  function renderTrust(lang) {
+    const grid = document.getElementById('trustGrid');
+    if (!grid || !content.trust) return;
+    const partners = content.trust[lang].partners;
+    grid.innerHTML = partners.map((p, i) => `
+      <div class="trust-card reveal reveal--delay-${i % 4}">
+        <img src="${p.img}" alt="${p.name}" title="${p.name}">
       </div>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
