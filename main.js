@@ -17,6 +17,7 @@
       initNavActive();
       initBurger();
       initLangSwitch();
+      initHeroSnap();
     })
     .catch(err => console.error('Impossible de charger content.json', err));
 
@@ -200,6 +201,34 @@
       if (progress < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
+  }
+
+  // ============================================================
+  // HERO SNAP — snap vers le haut ou la section suivante
+  // ============================================================
+  function initHeroSnap() {
+    const hero = document.getElementById('accueil');
+    if (!hero) return;
+
+    let snapTimer = null;
+    let isSnapping = false;
+
+    window.addEventListener('scroll', () => {
+      if (isSnapping) return;
+
+      const heroHeight = hero.offsetHeight;
+      const scrollY = window.scrollY;
+
+      if (scrollY <= 0 || scrollY >= heroHeight) return;
+
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(() => {
+        isSnapping = true;
+        const target = scrollY < heroHeight * 0.5 ? 0 : heroHeight;
+        window.scrollTo({ top: target, behavior: 'smooth' });
+        setTimeout(() => { isSnapping = false; }, 700);
+      }, 150);
+    }, { passive: true });
   }
 
   // ============================================================
