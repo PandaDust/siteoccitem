@@ -1,0 +1,256 @@
+{
+  "nav": {
+    "fr": {
+      "about": "À propos",
+      "tech": "Technologie",
+      "services": "Services",
+      "markets": "Marchés",
+      "video": "Vidéo",
+      "contact": "Contact"
+    },
+    "en": {
+      "about": "About",
+      "tech": "Technology",
+      "services": "Services",
+      "markets": "Markets",
+      "video": "Video",
+      "contact": "Contact"
+    }
+  },
+  "hero": {
+    "fr": {
+      "tagline": "Moteurs électriques haute performance,",
+      "tagline2": "made in France.",
+      "cta": "Nous contacter"
+    },
+    "en": {
+      "tagline": "High-performance electrical motors,",
+      "tagline2": "made in France.",
+      "cta": "Contact us"
+    }
+  },
+  "about": {
+    "fr": {
+      "label": "Qui sommes-nous",
+      "title": "Une entreprise française spécialisée dans les machines électriques",
+      "text1": "OCCITEM conçoit, développe et fabrique en petite série des machines électriques de haute fiabilité et haute performance.",
+      "text2": "Basée à Colomiers (31), notre équipe maîtrise l'ensemble de la chaîne, du bureau d'études jusqu'à la fabrication semi-automatisée, en s'appuyant sur notre technologie de bobinage U-PIN développée en interne.",
+      "atelier_caption": "Notre atelier de fabrication — Colomiers, France"
+    },
+    "en": {
+      "label": "About us",
+      "title": "A French company specialized in electrical machines",
+      "text1": "OCCITEM designs, develops and manufactures high-reliability, high-performance electrical machines in small series.",
+      "text2": "Based in Colomiers (31), our team masters the entire chain, from engineering to semi-automated manufacturing, leveraging our in-house U-PIN winding technology.",
+      "atelier_caption": "Our manufacturing facility — Colomiers, France"
+    }
+  },
+  "tech": {
+    "fr": {
+      "label": "Notre technologie",
+      "title": "Technologie U-PIN",
+      "intro": "Le choix stratégique d'OCCITEM porte sur le bobinage épingle (U-PIN). Cette technologie améliore significativement les performances par rapport à l'état de l'art du bobinage fil rond.",
+      "compare_upin": "Bobinage épingle U-PIN",
+      "compare_round": "Bobinage fil rond classique",
+      "advantages_title": "Les avantages du bobinage U-PIN",
+      "advantages": [
+        { "key": "rendement", "value": "70%", "label": "Coefficient de remplissage", "desc": "Contre 45% pour le bobinage fil rond — meilleur rendement, compacité et refroidissement." },
+        { "key": "masse", "value": "-15%", "label": "Réduction de masse", "desc": "Le fort coefficient de remplissage permet une réduction de masse jusqu'à 15%." },
+        { "key": "robustesse", "value": "+100%", "label": "MTBF", "desc": "La maîtrise du positionnement des fils évite les contacts entre conducteurs." },
+        { "key": "refroidissement", "value": "+200%", "label": "Refroidissement continu", "desc": "La perméabilité des têtes de bobine améliore la surface d'échange thermique." },
+        { "key": "bruit", "value": "-50%", "label": "Bruits magnétiques", "desc": "La fermeture d'encoche permet une réduction importante des bruits magnétiques." },
+        { "key": "duree", "value": ">10000h", "label": "Durée de vie", "desc": "La maîtrise du positionnement des fils augmente la tenue au dv/dt." }
+      ]
+    },
+    "en": {
+      "label": "Our technology",
+      "title": "U-PIN Technology",
+      "intro": "OCCITEM's strategic choice is based on hairpin (U-PIN) winding. This technology significantly improves performance compared to the state of the art of round wire winding.",
+      "compare_upin": "U-PIN hairpin winding",
+      "compare_round": "Classical round wire winding",
+      "advantages_title": "Benefits of U-PIN winding",
+      "advantages": [
+        { "key": "rendement", "value": "70%", "label": "Slot fill factor", "desc": "Versus 45% for round wire — better efficiency, compactness and cooling." },
+        { "key": "masse", "value": "-15%", "label": "Weight reduction", "desc": "The high fill factor allows a weight reduction of up to 15%." },
+        { "key": "robustesse", "value": "+100%", "label": "MTBF", "desc": "Precise conductor positioning prevents wire-to-wire contacts." },
+        { "key": "refroidissement", "value": "+200%", "label": "Continuous cooling", "desc": "The permeable coil heads improve the thermal exchange surface." },
+        { "key": "bruit", "value": "-50%", "label": "Magnetic noise", "desc": "Slot closing significantly reduces magnetic noise." },
+        { "key": "duree", "value": ">10000h", "label": "Service life", "desc": "Precise conductor positioning increases dv/dt withstand capability." }
+      ]
+    }
+  },
+  "services": {
+    "fr": {
+      "label": "Nos services",
+      "title": "De la conception à la fabrication",
+      "subtitle": "OCCITEM vous accompagne du prototype jusqu'à la petite série.",
+      "items": [
+        {
+          "key": "concevoir",
+          "title": "Concevoir",
+          "desc": "Bureau d'études dédié, méthodes de calcul propriétaires (mécanique et électromagnétique), co-ingénierie et trade-off avec nos clients.",
+          "img": "assets/service-concevoir.png"
+        },
+        {
+          "key": "fabriquer",
+          "title": "Fabriquer",
+          "desc": "Moyens de fabrication semi-automatisés : formage du cuivre, imprégnation VPI/Trickling, soudage TIG. Capacité jusqu'à 1 000 unités/an.",
+          "img": "assets/service-fabriquer.png"
+        },
+        {
+          "key": "prototyper",
+          "title": "Prototyper",
+          "desc": "Laboratoire dédié pour les tests de performance, plans d'expérience et tests d'endurance. Dossier de fabrication clé en main.",
+          "img": "assets/service-prototyper.png"
+        }
+      ],
+      "extra_title": "Nos prestations",
+      "extra": ["Trade-off", "Maquettage labo", "Dossier de fabrication clé en main", "Prototypage", "Petite série ≤ 1 000/an", "Maintenance de produits OCCITEM"]
+    },
+    "en": {
+      "label": "Our services",
+      "title": "From design to manufacturing",
+      "subtitle": "OCCITEM supports you from prototype to small series.",
+      "items": [
+        {
+          "key": "concevoir",
+          "title": "Design",
+          "desc": "Dedicated engineering team, proprietary calculation methods (mechanical and electromagnetic), co-engineering and trade-off with our clients.",
+          "img": "assets/service-concevoir.png"
+        },
+        {
+          "key": "fabriquer",
+          "title": "Manufacture",
+          "desc": "Semi-automated manufacturing: copper forming, VPI/Trickling impregnation, TIG welding. Capacity up to 1,000 units/year.",
+          "img": "assets/service-fabriquer.png"
+        },
+        {
+          "key": "prototyper",
+          "title": "Prototype",
+          "desc": "Dedicated laboratory for performance testing, design of experiments and endurance tests. Turnkey manufacturing file.",
+          "img": "assets/service-prototyper.png"
+        }
+      ],
+      "extra_title": "Our capabilities",
+      "extra": ["Trade-off", "Lab mockup", "Turnkey manufacturing file", "Prototyping", "Small series ≤ 1,000/year", "OCCITEM product maintenance"]
+    }
+  },
+  "markets": {
+    "fr": {
+      "label": "Nos marchés",
+      "title": "Des applications exigeantes",
+      "subtitle": "Nos moteurs équipent des applications où la performance et la fiabilité sont critiques.",
+      "items": [
+        {
+          "key": "aero",
+          "title": "Aéronautique",
+          "desc": "Propulsion électrique pour ultra-légers, drones et aéronefs. Produit phare : PEPS16 — 16kW, 5,5kg, développé avec Airbus et soutenu par BPI France.",
+          "img": "assets/marche-aero.png"
+        },
+        {
+          "key": "marine",
+          "title": "Marine & Fluvial",
+          "desc": "Moteurs immergés et POD électriques pour voiliers, bateaux fluviaux et applications sous-marines. Produit phare : AURA — jusqu'à 100kW, hélice immergée.",
+          "img": "assets/marche-marine.png"
+        },
+        {
+          "key": "terre",
+          "title": "Terrestre",
+          "desc": "Traction électrique pour deux-roues, véhicules légers et engins industriels. Haute densité de puissance, compacité et robustesse.",
+          "img": "assets/marche-terrestre.png"
+        }
+      ]
+    },
+    "en": {
+      "label": "Our markets",
+      "title": "Demanding applications",
+      "subtitle": "Our motors equip applications where performance and reliability are critical.",
+      "items": [
+        {
+          "key": "aero",
+          "title": "Aeronautics",
+          "desc": "Electric propulsion for ultralight aircraft, drones and UAVs. Flagship product: PEPS16 — 16kW, 5.5kg, developed with Airbus and supported by BPI France.",
+          "img": "assets/marche-aero.png"
+        },
+        {
+          "key": "marine",
+          "title": "Marine & Inland waterways",
+          "desc": "Immersed motors and electric PODs for sailboats, river boats and underwater applications. Flagship product: AURA — up to 100kW, immersed propeller.",
+          "img": "assets/marche-marine.png"
+        },
+        {
+          "key": "terre",
+          "title": "Land",
+          "desc": "Electric traction for two-wheelers, light vehicles and industrial machinery. High power density, compactness and robustness.",
+          "img": "assets/marche-terrestre.png"
+        }
+      ]
+    }
+  },
+  "video": {
+    "fr": {
+      "label": "En action",
+      "title": "OCCITEM en action",
+      "subtitle": "Découvrez nos technologies et notre savoir-faire."
+    },
+    "en": {
+      "label": "In action",
+      "title": "OCCITEM in action",
+      "subtitle": "Discover our technologies and expertise."
+    }
+  },
+  "contact": {
+    "fr": {
+      "label": "Contact",
+      "title": "Parlons de votre projet",
+      "subtitle": "Notre équipe est à votre disposition pour étudier vos besoins.",
+      "address_label": "Adresse",
+      "address": "22 Avenue du Louron\n31770 Colomiers, France",
+      "contacts": [
+        {
+          "name": "Marc Tunzini",
+          "role": "Contact technique",
+          "email": "marc.tunzini@occitem.com",
+          "phone": "+33 (0)6 16 70 67 19"
+        },
+        {
+          "name": "Géraldine Vieillard",
+          "role": "Contact commercial",
+          "email": "geraldine.vieillard@occitem.com",
+          "phone": "+33 (0)6 12 13 56 51"
+        }
+      ]
+    },
+    "en": {
+      "label": "Contact",
+      "title": "Let's talk about your project",
+      "subtitle": "Our team is available to discuss your needs.",
+      "address_label": "Address",
+      "address": "22 Avenue du Louron\n31770 Colomiers, France",
+      "contacts": [
+        {
+          "name": "Marc Tunzini",
+          "role": "Technical contact",
+          "email": "marc.tunzini@occitem.com",
+          "phone": "+33 (0)6 16 70 67 19"
+        },
+        {
+          "name": "Géraldine Vieillard",
+          "role": "Sales contact",
+          "email": "geraldine.vieillard@occitem.com",
+          "phone": "+33 (0)6 12 13 56 51"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "fr": {
+      "legal": "© 2025 OCCITEM SAS — RCS Toulouse B 798 211 504",
+      "tagline": "Electrical Motors"
+    },
+    "en": {
+      "legal": "© 2025 OCCITEM SAS — RCS Toulouse B 798 211 504",
+      "tagline": "Electrical Motors"
+    }
+  }
+}
