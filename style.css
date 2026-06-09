@@ -113,9 +113,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
    ============================================================ */
 .section {
   padding: 6rem 0;
-}
-.section:nth-child(even) {
-  background-color: var(--bg-alt);
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 /* ============================================================
@@ -361,7 +359,6 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 /* ============================================================
    TECHNOLOGIE
    ============================================================ */
-.tech { background-color: var(--bg-alt); }
 
 .tech__intro {
   color: var(--muted);
@@ -543,7 +540,6 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 /* ============================================================
    MARCHÉS
    ============================================================ */
-.markets { background-color: var(--bg-alt); }
 
 .markets__subtitle {
   color: var(--muted);
@@ -606,7 +602,6 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 /* ============================================================
    ILS NOUS FONT CONFIANCE
    ============================================================ */
-.trust { background-color: var(--bg-alt); }
 
 .trust__subtitle {
   color: var(--muted);
@@ -673,7 +668,6 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 /* ============================================================
    CONTACT
    ============================================================ */
-.contact { background-color: var(--bg-alt); }
 
 .contact__subtitle {
   color: var(--muted);
