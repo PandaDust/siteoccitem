@@ -11,8 +11,8 @@
     .then(r => r.json())
     .then(data => {
       content = data;
+      initScrollReveal();   // observer doit exister avant render()
       render(currentLang);
-      initScrollReveal();
       initNavScroll();
       initNavActive();
       initBurger();
