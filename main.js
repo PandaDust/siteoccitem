@@ -237,10 +237,12 @@
       const heroHeight = hero.offsetHeight;
       const scrollY = window.scrollY;
 
-      if (scrollY < heroHeight * 0.5 || scrollY >= heroHeight) return;
+      if (scrollY <= 0 || scrollY >= heroHeight) return;
 
       clearTimeout(snapTimer);
       snapTimer = setTimeout(() => {
+        const currentY = window.scrollY;
+        if (currentY < heroHeight * 0.5 || currentY >= heroHeight) return;
         isSnapping = true;
         const target = heroHeight;
         scrollTo(target, 750);
