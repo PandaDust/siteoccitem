@@ -112,8 +112,15 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
    SECTIONS
    ============================================================ */
 .section {
+  min-height: 100vh;
   padding: 6rem 0;
   border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+}
+
+.section .container {
+  width: 100%;
 }
 
 /* ============================================================
