@@ -1,4 +1,16 @@
 /* ============================================================
+   FONTS
+   ============================================================ */
+@font-face {
+  font-family: 'Pill Gothic';
+  src: url('assets/fonts/PillGothic-Light.woff2') format('woff2'),
+       url('assets/fonts/PillGothic-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
    VARIABLES
    ============================================================ */
 :root {
@@ -12,7 +24,7 @@
   --muted:      #a0aec0;
   --border:     rgba(255,255,255,0.08);
 
-  --font-title: 'Exo 2', sans-serif;
+  --font-title: 'Pill Gothic', 'Exo 2', sans-serif;
   --font-body:  'Inter', sans-serif;
 
   --radius:     6px;
@@ -67,14 +79,14 @@ ul { list-style: none; }
 /* ============================================================
    TYPOGRAPHY
    ============================================================ */
-h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
+h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 1.15; }
 
 .section__label {
   display: inline-block;
   font-family: var(--font-title);
   font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-weight: 300;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 0.75rem;
@@ -91,8 +103,9 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 
 .section__title {
   font-size: clamp(1.75rem, 3.5vw, 2.6rem);
-  font-weight: 700;
+  font-weight: 300;
   margin-bottom: 1rem;
+  letter-spacing: 0.02em;
 }
 
 /* ============================================================
@@ -113,9 +126,9 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
   padding: 0.8rem 2rem;
   border-radius: var(--radius);
   font-family: var(--font-title);
-  font-weight: 600;
+  font-weight: 300;
   font-size: 0.95rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   cursor: pointer;
   transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
 }
@@ -166,7 +179,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
   padding: 0.4rem 0.75rem;
   font-family: var(--font-title);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 300;
   color: var(--muted);
   border-radius: var(--radius);
   transition: color var(--transition), background var(--transition);
@@ -195,7 +208,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
   color: var(--muted);
   font-family: var(--font-title);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 300;
   letter-spacing: 0.06em;
   padding: 0.35rem 0.75rem;
   border-radius: var(--radius);
@@ -258,10 +271,10 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2.5rem;
 }
 .hero__logo {
-  height: 80px;
+  height: 440px;
   width: auto;
 }
 .hero__tagline {
@@ -378,7 +391,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
   text-align: center;
   font-family: var(--font-title);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 300;
   color: var(--muted);
   transition: border-color var(--transition);
 }
@@ -390,7 +403,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 }
 .tech__compare-sep {
   font-family: var(--font-title);
-  font-weight: 800;
+  font-weight: 300;
   font-size: 1.1rem;
   color: var(--muted);
   flex-shrink: 0;
@@ -425,14 +438,14 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 .tech__card-value {
   font-family: var(--font-title);
   font-size: 2.2rem;
-  font-weight: 800;
+  font-weight: 300;
   color: var(--accent);
   line-height: 1;
   margin-bottom: 0.35rem;
 }
 .tech__card-label {
   font-family: var(--font-title);
-  font-weight: 600;
+  font-weight: 300;
   font-size: 0.95rem;
   color: var(--white);
   margin-bottom: 0.5rem;
@@ -478,7 +491,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 .service-card__title {
   font-family: var(--font-title);
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 300;
   margin-bottom: 0.6rem;
   color: var(--white);
 }
@@ -495,7 +508,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 .services__extra-title {
   font-family: var(--font-title);
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 300;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -571,7 +584,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 .market-card__title {
   font-family: var(--font-title);
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--white);
 }
 .market-card__title::after {
@@ -686,7 +699,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
 .contact-card__name {
   font-family: var(--font-title);
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--white);
   margin-bottom: 0.2rem;
 }
@@ -791,7 +804,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.15; }
   }
   .nav__burger { display: flex; }
 
-  .hero__logo { height: 56px; }
+  .hero__logo { height: 190px; }
 
   .about__grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .about__photos { grid-template-columns: 1fr 1fr; }
