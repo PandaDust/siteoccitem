@@ -261,11 +261,11 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   inset: 0;
   background-size: cover;
   background-position: center right;
-  animation: heroZoomOut 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  transform: scale(1.18);
+  transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-@keyframes heroZoomOut {
-  from { transform: scale(1.18); }
-  to   { transform: scale(1.04); }
+.hero__bg.is-animated {
+  transform: scale(1.04);
 }
 .hero__overlay {
   position: absolute;

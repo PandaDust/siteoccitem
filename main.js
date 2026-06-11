@@ -8,6 +8,7 @@
   // INIT
   // ============================================================
   initPhotoCarousel(); // images statiques — pas besoin d'attendre content.json
+  initHeroBg();
 
   fetch('content.json')
     .then(r => r.json())
@@ -155,6 +156,19 @@
   }
 
   // ============================================================
+  // HERO BG — zoom out déclenché après le premier rendu
+  // ============================================================
+  function initHeroBg() {
+    const bg = document.querySelector('.hero__bg');
+    if (!bg) return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        bg.classList.add('is-animated');
+      });
+    });
+  }
+
+  // ============================================================
   // DIAPORAMA PHOTOS — section À propos
   // ============================================================
   function initPhotoCarousel() {
@@ -168,7 +182,7 @@
       photos[current].classList.remove('is-active');
       current = (current + 1) % photos.length;
       photos[current].classList.add('is-active');
-    }, 4000);
+    }, 8000);
   }
 
   // ============================================================
