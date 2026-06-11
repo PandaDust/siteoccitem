@@ -8,7 +8,6 @@
   // INIT
   // ============================================================
   initPhotoCarousel(); // images statiques — pas besoin d'attendre content.json
-  initHeroBg();
 
   fetch('content.json')
     .then(r => r.json())
@@ -153,16 +152,6 @@
       </div>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  }
-
-  // ============================================================
-  // HERO BG — zoom out déclenché après le premier rendu
-  // ============================================================
-  function initHeroBg() {
-    const bg = document.querySelector('.hero__bg');
-    if (!bg) return;
-    void bg.getBoundingClientRect(); // force reflow — état initial scale(1.18) peint
-    requestAnimationFrame(() => bg.classList.add('is-animated'));
   }
 
   // ============================================================
