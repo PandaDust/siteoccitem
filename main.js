@@ -161,11 +161,8 @@
   function initHeroBg() {
     const bg = document.querySelector('.hero__bg');
     if (!bg) return;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        bg.classList.add('is-animated');
-      });
-    });
+    void bg.getBoundingClientRect(); // force reflow — état initial scale(1.18) peint
+    requestAnimationFrame(() => bg.classList.add('is-animated'));
   }
 
   // ============================================================
