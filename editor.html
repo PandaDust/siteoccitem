@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OCCITEM — Éditeur de contenu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Exo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0d1b2a;
+  --card:    #0f2235;
+  --accent:  #cc3517;
+  --blue:    #104766;
+  --text:    #ffffff;
+  --muted:   #a0aec0;
+  --border:  #1a3a5c;
+  --focus:   #3a8fd4;
+  --hover-bg: rgba(58,143,212,0.08);
+  --focus-bg: rgba(58,143,212,0.13);
+  --label-color: #4a7a9b;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* ── Topbar ── */
+#topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  background: #060f1a;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  z-index: 100;
+}
+
+.topbar-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.topbar-title em {
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.lang-btns {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.lang-btns button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  padding: 6px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  transition: background 0.15s, color 0.15s;
+}
+.lang-btns button.active {
+  background: var(--blue);
+  color: #fff;
+}
+
+#btn-save {
+  background: #0f2235;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 7px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+#btn-save.dirty  { background: var(--accent); border-color: var(--accent); color: #fff; }
+#btn-save.saved  { background: #1a4d30; border-color: #2a7a4a; color: #7fffbf; }
+#btn-save.error  { background: #4d1a1a; border-color: #8a2a2a; color: #ffa0a0; }
+#btn-save:disabled { opacity: 0.7; cursor: default; }
+
+/* ── Layout ── */
+#editor-root {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Section ── */
+.ed-section {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ed-section-header {
+  background: #0b1e30;
+  padding: 9px 18px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ed-section-header::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 13px;
+  background: var(--accent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.ed-section-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Field ── */
+.ed-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ed-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--label-color);
+  user-select: none;
+}
+
+/* ── Editable ── */
+.editable {
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 6px;
+  border-radius: 3px 3px 0 0;
+  outline: none;
+  cursor: text;
+  transition: background 0.15s, border-color 0.15s;
+  min-height: 30px;
+  word-break: break-word;
+}
+.editable:hover  { background: var(--hover-bg); border-bottom-color: #2a5a8c; }
+.editable:focus  { background: var(--focus-bg); border-bottom-color: var(--focus); }
+
+.editable.multiline  { white-space: pre-wrap; min-height: 56px; }
+.editable.hero-text  { font-family: 'Exo 2', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+.editable.sec-label  { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.editable.sec-title  { font-family: 'Exo 2', sans-serif; font-size: 21px; font-weight: 700; }
+.editable.card-title { font-weight: 600; font-size: 15px; }
+.editable.card-value { font-family: 'Exo 2', sans-serif; font-size: 30px; font-weight: 800; color: var(--accent); }
+.editable.small      { font-size: 13px; }
+.editable.muted      { color: var(--muted); }
+
+/* ── Grids ── */
+.ed-grid-2   { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ed-grid-3   { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.ed-grid-nav { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; }
+
+@media (max-width: 700px) {
+  .ed-grid-3   { grid-template-columns: 1fr; }
+  .ed-grid-nav { grid-template-columns: repeat(4,1fr); }
+}
+
+/* ── Card ── */
+.ed-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Tags ── */
+.ed-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 2px 0;
+}
+.editable.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 12px;
+  border: 1px solid #2a5a8c;
+  border-radius: 20px;
+  background: rgba(16,71,102,0.35);
+  border-bottom: 1px solid #2a5a8c;
+  min-width: 60px;
+  min-height: auto;
+}
+.editable.tag:hover { background: rgba(16,71,102,0.55); border-bottom-color: #2a5a8c; }
+.editable.tag:focus { background: rgba(58,143,212,0.18); border-bottom-color: var(--focus); }
+
+/* ── Note ── */
+.ed-note {
+  font-size: 12px;
+  color: var(--label-color);
+  font-style: italic;
+  padding: 4px 0;
+}
+
+.ed-tag-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.ed-tag-wrap .btn-remove-tag {
+  display: none;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.ed-tag-wrap:hover .btn-remove-tag { display: flex; }
+
+.btn-remove-card {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #3a2020;
+  background: #2a1010;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+}
+.ed-card:hover .btn-remove-card { opacity: 1; }
+.btn-remove-card:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.btn-add {
+  background: none;
+  border: 1px dashed #2a5a8c;
+  color: var(--label-color);
+  padding: 3px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.btn-add:hover {
+  border-color: var(--focus);
+  color: var(--focus);
+  background: var(--hover-bg);
+}
+
+/* ── Error state ── */
+.ed-error {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--accent);
+}
+.ed-error p { margin-top: 8px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="topbar-title"><em>OCCITEM</em> — Éditeur de contenu</div>
+  <div class="lang-btns">
+    <button id="btn-fr" onclick="setLang('fr')">FR</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+  <button id="btn-save" onclick="save()">Sauvegarder</button>
+</div>
+
+<div id="editor-root"></div>
+
+<script>
+'use strict';
+
+let data = null;
+let lang = 'fr';
+let dirty = false;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function getVal(path) {
+  const [section, ...keys] = path.split('.');
+  let obj = data[section][lang];
+  for (const k of keys) {
+    if (obj == null) return '';
+    obj = obj[isNaN(k) ? k : +k];
+  }
+  return obj ?? '';
+}
+
+function setVal(path, value) {
+  const [section, ...keys] = path.split('.');
+  let obj = data[section][lang];
+  for (let i = 0; i < keys.length - 1; i++) {
+    obj = obj[isNaN(keys[i]) ? keys[i] : +keys[i]];
+  }
+  const last = keys[keys.length - 1];
+  obj[isNaN(last) ? last : +last] = value;
+  markDirty();
+}
+
+function markDirty() {
+  if (dirty) return;
+  dirty = true;
+  const btn = document.getElementById('btn-save');
+  btn.textContent = '● Sauvegarder';
+  btn.className = 'dirty';
+}
+
+// ── Save ─────────────────────────────────────────────────────────────────────
+
+async function save() {
+  const btn = document.getElementById('btn-save');
+  btn.textContent = '↻ En cours…';
+  btn.className = '';
+  btn.disabled = true;
+  try {
+    const r = await fetch('/api/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data, null, 2)
+    });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'Erreur serveur');
+    dirty = false;
+    btn.textContent = '✓ Sauvegardé';
+    btn.className = 'saved';
+    setTimeout(() => { btn.textContent = 'Sauvegarder'; btn.className = ''; btn.disabled = false; }, 2200);
+  } catch (e) {
+    btn.textContent = '✗ ' + e.message;
+    btn.className = 'error';
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = '● Sauvegarder'; btn.className = 'dirty'; }, 3500);
+  }
+}
+
+// ── HTML builders ─────────────────────────────────────────────────────────────
+
+// Placeholder for a contenteditable element; text is injected after DOM insertion
+function E(path, cls = '') {
+  return `<div contenteditable="true" spellcheck="false" data-path="${path}" class="editable${cls ? ' ' + cls : ''}"></div>`;
+}
+
+function F(path, label, cls = '') {
+  return `<div class="ed-field"><label class="ed-label">${label}</label>${E(path, cls)}</div>`;
+}
+
+function section(id, title, body) {
+  return `<section class="ed-section" id="ed-${id}">
+    <div class="ed-section-header">${title}</div>
+    <div class="ed-section-body">${body}</div>
+  </section>`;
+}
+
+// ── Section renderers ─────────────────────────────────────────────────────────
+
+function renderNav() {
+  const keys = ['about', 'tech', 'services', 'markets', 'trust', 'video', 'contact'];
+  return section('nav', 'Navigation',
+    `<div class="ed-grid-nav">${keys.map(k => F(`nav.${k}`, k)).join('')}</div>`
+  );
+}
+
+function renderHero() {
+  return section('hero', 'Hero — Accroche principale', `
+    ${F('hero.tagline',  'tagline ligne 1', 'hero-text')}
+    ${F('hero.tagline2', 'tagline ligne 2', 'hero-text')}
+    ${F('hero.cta',      'bouton CTA')}
+  `);
+}
+
+function renderAbout() {
+  return section('about', 'À propos', `
+    ${F('about.label',           'label section',  'sec-label')}
+    ${F('about.title',           'titre',          'sec-title')}
+    ${F('about.text1',           'paragraphe 1',   'multiline muted')}
+    ${F('about.text2',           'paragraphe 2',   'multiline muted')}
+    ${F('about.atelier_caption', 'légende photo',  'muted small')}
+  `);
+}
+
+function renderTech() {
+  const adv = data.tech[lang].advantages;
+  const cards = adv.map((_, i) => `
+    <div class="ed-card">
+      ${F(`tech.advantages.${i}.value`, 'valeur',      'card-value')}
+      ${F(`tech.advantages.${i}.label`, 'label',       'card-title')}
+      ${F(`tech.advantages.${i}.desc`,  'description', 'multiline muted small')}
+    </div>`).join('');
+
+  return section('tech', 'Technologie U-PIN', `
+    ${F('tech.label',           'label section',    'sec-label')}
+    ${F('tech.title',           'titre',            'sec-title')}
+    ${F('tech.intro',           'intro',            'multiline muted')}
+    <div class="ed-grid-2">
+      ${F('tech.compare_upin',  'colonne U-PIN')}
+      ${F('tech.compare_round', 'colonne fil rond')}
+    </div>
+    ${F('tech.advantages_title', 'titre avantages', 'sec-title')}
+    <div class="ed-grid-3">${cards}</div>
+  `);
+}
+
+function renderServices() {
+  const items  = data.services[lang].items;
+  const extras = data.services[lang].extra;
+
+  const cards = items.map((_, i) => `
+    <div class="ed-card">
+      ${F(`services.items.${i}.title`, 'titre',       'card-title')}
+      ${F(`services.items.${i}.desc`,  'description', 'multiline muted small')}
+    </div>`).join('');
+
+  const tagEls = extras.map((_, i) => `
+    <div class="ed-tag-wrap">
+      ${E(`services.extra.${i}`, 'tag')}
+      <button class="btn-remove-tag" onclick="removeServiceExtra(${i})" title="Supprimer">×</button>
+    </div>`).join('');
+
+  return section('services', 'Services', `
+    ${F('services.label',       'label section', 'sec-label')}
+    ${F('services.title',       'titre',         'sec-title')}
+    ${F('services.subtitle',    'sous-titre',    'muted')}
+    <div class="ed-grid-3">${cards}</div>
+    ${F('services.extra_title', 'titre liste prestations')}
+    <div class="ed-field">
+      <label class="ed-label">prestations (${extras.length} éléments)</label>
+      <div class="ed-tags">
+        ${tagEls}
+        <button class="btn-add" onclick="addServiceExtra()">+ Ajouter</button>
+      </div>
+    </div>
+  `);
+}
+
+function renderMarkets() {
+  const items = data.markets[lang].items;
+
+  const cards = items.map((item, i) => {
+    const tagEls = (item.tags || []).map((_, j) => E(`markets.items.${i}.tags.${j}`, 'tag')).join('');
+    return `
+      <div class="ed-card">
+        ${F(`markets.items.${i}.title`,  'titre',       'card-title')}
+        ${F(`markets.items.${i}.metric`, 'métrique',    'card-value small')}
+        ${F(`markets.items.${i}.desc`,   'description', 'multiline muted small')}
+        <div class="ed-field">
+          <label class="ed-label">tags</label>
+          <div class="ed-tags">${tagEls}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  return section('markets', 'Marchés', `
+    ${F('markets.label',    'label section', 'sec-label')}
+    ${F('markets.title',    'titre',         'sec-title')}
+    ${F('markets.subtitle', 'sous-titre',    'muted')}
+    <div class="ed-grid-3">${cards}</div>
+  `);
+}
+
+function renderTrust() {
+  return section('trust', 'Confiance / Partenaires', `
+    ${F('trust.label',    'label section', 'sec-label')}
+    ${F('trust.title',    'titre',         'sec-title')}
+    ${F('trust.subtitle', 'sous-titre',    'multiline muted')}
+    <p class="ed-note">Les logos partenaires ne sont pas éditables dans cet outil.</p>
+  `);
+}
+
+function renderVideo() {
+  return section('video', 'Vidéo', `
+    ${F('video.label',    'label section', 'sec-label')}
+    ${F('video.title',    'titre',         'sec-title')}
+    ${F('video.subtitle', 'sous-titre',    'muted')}
+  `);
+}
+
+function renderContact() {
+  const contacts = data.contact[lang].contacts;
+
+  const cards = contacts.map((_, i) => `
+    <div class="ed-card" style="position:relative">
+      <button class="btn-remove-card" onclick="removeContact(${i})" title="Supprimer ce contact">×</button>
+      <div class="ed-grid-2">
+        ${F(`contact.contacts.${i}.name`,  'nom',       'card-title')}
+        ${F(`contact.contacts.${i}.role`,  'rôle',      'muted')}
+      </div>
+      <div class="ed-grid-2">
+        ${F(`contact.contacts.${i}.email`, 'email',     'muted small')}
+        ${F(`contact.contacts.${i}.phone`, 'téléphone', 'muted small')}
+      </div>
+    </div>`).join('');
+
+  return section('contact', 'Contact', `
+    ${F('contact.label',        'label section', 'sec-label')}
+    ${F('contact.title',        'titre',         'sec-title')}
+    ${F('contact.subtitle',     'sous-titre',    'muted')}
+    <div class="ed-grid-2">
+      ${F('contact.address_label', 'libellé adresse')}
+      ${F('contact.address',       'adresse',       'multiline')}
+    </div>
+    ${cards}
+    <button class="btn-add" onclick="addContact()">+ Ajouter un contact</button>
+  `);
+}
+
+function renderFooter() {
+  return section('footer', 'Pied de page', `
+    ${F('footer.legal',   'mentions légales', 'muted small')}
+    ${F('footer.tagline', 'tagline',          'muted')}
+  `);
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+
+function render() {
+  document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+  const root = document.getElementById('editor-root');
+  root.innerHTML = [
+    renderNav(),
+    renderHero(),
+    renderAbout(),
+    renderTech(),
+    renderServices(),
+    renderMarkets(),
+    renderTrust(),
+    renderVideo(),
+    renderContact(),
+    renderFooter()
+  ].join('');
+
+  // Populate text (innerText handles \n correctly with pre-wrap)
+  root.querySelectorAll('[data-path]').forEach(el => {
+    el.innerText = String(getVal(el.dataset.path) ?? '');
+  });
+
+  // Events
+  root.querySelectorAll('[data-path]').forEach(el => {
+    el.addEventListener('input', () => {
+      let val = el.innerText;
+      // Remove trailing newline browsers sometimes append
+      if (!el.classList.contains('multiline')) val = val.replace(/\n/g, '').trim();
+      setVal(el.dataset.path, val);
+    });
+
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !el.classList.contains('multiline')) {
+        e.preventDefault();
+      }
+    });
+
+    // Paste plain text only
+    el.addEventListener('paste', e => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, text);
+    });
+  });
+}
+
+function setLang(l) {
+  lang = l;
+  render();
+}
+
+function removeContact(i) {
+  data.contact[lang].contacts.splice(i, 1);
+  markDirty();
+  render();
+}
+
+function addContact() {
+  data.contact[lang].contacts.push({ name: '', role: '', email: '', phone: '' });
+  markDirty();
+  render();
+  const cards = document.querySelectorAll('#ed-contact .ed-card');
+  if (cards.length) cards[cards.length - 1].querySelector('.editable').focus();
+}
+
+function removeServiceExtra(i) {
+  data.services[lang].extra.splice(i, 1);
+  markDirty();
+  render();
+}
+
+function addServiceExtra() {
+  data.services[lang].extra.push('');
+  markDirty();
+  render();
+  // Focus le nouvel élément
+  const tags = document.querySelectorAll('#ed-services .ed-tags .editable.tag');
+  if (tags.length) tags[tags.length - 1].focus();
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+
+async function init() {
+  try {
+    const r = await fetch('content.json');
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    data = await r.json();
+    render();
+  } catch (e) {
+    document.getElementById('editor-root').innerHTML = `
+      <div class="ed-error">
+        <strong>Impossible de charger content.json</strong>
+        <p>${e.message}</p>
+        <p style="margin-top:16px">Assurez-vous de lancer <code>python editor_server.py</code><br>
+        puis d'ouvrir <code>http://localhost:8080/editor.html</code></p>
+      </div>`;
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); save(); }
+});
+
+window.addEventListener('beforeunload', e => {
+  if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+init();
+</script>
+</body>
+</html>

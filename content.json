@@ -56,12 +56,42 @@
       "compare_round": "Bobinage fil rond classique",
       "advantages_title": "Les avantages du bobinage U-PIN",
       "advantages": [
-        { "key": "rendement", "value": "70%", "label": "Un meilleur rendement", "desc": "Coefficient de remplissage 70% vs 45% pour le bobinage fil rond." },
-        { "key": "masse", "value": "20%", "label": "Plus léger", "desc": "Réduction de masse jusqu'à 20% grâce au fort coefficient de remplissage." },
-        { "key": "robustesse", "value": "<5x", "label": "Plus robuste", "desc": "Moins de court-circuits électriques grâce à la maîtrise du positionnement des fils." },
-        { "key": "duree", "value": ">2x", "label": "Meilleure durée de vie", "desc": "Durée de vie multipliée par plus de 2 grâce à une meilleure tenue au dv/dt." },
-        { "key": "performance", "value": "+20%", "label": "Haute performance", "desc": "Jusqu'à 20% de rendement supplémentaire par rapport au bobinage fil rond." },
-        { "key": "bruit", "value": "-50%", "label": "Plus silencieux", "desc": "Réduction importante des bruits magnétiques grâce à la fermeture d'encoche." }
+        {
+          "key": "rendement",
+          "value": "70%",
+          "label": "Un meilleur rendement",
+          "desc": "Coefficient de remplissage 70% vs 45% pour le bobinage fil rond."
+        },
+        {
+          "key": "masse",
+          "value": "20%",
+          "label": "Plus léger",
+          "desc": "Réduction de masse jusqu'à 20% grâce au fort coefficient de remplissage."
+        },
+        {
+          "key": "robustesse",
+          "value": "<5x",
+          "label": "Plus robuste",
+          "desc": "Moins de court-circuits électriques grâce à la maîtrise du positionnement des fils."
+        },
+        {
+          "key": "duree",
+          "value": ">2x",
+          "label": "Meilleure durée de vie",
+          "desc": "Durée de vie multipliée par plus de 2 grâce à une meilleure tenue au dv/dt."
+        },
+        {
+          "key": "performance",
+          "value": "+20%",
+          "label": "Haute performance",
+          "desc": "Jusqu'à 20% de rendement supplémentaire par rapport au bobinage fil rond."
+        },
+        {
+          "key": "bruit",
+          "value": "-50%",
+          "label": "Plus silencieux",
+          "desc": "Réduction importante des bruits magnétiques grâce à la fermeture d'encoche."
+        }
       ]
     },
     "en": {
@@ -72,12 +102,42 @@
       "compare_round": "Classical round wire winding",
       "advantages_title": "Benefits of U-PIN winding",
       "advantages": [
-        { "key": "rendement", "value": "70%", "label": "Better efficiency", "desc": "70% slot fill factor vs 45% for round wire winding." },
-        { "key": "masse", "value": "20%", "label": "Lighter", "desc": "Weight reduction of up to 20% thanks to the high fill factor." },
-        { "key": "robustesse", "value": "<5x", "label": "More robust", "desc": "Fewer electrical short circuits thanks to precise conductor positioning." },
-        { "key": "duree", "value": ">2x", "label": "Longer service life", "desc": "Service life more than doubled thanks to improved dv/dt withstand." },
-        { "key": "performance", "value": "+20%", "label": "High performance", "desc": "Up to 20% additional efficiency compared to round wire winding." },
-        { "key": "bruit", "value": "-50%", "label": "Quieter", "desc": "Significant reduction in magnetic noise thanks to slot closing." }
+        {
+          "key": "rendement",
+          "value": "70%",
+          "label": "Better efficiency",
+          "desc": "70% slot fill factor vs 45% for round wire winding."
+        },
+        {
+          "key": "masse",
+          "value": "20%",
+          "label": "Lighter",
+          "desc": "Weight reduction of up to 20% thanks to the high fill factor."
+        },
+        {
+          "key": "robustesse",
+          "value": "<5x",
+          "label": "More robust",
+          "desc": "Fewer electrical short circuits thanks to precise conductor positioning."
+        },
+        {
+          "key": "duree",
+          "value": ">2x",
+          "label": "Longer service life",
+          "desc": "Service life more than doubled thanks to improved dv/dt withstand."
+        },
+        {
+          "key": "performance",
+          "value": "+20%",
+          "label": "High performance",
+          "desc": "Up to 20% additional efficiency compared to round wire winding."
+        },
+        {
+          "key": "bruit",
+          "value": "-50%",
+          "label": "Quieter",
+          "desc": "Significant reduction in magnetic noise thanks to slot closing."
+        }
       ]
     }
   },
@@ -107,7 +167,14 @@
         }
       ],
       "extra_title": "Nos prestations",
-      "extra": ["Trade-off", "Maquettage labo", "Dossier de fabrication clé en main", "Prototypage", "Petite série ≤ 1 000/an", "Maintenance de produits OCCITEM"]
+      "extra": [
+        "Trade-off",
+        "Maquettage labo",
+        "Dossier de fabrication clé en main",
+        "Prototypage",
+        "Petite série ≤ 1 000/an",
+        "Maintenance de produits OCCITEM"
+      ]
     },
     "en": {
       "label": "Our services",
@@ -134,7 +201,14 @@
         }
       ],
       "extra_title": "Our capabilities",
-      "extra": ["Trade-off", "Lab mockup", "Turnkey manufacturing file", "Prototyping", "Small series ≤ 1,000/year", "OCCITEM product maintenance"]
+      "extra": [
+        "Trade-off",
+        "Lab mockup",
+        "Turnkey manufacturing file",
+        "Prototyping",
+        "Small series ≤ 1,000/year",
+        "OCCITEM product maintenance"
+      ]
     }
   },
   "markets": {
@@ -149,7 +223,10 @@
           "metric": "16 kW · 5,5 kg",
           "desc": "Propulsion électrique pour ultra-légers, drones et aéronefs. Produit phare : PEPS16 — 16kW, 5,5kg, développé avec Airbus et soutenu par BPI France.",
           "img": "assets/marche-aero.png",
-          "tags": ["Propulsion électrique", "BPI France"]
+          "tags": [
+            "Propulsion électrique",
+            "BPI France"
+          ]
         },
         {
           "key": "marine",
@@ -157,7 +234,10 @@
           "metric": "Jusqu'à 100 kW",
           "desc": "Moteurs immergés et POD électriques pour voiliers, bateaux fluviaux et applications sous-marines. Produit phare : AURA — jusqu'à 100kW, hélice immergée.",
           "img": "assets/marche-marine.png",
-          "tags": ["Moteurs immergés", "POD électrique"]
+          "tags": [
+            "Moteurs immergés",
+            "POD électrique"
+          ]
         },
         {
           "key": "terre",
@@ -165,7 +245,10 @@
           "metric": "Haute densité de puissance",
           "desc": "Traction électrique pour deux-roues, véhicules légers et engins industriels. Haute densité de puissance, compacité et robustesse.",
           "img": "assets/marche-terrestre.png",
-          "tags": ["Traction électrique", "Haute compacité"]
+          "tags": [
+            "Traction électrique",
+            "Haute compacité"
+          ]
         }
       ]
     },
@@ -180,7 +263,10 @@
           "metric": "16 kW · 5.5 kg",
           "desc": "Electric propulsion for ultralight aircraft, drones and UAVs. Flagship product: PEPS16 — 16kW, 5.5kg, developed with Airbus and supported by BPI France.",
           "img": "assets/marche-aero.png",
-          "tags": ["Electric propulsion", "BPI France"]
+          "tags": [
+            "Electric propulsion",
+            "BPI France"
+          ]
         },
         {
           "key": "marine",
@@ -188,7 +274,10 @@
           "metric": "Up to 100 kW",
           "desc": "Immersed motors and electric PODs for sailboats, river boats and underwater applications. Flagship product: AURA — up to 100kW, immersed propeller.",
           "img": "assets/marche-marine.png",
-          "tags": ["Immersed motors", "Electric POD"]
+          "tags": [
+            "Immersed motors",
+            "Electric POD"
+          ]
         },
         {
           "key": "terre",
@@ -196,7 +285,10 @@
           "metric": "High power density",
           "desc": "Electric traction for two-wheelers, light vehicles and industrial machinery. High power density, compactness and robustness.",
           "img": "assets/marche-terrestre.png",
-          "tags": ["Electric traction", "Ultra-compact"]
+          "tags": [
+            "Electric traction",
+            "Ultra-compact"
+          ]
         }
       ]
     }
@@ -204,22 +296,61 @@
   "trust": {
     "fr": {
       "label": "Ils nous font confiance",
-      "title": "Des partenaires exigeants",
-      "subtitle": "Depuis notre création en 2019, PME, ETI et grands groupes internationaux nous confient leurs projets de motorisation électrique.",
+      "title": "Une confiance partagée avec des leaders exigeants",
+      "subtitle": "Depuis 2019, des PME agiles aux grands groupes internationaux, nous accompagnons les acteurs de l'aéronautique, du naval et de l'automobile dans l'industrialisation de leurs moteurs électriques de nouvelle génération.",
       "partners": [
-        { "name": "SAFRAN",             "img": "assets/logos/safran.png" },
-        { "name": "Nidec PSA Emotors",  "img": "assets/logos/nidec-psa.png" },
-        { "name": "TotalEnergies",      "img": "assets/logos/totalenergies.png" },
-        { "name": "NEXTER",             "img": "assets/logos/nexter.png" },
-        { "name": "Fountaine Pajot",    "img": "assets/logos/fountaine-pajot.png" },
-        { "name": "ONERA",              "img": "assets/logos/onera.png" },
-        { "name": "Ingeteam",           "img": "assets/logos/ingeteam.png" },
-        { "name": "Poclain Hydraulics", "img": "assets/logos/poclain.png" },
-        { "name": "CIRTEM",             "img": "assets/logos/cirtem.png" },
-        { "name": "Gehring",            "img": "assets/logos/gehring.png" },
-        { "name": "Danielson",          "img": "assets/logos/danielson.png" },
-        { "name": "Autos Énergies",     "img": "assets/logos/autos-energies.png" },
-        { "name": "Alt. Énergies",      "img": "assets/logos/alternatives-energies.png" }
+        {
+          "name": "SAFRAN",
+          "img": "assets/logos/safran.png"
+        },
+        {
+          "name": "Nidec PSA Emotors",
+          "img": "assets/logos/nidec-psa.png"
+        },
+        {
+          "name": "TotalEnergies",
+          "img": "assets/logos/totalenergies.png"
+        },
+        {
+          "name": "NEXTER",
+          "img": "assets/logos/nexter.png"
+        },
+        {
+          "name": "Fountaine Pajot",
+          "img": "assets/logos/fountaine-pajot.png"
+        },
+        {
+          "name": "ONERA",
+          "img": "assets/logos/onera.png"
+        },
+        {
+          "name": "Ingeteam",
+          "img": "assets/logos/ingeteam.png"
+        },
+        {
+          "name": "Poclain Hydraulics",
+          "img": "assets/logos/poclain.png"
+        },
+        {
+          "name": "CIRTEM",
+          "img": "assets/logos/cirtem.png"
+        },
+        {
+          "name": "Gehring",
+          "img": "assets/logos/gehring.png"
+        },
+        {
+          "name": "Danielson",
+          "img": "assets/logos/danielson.png"
+        },
+        {
+          "name": "Autos Énergies",
+          "img": "assets/logos/autos-energies.png"
+        },
+        {
+          "name": "Alt. Énergies",
+          "img": "assets/logos/alternatives-energies.png"
+        }
       ]
     },
     "en": {
@@ -227,19 +358,58 @@
       "title": "Demanding partners",
       "subtitle": "Since our creation in 2019, SMEs, mid-caps and international large groups have entrusted us with their electric motor projects.",
       "partners": [
-        { "name": "SAFRAN",             "img": "assets/logos/safran.png" },
-        { "name": "Nidec PSA Emotors",  "img": "assets/logos/nidec-psa.png" },
-        { "name": "TotalEnergies",      "img": "assets/logos/totalenergies.png" },
-        { "name": "NEXTER",             "img": "assets/logos/nexter.png" },
-        { "name": "Fountaine Pajot",    "img": "assets/logos/fountaine-pajot.png" },
-        { "name": "ONERA",              "img": "assets/logos/onera.png" },
-        { "name": "Ingeteam",           "img": "assets/logos/ingeteam.png" },
-        { "name": "Poclain Hydraulics", "img": "assets/logos/poclain.png" },
-        { "name": "CIRTEM",             "img": "assets/logos/cirtem.png" },
-        { "name": "Gehring",            "img": "assets/logos/gehring.png" },
-        { "name": "Danielson",          "img": "assets/logos/danielson.png" },
-        { "name": "Autos Energies",     "img": "assets/logos/autos-energies.png" },
-        { "name": "Alt. Energies",      "img": "assets/logos/alternatives-energies.png" }
+        {
+          "name": "SAFRAN",
+          "img": "assets/logos/safran.png"
+        },
+        {
+          "name": "Nidec PSA Emotors",
+          "img": "assets/logos/nidec-psa.png"
+        },
+        {
+          "name": "TotalEnergies",
+          "img": "assets/logos/totalenergies.png"
+        },
+        {
+          "name": "NEXTER",
+          "img": "assets/logos/nexter.png"
+        },
+        {
+          "name": "Fountaine Pajot",
+          "img": "assets/logos/fountaine-pajot.png"
+        },
+        {
+          "name": "ONERA",
+          "img": "assets/logos/onera.png"
+        },
+        {
+          "name": "Ingeteam",
+          "img": "assets/logos/ingeteam.png"
+        },
+        {
+          "name": "Poclain Hydraulics",
+          "img": "assets/logos/poclain.png"
+        },
+        {
+          "name": "CIRTEM",
+          "img": "assets/logos/cirtem.png"
+        },
+        {
+          "name": "Gehring",
+          "img": "assets/logos/gehring.png"
+        },
+        {
+          "name": "Danielson",
+          "img": "assets/logos/danielson.png"
+        },
+        {
+          "name": "Autos Energies",
+          "img": "assets/logos/autos-energies.png"
+        },
+        {
+          "name": "Alt. Energies",
+          "img": "assets/logos/alternatives-energies.png"
+        }
       ]
     }
   },
