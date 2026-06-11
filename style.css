@@ -261,7 +261,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   inset: 0;
   background-size: cover;
   background-position: center right;
-  animation: heroZoomOut 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: heroZoomOut 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 @keyframes heroZoomOut {
   from { transform: scale(1.5); }
