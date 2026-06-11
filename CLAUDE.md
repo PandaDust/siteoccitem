@@ -8,19 +8,30 @@ Spec complète : voir `SPEC.md`.
 - HTML5 + CSS3 + JS vanilla — aucun framework, aucune librairie externe
 - Contenu textuel centralisé dans `content.json` (FR + EN)
 - Icônes : Lucide Icons via CDN
-- Polices : Exo 2 + Inter via Google Fonts
+- Polices : Exo 2 + Inter via Google Fonts + PillGothic-Light (auto-hébergée dans `assets/fonts/`)
 
 ## Structure des fichiers
 ```
-index.html       ← structure HTML, data-key sur chaque texte
-style.css        ← tout le CSS (variables, layout, animations)
-main.js          ← switch langue, scroll reveal, compteurs, nav active
-content.json     ← tous les textes FR/EN (seul fichier à éditer pour les textes)
+index.html            ← structure HTML, data-key sur chaque texte
+style.css             ← tout le CSS (variables, layout, animations)
+main.js               ← switch langue, scroll reveal, compteurs, nav active
+content.json          ← tous les textes FR/EN (seul fichier à éditer pour les textes)
+editor.html           ← éditeur visuel de content.json (UI WYSIWYG)
+editor_server.py      ← serveur local pour l'éditeur (python editor_server.py → port 8081)
 assets/
   logo-blanc.png
   hero-bg.jpg
   locaux.jpg
   video.mp4
+  rotor.png
+  atelier-1.png, atelier-2.png
+  bobinage-comparaison.png
+  marche-aero.png, marche-marine.png, marche-pod.png, marche-terrestre.png
+  service-concevoir.png, service-fabriquer.png, service-prototyper.png
+  fonts/
+    PillGothic-Light.ttf, PillGothic-Light.woff2   ← police auto-hébergée
+  logos/
+    (14 logos partenaires PNG pour le carrousel #confiance)
 ```
 
 ## Règles de code
@@ -28,7 +39,8 @@ assets/
 ### HTML
 - Un seul `index.html`, pas de fichiers partiels
 - Chaque texte visible porte `data-key="section.cle"` — le contenu est injecté par JS depuis `content.json`
-- Sections : `#accueil`, `#apropos`, `#technologie`, `#services`, `#marches`, `#video`, `#contact`
+- Sections : `#accueil`, `#apropos`, `#technologie`, `#services`, `#marches`, `#confiance`, `#video`, `#contact`
+- `#confiance` = carrousel logos partenaires (assets/logos/)
 
 ### CSS
 - Variables CSS dans `:root` pour toutes les couleurs et espacements

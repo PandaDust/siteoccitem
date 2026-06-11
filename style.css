@@ -835,6 +835,11 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 
 @media (max-width: 768px) {
+  .tech::before,
+  .tech::after {
+    display: none;
+  }
+
   .section { padding: 4rem 0; }
 
   .nav__links { display: none; }
