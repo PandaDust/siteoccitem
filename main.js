@@ -105,9 +105,13 @@
     const items = content.markets[lang].items;
     grid.innerHTML = items.map((item, i) => `
       <div class="market-card reveal reveal--delay-${i}">
-        <img class="market-card__img" src="${item.img}" alt="${item.title}">
-        <div class="market-card__title">${item.title}</div>
-        <div class="market-card__desc">${item.desc}</div>
+        <img class="market-card__bg" src="${item.img}" alt="${item.title}">
+        <div class="market-card__overlay"></div>
+        <div class="market-card__label">${item.title}</div>
+      <div class="market-card__content">
+          <div class="market-card__metric">${item.metric}</div>
+          <div class="market-card__desc">${item.desc}</div>
+        </div>
       </div>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
@@ -120,12 +124,12 @@
     const grid = document.getElementById('trustGrid');
     if (!grid || !content.trust) return;
     const partners = content.trust[lang].partners;
-    grid.innerHTML = partners.map((p, i) => `
-      <div class="trust-card reveal reveal--delay-${i % 4}">
+    const cards = partners.map(p => `
+      <div class="trust-card">
         <img src="${p.img}" alt="${p.name}" title="${p.name}">
       </div>
     `).join('');
-    grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    grid.innerHTML = `<div class="trust__track">${cards}${cards}</div>`;
   }
 
   // ============================================================

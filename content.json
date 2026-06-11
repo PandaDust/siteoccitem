@@ -146,20 +146,26 @@
         {
           "key": "aero",
           "title": "Aéronautique",
+          "metric": "16 kW · 5,5 kg",
           "desc": "Propulsion électrique pour ultra-légers, drones et aéronefs. Produit phare : PEPS16 — 16kW, 5,5kg, développé avec Airbus et soutenu par BPI France.",
-          "img": "assets/marche-aero.png"
+          "img": "assets/marche-aero.png",
+          "tags": ["Propulsion électrique", "BPI France"]
         },
         {
           "key": "marine",
           "title": "Marine & Fluvial",
+          "metric": "Jusqu'à 100 kW",
           "desc": "Moteurs immergés et POD électriques pour voiliers, bateaux fluviaux et applications sous-marines. Produit phare : AURA — jusqu'à 100kW, hélice immergée.",
-          "img": "assets/marche-marine.png"
+          "img": "assets/marche-marine.png",
+          "tags": ["Moteurs immergés", "POD électrique"]
         },
         {
           "key": "terre",
           "title": "Terrestre",
+          "metric": "Haute densité de puissance",
           "desc": "Traction électrique pour deux-roues, véhicules légers et engins industriels. Haute densité de puissance, compacité et robustesse.",
-          "img": "assets/marche-terrestre.png"
+          "img": "assets/marche-terrestre.png",
+          "tags": ["Traction électrique", "Haute compacité"]
         }
       ]
     },
@@ -171,20 +177,26 @@
         {
           "key": "aero",
           "title": "Aeronautics",
+          "metric": "16 kW · 5.5 kg",
           "desc": "Electric propulsion for ultralight aircraft, drones and UAVs. Flagship product: PEPS16 — 16kW, 5.5kg, developed with Airbus and supported by BPI France.",
-          "img": "assets/marche-aero.png"
+          "img": "assets/marche-aero.png",
+          "tags": ["Electric propulsion", "BPI France"]
         },
         {
           "key": "marine",
-          "title": "Marine & Inland waterways",
+          "title": "Marine & Inland",
+          "metric": "Up to 100 kW",
           "desc": "Immersed motors and electric PODs for sailboats, river boats and underwater applications. Flagship product: AURA — up to 100kW, immersed propeller.",
-          "img": "assets/marche-marine.png"
+          "img": "assets/marche-marine.png",
+          "tags": ["Immersed motors", "Electric POD"]
         },
         {
           "key": "terre",
           "title": "Land",
+          "metric": "High power density",
           "desc": "Electric traction for two-wheelers, light vehicles and industrial machinery. High power density, compactness and robustness.",
-          "img": "assets/marche-terrestre.png"
+          "img": "assets/marche-terrestre.png",
+          "tags": ["Electric traction", "Ultra-compact"]
         }
       ]
     }
