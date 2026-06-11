@@ -56,12 +56,12 @@
       "compare_round": "Bobinage fil rond classique",
       "advantages_title": "Les avantages du bobinage U-PIN",
       "advantages": [
-        { "key": "rendement", "value": "70%", "label": "Coefficient de remplissage", "desc": "Contre 45% pour le bobinage fil rond — meilleur rendement, compacité et refroidissement." },
-        { "key": "masse", "value": "-15%", "label": "Réduction de masse", "desc": "Le fort coefficient de remplissage permet une réduction de masse jusqu'à 15%." },
-        { "key": "robustesse", "value": "+100%", "label": "MTBF", "desc": "La maîtrise du positionnement des fils évite les contacts entre conducteurs." },
-        { "key": "refroidissement", "value": "+200%", "label": "Refroidissement continu", "desc": "La perméabilité des têtes de bobine améliore la surface d'échange thermique." },
-        { "key": "bruit", "value": "-50%", "label": "Bruits magnétiques", "desc": "La fermeture d'encoche permet une réduction importante des bruits magnétiques." },
-        { "key": "duree", "value": ">10000h", "label": "Durée de vie", "desc": "La maîtrise du positionnement des fils augmente la tenue au dv/dt." }
+        { "key": "rendement", "value": "70%", "label": "Un meilleur rendement", "desc": "Coefficient de remplissage 70% vs 45% pour le bobinage fil rond." },
+        { "key": "masse", "value": "20%", "label": "Plus léger", "desc": "Réduction de masse jusqu'à 20% grâce au fort coefficient de remplissage." },
+        { "key": "robustesse", "value": "<5x", "label": "Plus robuste", "desc": "Moins de court-circuits électriques grâce à la maîtrise du positionnement des fils." },
+        { "key": "duree", "value": ">2x", "label": "Meilleure durée de vie", "desc": "Durée de vie multipliée par plus de 2 grâce à une meilleure tenue au dv/dt." },
+        { "key": "performance", "value": "+20%", "label": "Haute performance", "desc": "Jusqu'à 20% de rendement supplémentaire par rapport au bobinage fil rond." },
+        { "key": "bruit", "value": "-50%", "label": "Plus silencieux", "desc": "Réduction importante des bruits magnétiques grâce à la fermeture d'encoche." }
       ]
     },
     "en": {
@@ -72,12 +72,12 @@
       "compare_round": "Classical round wire winding",
       "advantages_title": "Benefits of U-PIN winding",
       "advantages": [
-        { "key": "rendement", "value": "70%", "label": "Slot fill factor", "desc": "Versus 45% for round wire — better efficiency, compactness and cooling." },
-        { "key": "masse", "value": "-15%", "label": "Weight reduction", "desc": "The high fill factor allows a weight reduction of up to 15%." },
-        { "key": "robustesse", "value": "+100%", "label": "MTBF", "desc": "Precise conductor positioning prevents wire-to-wire contacts." },
-        { "key": "refroidissement", "value": "+200%", "label": "Continuous cooling", "desc": "The permeable coil heads improve the thermal exchange surface." },
-        { "key": "bruit", "value": "-50%", "label": "Magnetic noise", "desc": "Slot closing significantly reduces magnetic noise." },
-        { "key": "duree", "value": ">10000h", "label": "Service life", "desc": "Precise conductor positioning increases dv/dt withstand capability." }
+        { "key": "rendement", "value": "70%", "label": "Better efficiency", "desc": "70% slot fill factor vs 45% for round wire winding." },
+        { "key": "masse", "value": "20%", "label": "Lighter", "desc": "Weight reduction of up to 20% thanks to the high fill factor." },
+        { "key": "robustesse", "value": "<5x", "label": "More robust", "desc": "Fewer electrical short circuits thanks to precise conductor positioning." },
+        { "key": "duree", "value": ">2x", "label": "Longer service life", "desc": "Service life more than doubled thanks to improved dv/dt withstand." },
+        { "key": "performance", "value": "+20%", "label": "High performance", "desc": "Up to 20% additional efficiency compared to round wire winding." },
+        { "key": "bruit", "value": "-50%", "label": "Quieter", "desc": "Significant reduction in magnetic noise thanks to slot closing." }
       ]
     }
   },
