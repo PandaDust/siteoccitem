@@ -423,44 +423,6 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   margin-top: 0.5rem;
 }
 
-.tech__compare {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  margin: 3rem 0;
-}
-.tech__compare-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1.5rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03);
-  flex: 1;
-  max-width: 280px;
-  text-align: center;
-  font-family: var(--font-title);
-  font-size: 0.9rem;
-  font-weight: 300;
-  color: var(--muted);
-  transition: border-color var(--transition);
-}
-.tech__compare-item img { height: 120px; object-fit: contain; }
-.tech__compare-item--active {
-  border-color: var(--accent);
-  color: var(--white);
-  background: var(--accent-dim);
-}
-.tech__compare-sep {
-  font-family: var(--font-title);
-  font-weight: 300;
-  font-size: 1.1rem;
-  color: var(--muted);
-  flex-shrink: 0;
-}
 
 .tech__advantages-title {
   font-size: 1.1rem;
@@ -859,10 +821,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   .about__grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .about__photos { min-height: 280px; }
 
-  .tech__compare { flex-direction: column; gap: 1rem; }
-  .tech__compare-item { max-width: 100%; flex-direction: row; text-align: left; }
-  .tech__compare-sep { transform: rotate(90deg); }
-  .tech__grid { grid-template-columns: 1fr 1fr; }
+.tech__grid { grid-template-columns: 1fr 1fr; }
 
   .services__grid { grid-template-columns: 1fr; }
   .markets__grid { grid-template-columns: 1fr; }
