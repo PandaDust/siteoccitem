@@ -19,7 +19,7 @@
       initNavActive();
       initBurger();
       initLangSwitch();
-      initHeroSnap();
+      // initHeroSnap();
     })
     .catch(err => console.error('Impossible de charger content.json', err));
 
