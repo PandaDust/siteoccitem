@@ -446,7 +446,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   gap: 1.25rem;
 }
 .tech__card {
-  background: rgba(255,255,255,0.03);
+  background: rgba(13,27,42,0.82);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem;
