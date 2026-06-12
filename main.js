@@ -45,11 +45,33 @@
     if (btn) btn.textContent = lang === 'fr' ? 'EN' : 'FR';
 
     // Sections dynamiques
+    renderHistory(lang);
     renderTechAdvantages(lang);
     renderServices(lang);
     renderMarkets(lang);
     renderTrust(lang);
     renderContact(lang);
+  }
+
+  // ============================================================
+  // HISTOIRE — frise verticale alternée
+  // ============================================================
+  function renderHistory(lang) {
+    const timeline = document.getElementById('timeline');
+    if (!timeline || !content.history) return;
+    const items = content.history[lang].items;
+    timeline.innerHTML = items.map((item, i) => `
+      <div class="timeline__item timeline__item--${i % 2 === 0 ? 'left' : 'right'} reveal">
+        <div class="timeline__node"></div>
+        <div class="timeline__year">${item.year}</div>
+        <div class="timeline__card">
+          <ul class="timeline__events">
+            ${item.events.map(e => `<li>${e}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `).join('');
+    timeline.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   }
 
   // ============================================================

@@ -7,7 +7,8 @@
       "markets": "Marchés",
       "trust": "Confiance",
       "video": "Vidéo",
-      "contact": "Contact"
+      "contact": "Contact",
+      "history": "Histoire"
     },
     "en": {
       "about": "About",
@@ -16,7 +17,8 @@
       "markets": "Markets",
       "trust": "Trust",
       "video": "Video",
-      "contact": "Contact"
+      "contact": "Contact",
+      "history": "History"
     }
   },
   "hero": {
@@ -45,6 +47,118 @@
       "text1": "OCCITEM designs, develops and manufactures high-reliability, high-performance electrical machines in small series.",
       "text2": "Based in Colomiers (31), our team masters the entire chain, from engineering to semi-automated manufacturing, leveraging our in-house U-PIN winding technology.",
       "atelier_caption": "Our manufacturing facility — Colomiers, France"
+    }
+  },
+  "history": {
+    "fr": {
+      "label": "Notre parcours",
+      "title": "Six ans de croissance",
+      "subtitle": "De la création en 2020 à une production en série maîtrisée, l'histoire d'OCCITEM en quelques étapes clés.",
+      "items": [
+        {
+          "year": "2020",
+          "events": [
+            "Création d'OCCITEM et lancement des activités de R&D",
+            "Premier salarié",
+            "Lancement des activités de l'atelier — prototypes",
+            "Démarrage des sous-traitances pour eMotors pendant la période COVID"
+          ]
+        },
+        {
+          "year": "2021",
+          "events": [
+            "1er projet d'innovation subventionné, soutenu par la Région Occitanie — PEPS16",
+            "Contrat de développement du POD25 avec Fountaine Pajot — futur moteur de série chez OCCITEM"
+          ]
+        },
+        {
+          "year": "2022",
+          "events": [
+            "13 salariés",
+            "1 M€ de chiffre d'affaires",
+            "Nouveau nom : TEM devient OCCITEM, nouveaux locaux à Colomiers"
+          ]
+        },
+        {
+          "year": "2023",
+          "events": [
+            "Mise en place de l'ERP",
+            "Structuration de l'équipe BE autour des métiers électrotechnique et mécanique",
+            "Lancement de la ligne de production : conception et achat des moyens de production"
+          ]
+        },
+        {
+          "year": "2024",
+          "events": [
+            "Achat du bâtiment et aménagement de l'atelier de production",
+            "Production de plusieurs séries > 100 pièces / an",
+            "Mise en place du PLM"
+          ]
+        },
+        {
+          "year": "2025",
+          "events": [
+            "Projet d'innovation PHYSA — projet R&D BEEMO en partenariat avec eMotors",
+            "Plusieurs projets de développement et prototypage avec débouchés série",
+            "Projet Qualité (ISO — organisation — produits — traçabilité)"
+          ]
+        }
+      ]
+    },
+    "en": {
+      "label": "Our journey",
+      "title": "Six years of growth",
+      "subtitle": "From our founding in 2020 to mastered series production, the OCCITEM story in a few key milestones.",
+      "items": [
+        {
+          "year": "2020",
+          "events": [
+            "OCCITEM founded and R&D activities launched",
+            "First employee",
+            "Workshop activities launched — prototypes",
+            "Subcontracting started for eMotors during the COVID period"
+          ]
+        },
+        {
+          "year": "2021",
+          "events": [
+            "1st subsidised innovation project, backed by the Occitanie Region — PEPS16",
+            "POD25 development contract with Fountaine Pajot — future series motor at OCCITEM"
+          ]
+        },
+        {
+          "year": "2022",
+          "events": [
+            "13 employees",
+            "€1M revenue",
+            "New name: TEM becomes OCCITEM, new premises in Colomiers"
+          ]
+        },
+        {
+          "year": "2023",
+          "events": [
+            "ERP implementation",
+            "Engineering team structured around electrical and mechanical disciplines",
+            "Production line launched: design and purchase of production equipment"
+          ]
+        },
+        {
+          "year": "2024",
+          "events": [
+            "Building acquired and production workshop fitted out",
+            "Several series produced > 100 units / year",
+            "PLM implementation"
+          ]
+        },
+        {
+          "year": "2025",
+          "events": [
+            "PHYSA innovation project — BEEMO R&D project in partnership with eMotors",
+            "Several development and prototyping projects with series outlets",
+            "Quality project (ISO — organisation — products — traceability)"
+          ]
+        }
+      ]
     }
   },
   "tech": {

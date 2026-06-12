@@ -388,6 +388,125 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 
 /* ============================================================
+   HISTOIRE — frise verticale alternée
+   ============================================================ */
+.history__subtitle {
+  color: var(--muted);
+  max-width: 680px;
+  line-height: 1.7;
+  margin: 0.5rem 0 4rem;
+}
+
+.timeline {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+/* Ligne centrale verticale */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(65,131,169,0.45) 8%,
+    rgba(65,131,169,0.45) 92%,
+    transparent 100%
+  );
+}
+
+.timeline__item {
+  position: relative;
+  width: 50%;
+  padding: 0 2.75rem;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+.timeline__item:last-child { margin-bottom: 0; }
+.timeline__item--left  { left: 0;   align-items: flex-end;  text-align: right; }
+.timeline__item--right { left: 50%; align-items: flex-start; text-align: left; }
+
+/* Nœud sur la ligne centrale */
+.timeline__node {
+  position: absolute;
+  top: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px rgba(65,131,169,0.45);
+  z-index: 1;
+}
+.timeline__item--left  .timeline__node { right: -7px; }
+.timeline__item--right .timeline__node { left:  -7px; }
+
+.timeline__year {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--blue-light);
+  line-height: 1;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.timeline__card {
+  width: 100%;
+  background: var(--bg-alt);
+  border: 1px solid rgba(65,131,169,0.18);
+  border-radius: 10px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  transition: transform var(--transition), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.timeline__card:hover {
+  transform: translateY(-6px);
+  border-bottom-color: var(--accent);
+  box-shadow: 0 8px 36px rgba(0,0,0,0.5);
+}
+
+.timeline__events {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.timeline__events li {
+  position: relative;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  padding-left: 1.1rem;
+}
+.timeline__events li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+/* Sur la colonne gauche, la puce reste lisible à droite du texte */
+.timeline__item--left .timeline__events li {
+  padding-left: 0;
+  padding-right: 1.1rem;
+}
+.timeline__item--left .timeline__events li::before {
+  left: auto;
+  right: 0;
+}
+
+/* ============================================================
    TECHNOLOGIE
    ============================================================ */
 .tech {
@@ -838,6 +957,30 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   .tech::before,
   .tech::after {
     display: none;
+  }
+
+  /* Frise : colonne unique, ligne à gauche */
+  .history__subtitle { margin-bottom: 2.5rem; }
+  .timeline::before { left: 7px; }
+  .timeline__item,
+  .timeline__item--left,
+  .timeline__item--right {
+    width: 100%;
+    left: 0;
+    padding: 0 0 0 2.25rem;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 2rem;
+  }
+  .timeline__item--left .timeline__node,
+  .timeline__item--right .timeline__node { left: 1px; right: auto; }
+  .timeline__item--left .timeline__events li {
+    padding-left: 1.1rem;
+    padding-right: 0;
+  }
+  .timeline__item--left .timeline__events li::before {
+    left: 0;
+    right: auto;
   }
 
   .section { padding: 4rem 0; }
