@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrières — OCCITEM Electrical Motors</title>
+  <meta name="description" content="Découvrez les offres d'emploi et opportunités de carrière chez OCCITEM, fabricant de moteurs électriques haute performance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="index.html#accueil" class="nav__logo">
+        <img src="assets/logo-blanc.png" alt="OCCITEM Electrical Motors">
+      </a>
+      <nav class="nav__links">
+        <a href="index.html#apropos" data-key="nav.about"></a>
+        <a href="index.html#histoire" data-key="nav.history"></a>
+        <a href="index.html#technologie" data-key="nav.tech"></a>
+        <a href="index.html#services" data-key="nav.services"></a>
+        <a href="index.html#marches" data-key="nav.markets"></a>
+        <a href="index.html#confiance" data-key="nav.trust"></a>
+        <a href="index.html#video" data-key="nav.video"></a>
+        <a href="index.html#contact" data-key="nav.contact"></a>
+        <a href="carriere.html" data-key="careers.nav_label" class="active"></a>
+      </nav>
+      <div class="nav__actions">
+        <button class="lang-switch" id="langSwitch" aria-label="Switch language">FR / EN</button>
+        <button class="nav__burger" id="navBurger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CARRIÈRES -->
+  <section class="section careers" id="carriere">
+    <div class="container">
+      <a href="index.html#accueil" class="careers__back reveal" data-key="careers.back_link"></a>
+      <div class="section__label reveal" data-key="careers.label"></div>
+      <h1 class="section__title reveal reveal--delay-1" data-key="careers.page_title"></h1>
+      <p class="careers__subtitle reveal reveal--delay-2" data-key="careers.page_subtitle"></p>
+
+      <div class="careers__grid" id="careersGrid">
+        <!-- Généré par JS depuis careers.json -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <img src="assets/logo-blanc.png" alt="OCCITEM" class="footer__logo">
+      <span class="footer__tagline" data-key="footer.tagline"></span>
+      <span class="footer__legal" data-key="footer.legal"></span>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

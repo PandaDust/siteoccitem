@@ -705,6 +705,23 @@ function renderFooter() {
   `);
 }
 
+function renderCareers() {
+  return section('careers', 'Carrières', `
+    ${F('careers.nav_label',      'libellé nav')}
+    ${F('careers.label',          'label section', 'sec-label')}
+    ${F('careers.page_title',     'titre page',    'sec-title')}
+    ${F('careers.page_subtitle',  'sous-titre',    'multiline muted')}
+    ${F('careers.empty_message',  'message si aucune offre', 'multiline muted small')}
+    <div class="ed-grid-3">
+      ${F('careers.apply_cta',       'bouton "postuler"')}
+      ${F('careers.contract_label',  'libellé type de contrat')}
+      ${F('careers.location_label',  'libellé lieu')}
+    </div>
+    ${F('careers.back_link', 'lien retour au site')}
+    <p class="ed-note">La liste des offres d'emploi elles-mêmes (titre, description, lieu, contrat…) se gère depuis l'outil dédié RH : <code>career-admin.html</code>, pas ici.</p>
+  `);
+}
+
 // ── Render ────────────────────────────────────────────────────────────────────
 
 function render() {
@@ -723,7 +740,8 @@ function render() {
     renderTrust(),
     renderVideo(),
     renderContact(),
-    renderFooter()
+    renderFooter(),
+    renderCareers()
   ].join('');
 
   // Populate text (innerText handles \n correctly with pre-wrap)
@@ -850,7 +868,7 @@ function addServiceExtra() {
 
 async function init() {
   try {
-    const r = await fetch('content.json');
+    const r = await fetch('content.json', { cache: 'no-store' });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     data = await r.json();
     render();

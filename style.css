@@ -917,6 +917,92 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 
 /* ============================================================
+   CARRIÈRES
+   ============================================================ */
+.careers {
+  min-height: auto;
+  padding-top: 8rem;
+}
+.careers__back {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  transition: color var(--transition);
+}
+.careers__back:hover { color: var(--accent); }
+.careers__subtitle {
+  color: var(--muted);
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+.careers__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.careers__empty {
+  color: var(--muted);
+  padding: 2rem 0;
+}
+.career-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.career-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+.career-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.career-card__title {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: var(--white);
+}
+.career-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.career-card__tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.25rem 0.85rem;
+  white-space: nowrap;
+}
+.career-card__desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+.career-card__desc p { margin-bottom: 0.5em; }
+.career-card__desc p:last-child { margin-bottom: 0; }
+.career-card__desc ul,
+.career-card__desc ol { padding-left: 1.25em; margin: 0.25em 0 0.5em; }
+.career-card__desc li { margin-bottom: 0.2em; }
+.career-card__desc li::marker { color: var(--accent); }
+.career-card__desc b,
+.career-card__desc strong { color: var(--white); font-weight: 600; }
+.career-card__apply { font-size: 0.85rem; padding: 0.65rem 1.75rem; }
+
+/* ============================================================
    FOOTER
    ============================================================ */
 .footer {

@@ -3,13 +3,14 @@
 
   let content = null;
   let currentLang = 'fr';
+  let careersData = null;
 
   // ============================================================
   // INIT
   // ============================================================
   initPhotoCarousel(); // images statiques — pas besoin d'attendre content.json
 
-  fetch('content.json')
+  fetch('content.json', { cache: 'no-cache' })
     .then(r => r.json())
     .then(data => {
       content = data;
@@ -20,6 +21,13 @@
       initBurger();
       initLangSwitch();
       // initHeroSnap();
+
+      if (document.getElementById('careersGrid')) {
+        fetch('careers.json', { cache: 'no-cache' })
+          .then(r => r.json())
+          .then(data => { careersData = data; renderCareers(currentLang); })
+          .catch(err => console.error('Impossible de charger careers.json', err));
+      }
     })
     .catch(err => console.error('Impossible de charger content.json', err));
 
@@ -51,6 +59,7 @@
     renderMarkets(lang);
     renderTrust(lang);
     renderContact(lang);
+    renderCareers(lang);
   }
 
   // ============================================================
@@ -178,6 +187,97 @@
       </div>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // ============================================================
+  // CARRIÈRES — liste des offres d'emploi (page carriere.html)
+  // ============================================================
+  function renderCareers(lang) {
+    const grid = document.getElementById('careersGrid');
+    if (!grid || !careersData || !content.careers) return;
+    const t = content.careers[lang];
+    const offers = (careersData.offers || []).filter(o => o.active);
+
+    if (!offers.length) {
+      grid.innerHTML = `<p class="careers__empty reveal">${t.empty_message}</p>`;
+      grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      return;
+    }
+
+    const email = careersData.contact_email;
+    grid.innerHTML = offers.map((o, i) => `
+      <div class="career-card reveal reveal--delay-${i % 3}">
+        <div class="career-card__header">
+          <h3 class="career-card__title">${o.title}</h3>
+          <div class="career-card__tags">
+            <span class="career-card__tag">${t.contract_label} · ${o.contract_type}</span>
+            <span class="career-card__tag">${t.location_label} · ${o.location}</span>
+          </div>
+        </div>
+        <div class="career-card__desc">${formatDescription(o.description)}</div>
+        ${email
+          ? `<a class="btn btn--primary career-card__apply" href="mailto:${email}?subject=${encodeURIComponent('Candidature - ' + o.title)}">${t.apply_cta}</a>`
+          : ''}
+      </div>
+    `).join('');
+    grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // Rendu sécurisé de la description : gras/italique/liste autorisés (saisis via career-admin.html,
+  // y compris collés depuis Word/Google Docs), le reste (script, style, attributs…) est retiré.
+  // Compatible avec l'ancien format texte brut (\n).
+  const RICHTEXT_BLOCK_TAGS = new Set(['P', 'DIV', 'UL', 'OL', 'LI', 'BR']);
+  const RICHTEXT_STRIP_TAGS = new Set(['SCRIPT', 'STYLE', 'HEAD', 'TITLE', 'META', 'LINK', 'NOSCRIPT', 'OBJECT', 'IFRAME', 'EMBED']);
+
+  function isBoldStyle(el) {
+    const style = el.getAttribute('style') || '';
+    if (/font-weight\s*:\s*(normal|[1-5]00)\b/i.test(style)) return false;
+    if (/font-weight\s*:\s*(bold|bolder|[6-9]00)\b/i.test(style)) return true;
+    return el.tagName === 'B' || el.tagName === 'STRONG';
+  }
+  function isItalicStyle(el) {
+    const style = el.getAttribute('style') || '';
+    if (/font-style\s*:\s*normal\b/i.test(style)) return false;
+    if (/font-style\s*:\s*italic\b/i.test(style)) return true;
+    return el.tagName === 'I' || el.tagName === 'EM';
+  }
+
+  function sanitizeRichText(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    (function clean(node) {
+      Array.from(node.childNodes).forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) return;
+        if (child.nodeType !== Node.ELEMENT_NODE) { node.removeChild(child); return; }
+        if (RICHTEXT_STRIP_TAGS.has(child.tagName)) { node.removeChild(child); return; }
+        clean(child);
+        if (RICHTEXT_BLOCK_TAGS.has(child.tagName)) {
+          while (child.attributes.length) child.removeAttribute(child.attributes[0].name);
+          return;
+        }
+        const bold = isBoldStyle(child);
+        const italic = isItalicStyle(child);
+        let frag = document.createDocumentFragment();
+        while (child.firstChild) frag.appendChild(child.firstChild);
+        if (italic) { const em = document.createElement('em'); em.appendChild(frag); frag = em; }
+        if (bold) { const strong = document.createElement('strong'); strong.appendChild(frag); frag = strong; }
+        node.insertBefore(frag, child);
+        node.removeChild(child);
+      });
+    })(tmp);
+    return tmp.innerHTML;
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function formatDescription(text) {
+    const html = /<[a-z][\s\S]*>/i.test(text)
+      ? text
+      : text.split(/\n{2,}/).map(p => p.trim()).filter(Boolean)
+          .map(p => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`).join('');
+    return sanitizeRichText(html);
   }
 
   // ============================================================

@@ -592,5 +592,29 @@
       "legal": "© 2025 OCCITEM SAS — RCS Toulouse B 798 211 504",
       "tagline": "Electrical Motors"
     }
+  },
+  "careers": {
+    "fr": {
+      "nav_label": "Carrières",
+      "label": "Rejoignez-nous",
+      "page_title": "Nos offres d'emploi",
+      "page_subtitle": "Découvrez les opportunités de carrière chez OCCITEM et rejoignez une équipe passionnée par l'innovation électrique.",
+      "empty_message": "Aucune offre disponible pour le moment. N'hésitez pas à nous envoyer une candidature spontanée.",
+      "apply_cta": "Postuler",
+      "contract_label": "Contrat",
+      "location_label": "Lieu",
+      "back_link": "← Retour au site"
+    },
+    "en": {
+      "nav_label": "Careers",
+      "label": "Join us",
+      "page_title": "Job openings",
+      "page_subtitle": "Discover career opportunities at OCCITEM and join a team passionate about electrical innovation.",
+      "empty_message": "No openings available at the moment. Feel free to send us a spontaneous application.",
+      "apply_cta": "Apply",
+      "contract_label": "Contract",
+      "location_label": "Location",
+      "back_link": "← Back to site"
+    }
   }
 }
