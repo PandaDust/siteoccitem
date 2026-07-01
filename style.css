@@ -959,11 +959,17 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 .career-card__header {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  cursor: pointer;
+}
+.career-card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
 }
 .career-card__title {
   font-family: var(--font-title);
@@ -985,6 +991,22 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   border-radius: 20px;
   padding: 0.25rem 0.85rem;
   white-space: nowrap;
+}
+.career-card__chevron {
+  flex-shrink: 0;
+  color: var(--accent);
+  transition: transform var(--transition);
+}
+.career-card.is-open .career-card__chevron { transform: rotate(180deg); }
+
+.career-card__body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.career-card.is-open .career-card__body {
+  max-height: 3000px;
+  padding-top: 1.5rem;
 }
 .career-card__desc {
   font-size: 0.9rem;

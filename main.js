@@ -23,6 +23,7 @@
       // initHeroSnap();
 
       if (document.getElementById('careersGrid')) {
+        initCareersAccordion();
         fetch('careers.json', { cache: 'no-cache' })
           .then(r => r.json())
           .then(data => { careersData = data; renderCareers(currentLang); })
@@ -207,20 +208,50 @@
     const email = careersData.contact_email;
     grid.innerHTML = offers.map((o, i) => `
       <div class="career-card reveal reveal--delay-${i % 3}">
-        <div class="career-card__header">
-          <h3 class="career-card__title">${o.title}</h3>
-          <div class="career-card__tags">
-            <span class="career-card__tag">${t.contract_label} · ${o.contract_type}</span>
-            <span class="career-card__tag">${t.location_label} · ${o.location}</span>
+        <div class="career-card__header" role="button" tabindex="0" aria-expanded="false">
+          <div class="career-card__heading">
+            <h3 class="career-card__title">${o.title}</h3>
+            <div class="career-card__tags">
+              <span class="career-card__tag">${t.contract_label} · ${o.contract_type}</span>
+              <span class="career-card__tag">${t.location_label} · ${o.location}</span>
+            </div>
           </div>
+          <svg class="career-card__chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
-        <div class="career-card__desc">${formatDescription(o.description)}</div>
-        ${email
-          ? `<a class="btn btn--primary career-card__apply" href="mailto:${email}?subject=${encodeURIComponent('Candidature - ' + o.title)}">${t.apply_cta}</a>`
-          : ''}
+        <div class="career-card__body">
+          <div class="career-card__desc">${formatDescription(o.description)}</div>
+          ${email
+            ? `<a class="btn btn--primary career-card__apply" href="mailto:${email}?subject=${encodeURIComponent('Candidature - ' + o.title)}">${t.apply_cta}</a>`
+            : ''}
+        </div>
       </div>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // Accordéon : chaque offre démarre repliée, pour que toutes les offres soient visibles
+  // d'un coup d'œil en arrivant sur la page — le clic déplie la description.
+  function initCareersAccordion() {
+    const grid = document.getElementById('careersGrid');
+    if (!grid) return;
+
+    function toggle(header) {
+      const card = header.closest('.career-card');
+      const open = card.classList.toggle('is-open');
+      header.setAttribute('aria-expanded', String(open));
+    }
+
+    grid.addEventListener('click', e => {
+      const header = e.target.closest('.career-card__header');
+      if (header) toggle(header);
+    });
+    grid.addEventListener('keydown', e => {
+      const header = e.target.closest('.career-card__header');
+      if (header && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        toggle(header);
+      }
+    });
   }
 
   // Rendu sécurisé de la description : gras/italique/liste autorisés (saisis via career-admin.html,
