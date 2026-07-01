@@ -25,7 +25,7 @@ assets/
   video.mp4
   rotor.png
   atelier-1.png, atelier-2.png
-  bobinage-comparaison.png
+  bobinage-comparaison.png, tech-upin.jpg
   marche-aero.png, marche-marine.png, marche-pod.png, marche-terrestre.png
   service-concevoir.png, service-fabriquer.png, service-prototyper.png
   fonts/
@@ -65,6 +65,12 @@ assets/
 - Hover cartes : `translateY(-6px)` + bordure basse `--color-accent` en `0.25s`
 - Compteurs animés : sections Technologie uniquement, valeurs issues de `content.json`
 - Navigation : lien actif coloré en `--color-accent` via IntersectionObserver sur chaque section
+
+## Éditeur de contenu
+- `editor.html` + `editor_server.py` forment un éditeur visuel local (WYSIWYG) pour `content.json` et les images du site — voir `python editor_server.py` (port 8081)
+- L'éditeur permet d'éditer les textes FR/EN et de visualiser/remplacer les images (fond hero, logo, photos atelier, cadres technologie, cartes services/marchés, logos partenaires confiance) via upload
+- **Important** : à chaque modification du site (nouvelle section, nouveau champ texte dans `content.json`, nouvelle image, renommage/déplacement d'un asset, changement de structure d'une liste), vérifier si `editor.html` doit être mis à jour en conséquence (nouveau champ à éditer, chemin d'image à corriger, etc.) pour qu'il reste synchronisé avec le site réel
+- Si un asset est utilisé à plusieurs endroits (ex : une image reprise dans deux sections), préférer des fichiers distincts pour que chaque usage soit modifiable indépendamment depuis l'éditeur
 
 ## Langue
 - Switch FR/EN dans la nav — bascule via attribut `lang` sur `<html>` et re-render de tous les `[data-key]`

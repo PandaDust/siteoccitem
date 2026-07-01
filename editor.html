@@ -303,6 +303,34 @@ body {
   background: var(--hover-bg);
 }
 
+/* ── Image field ── */
+.ed-image {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+.ed-image-thumb {
+  width: 88px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: #08141f;
+  flex-shrink: 0;
+  color: var(--label-color);
+  font-size: 9px;
+  text-align: center;
+  overflow: hidden;
+}
+.ed-image-thumb--empty {
+  border-style: dashed;
+}
+.ed-image-actions { display: flex; align-items: center; gap: 10px; }
+.ed-image-status { font-size: 11px; color: var(--muted); }
+.ed-image-status.ok  { color: #7fffbf; }
+.ed-image-status.err { color: #ffa0a0; }
+
 /* ── Error state ── */
 .ed-error {
   padding: 48px 24px;
@@ -408,6 +436,60 @@ function section(id, title, body) {
   </section>`;
 }
 
+// Champ image : soit un chemin fixe (structurel), soit un chemin lu depuis content.json (jsonPath)
+const imgVersions = {};
+function bust(path) {
+  return imgVersions[path] ? `${path}?v=${imgVersions[path]}` : path;
+}
+
+function ImgField(label, { target, jsonPath, note } = {}) {
+  const attr = jsonPath ? `data-img-json-path="${jsonPath}"` : `data-target="${target}"`;
+  const srcAttr = target ? `src="${bust(target)}"` : '';
+  return `<div class="ed-field">
+    <label class="ed-label">${label}</label>
+    <div class="ed-image" ${attr}>
+      <img class="ed-image-thumb" ${srcAttr} alt="Aucune image — cliquez sur Remplacer" onerror="this.classList.add('ed-image-thumb--empty')" onload="this.classList.remove('ed-image-thumb--empty')">
+      <div class="ed-image-actions">
+        <button type="button" class="btn-add" onclick="this.closest('.ed-image').querySelector('input[type=file]').click()">Remplacer</button>
+        <span class="ed-image-status"></span>
+      </div>
+      <input type="file" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="onImageFileChosen(event)">
+    </div>
+    ${note ? `<div class="ed-note" style="margin-top:2px">${note}</div>` : ''}
+  </div>`;
+}
+
+async function onImageFileChosen(e) {
+  const input = e.target;
+  const wrapper = input.closest('.ed-image');
+  const target = wrapper.dataset.target;
+  const file = input.files[0];
+  if (!file || !target) return;
+  const statusEl = wrapper.querySelector('.ed-image-status');
+  const imgEl = wrapper.querySelector('.ed-image-thumb');
+  statusEl.textContent = '↻ envoi…';
+  statusEl.className = 'ed-image-status';
+  try {
+    const r = await fetch(`/api/upload-image?target=${encodeURIComponent(target)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file
+    });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'Erreur serveur');
+    imgVersions[target] = Date.now();
+    imgEl.src = bust(target);
+    statusEl.textContent = '✓ remplacée';
+    statusEl.className = 'ed-image-status ok';
+    setTimeout(() => { statusEl.textContent = ''; statusEl.className = 'ed-image-status'; }, 2500);
+  } catch (err) {
+    statusEl.textContent = '✗ ' + err.message;
+    statusEl.className = 'ed-image-status err';
+  } finally {
+    input.value = '';
+  }
+}
+
 // ── Section renderers ─────────────────────────────────────────────────────────
 
 function renderNav() {
@@ -419,6 +501,10 @@ function renderNav() {
 
 function renderHero() {
   return section('hero', 'Hero — Accroche principale', `
+    <div class="ed-grid-2">
+      ${ImgField('logo', { target: 'assets/logo-blanc.png', note: 'Utilisé aussi dans la nav et le pied de page.' })}
+      ${ImgField('image de fond', { target: 'assets/hero-bg.jpg', note: 'Utilisée aussi en poster de la vidéo.' })}
+    </div>
     ${F('hero.tagline',  'tagline ligne 1', 'hero-text')}
     ${F('hero.tagline2', 'tagline ligne 2', 'hero-text')}
     ${F('hero.cta',      'bouton CTA')}
@@ -431,6 +517,10 @@ function renderAbout() {
     ${F('about.title',           'titre',          'sec-title')}
     ${F('about.text1',           'paragraphe 1',   'multiline muted')}
     ${F('about.text2',           'paragraphe 2',   'multiline muted')}
+    <div class="ed-grid-2">
+      ${ImgField('photo atelier 1', { target: 'assets/atelier-1.png' })}
+      ${ImgField('photo atelier 2', { target: 'assets/atelier-2.png' })}
+    </div>
     ${F('about.atelier_caption', 'légende photo',  'muted small')}
   `);
 }
@@ -480,8 +570,14 @@ function renderTech() {
     ${F('tech.title',           'titre',            'sec-title')}
     ${F('tech.intro',           'intro',            'multiline muted')}
     <div class="ed-grid-2">
-      ${F('tech.compare_upin',  'colonne U-PIN')}
-      ${F('tech.compare_round', 'colonne fil rond')}
+      <div>
+        ${ImgField('image U-PIN', { target: 'assets/tech-upin.jpg' })}
+        ${F('tech.compare_upin',  'colonne U-PIN')}
+      </div>
+      <div>
+        ${ImgField('image fil rond', { target: 'assets/bobinage-comparaison.png' })}
+        ${F('tech.compare_round', 'colonne fil rond')}
+      </div>
     </div>
     ${F('tech.advantages_title', 'titre avantages', 'sec-title')}
     <div class="ed-grid-3">${cards}</div>
@@ -494,6 +590,7 @@ function renderServices() {
 
   const cards = items.map((_, i) => `
     <div class="ed-card">
+      ${ImgField('image', { jsonPath: `services.items.${i}.img` })}
       ${F(`services.items.${i}.title`, 'titre',       'card-title')}
       ${F(`services.items.${i}.desc`,  'description', 'multiline muted small')}
     </div>`).join('');
@@ -527,6 +624,7 @@ function renderMarkets() {
     const tagEls = (item.tags || []).map((_, j) => E(`markets.items.${i}.tags.${j}`, 'tag')).join('');
     return `
       <div class="ed-card">
+        ${ImgField('image', { jsonPath: `markets.items.${i}.img` })}
         ${F(`markets.items.${i}.title`,  'titre',       'card-title')}
         ${F(`markets.items.${i}.metric`, 'métrique',    'card-value small')}
         ${F(`markets.items.${i}.desc`,   'description', 'multiline muted small')}
@@ -546,11 +644,19 @@ function renderMarkets() {
 }
 
 function renderTrust() {
+  const partners = data.trust[lang].partners;
+  const logos = partners.map((_, i) => `
+    <div class="ed-card" style="position:relative">
+      <button class="btn-remove-card" onclick="removeTrustLogo(${i})" title="Supprimer ce logo">×</button>
+      ${ImgField(`logo ${i + 1}`, { jsonPath: `trust.partners.${i}.img` })}
+    </div>`).join('');
+
   return section('trust', 'Confiance / Partenaires', `
     ${F('trust.label',    'label section', 'sec-label')}
     ${F('trust.title',    'titre',         'sec-title')}
     ${F('trust.subtitle', 'sous-titre',    'multiline muted')}
-    <p class="ed-note">Les logos partenaires ne sont pas éditables dans cet outil.</p>
+    <div class="ed-grid-3">${logos}</div>
+    <button class="btn-add" onclick="addTrustLogo()">+ Ajouter un logo</button>
   `);
 }
 
@@ -559,6 +665,7 @@ function renderVideo() {
     ${F('video.label',    'label section', 'sec-label')}
     ${F('video.title',    'titre',         'sec-title')}
     ${F('video.subtitle', 'sous-titre',    'muted')}
+    <p class="ed-note">Le poster de la vidéo utilise l'image de fond du Hero (voir section Hero). La vidéo elle-même (assets/video.mp4) n'est pas remplaçable ici.</p>
   `);
 }
 
@@ -622,6 +729,13 @@ function render() {
   // Populate text (innerText handles \n correctly with pre-wrap)
   root.querySelectorAll('[data-path]').forEach(el => {
     el.innerText = String(getVal(el.dataset.path) ?? '');
+  });
+
+  // Populate images whose path comes from content.json (services, marchés, partenaires)
+  root.querySelectorAll('[data-img-json-path]').forEach(el => {
+    const target = String(getVal(el.dataset.imgJsonPath) ?? '');
+    el.dataset.target = target;
+    if (target) el.querySelector('.ed-image-thumb').src = bust(target);
   });
 
   // Events
@@ -697,6 +811,24 @@ function addHistoryEvent(i) {
     const eventEls = card.querySelectorAll('.editable');
     if (eventEls.length) eventEls[eventEls.length - 1].focus();
   }
+}
+
+function removeTrustLogo(i) {
+  // Les logos partenaires sont identiques en FR/EN : on garde les deux langues synchronisées.
+  data.trust.fr.partners.splice(i, 1);
+  data.trust.en.partners.splice(i, 1);
+  markDirty();
+  render();
+}
+
+function addTrustLogo() {
+  const entry = { name: '', img: `assets/logos/logo-${Date.now()}.png` };
+  data.trust.fr.partners.push({ ...entry });
+  data.trust.en.partners.push({ ...entry });
+  markDirty();
+  render();
+  const cards = document.querySelectorAll('#ed-trust .ed-card');
+  if (cards.length) cards[cards.length - 1].querySelector('.btn-add').click();
 }
 
 function removeServiceExtra(i) {

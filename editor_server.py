@@ -12,14 +12,20 @@ import hmac
 import http.server
 import json
 import os
+import re
 import shutil
 from pathlib import Path
+from urllib.parse import urlsplit, parse_qs
 
 PORT = 8081
 BASE_DIR = Path(__file__).parent.resolve()
+ASSETS_DIR = BASE_DIR / 'assets'
 CONTENT_FILE = BASE_DIR / 'content.json'
 AUTH_USER = os.environ.get('AUTH_USER')
 AUTH_PASS = os.environ.get('AUTH_PASS')
+
+MAX_IMAGE_SIZE = 20 * 1024 * 1024  # 20 Mo
+IMAGE_PATH_RE = re.compile(r'^assets/[A-Za-z0-9_\-./]+\.(png|jpg|jpeg|webp)$', re.IGNORECASE)
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -44,8 +50,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
         if not self._check_auth():
             return
-        if self.path == '/api/save':
+        path = urlsplit(self.path).path
+        if path == '/api/save':
             self._save()
+        elif path == '/api/upload-image':
+            self._upload_image()
         else:
             self.send_error(404)
 
@@ -61,6 +70,30 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._respond(200, {'ok': True})
         except json.JSONDecodeError as e:
             self._respond(400, {'ok': False, 'error': f'JSON invalide : {e}'})
+        except Exception as e:
+            self._respond(500, {'ok': False, 'error': str(e)})
+
+    def _upload_image(self):
+        try:
+            qs = parse_qs(urlsplit(self.path).query)
+            target = (qs.get('target') or [''])[0]
+            if not IMAGE_PATH_RE.match(target):
+                return self._respond(400, {'ok': False, 'error': 'Chemin d\'image invalide'})
+
+            dest = (BASE_DIR / target).resolve()
+            if not dest.is_relative_to(ASSETS_DIR) or not dest.parent.is_dir():
+                return self._respond(400, {'ok': False, 'error': 'Emplacement d\'image invalide'})
+
+            length = int(self.headers.get('Content-Length', 0))
+            if length <= 0 or length > MAX_IMAGE_SIZE:
+                return self._respond(413, {'ok': False, 'error': 'Fichier trop volumineux (max 20 Mo)'})
+            body = self.rfile.read(length)
+
+            if dest.exists():
+                shutil.copy2(dest, dest.with_suffix(dest.suffix + '.bak'))
+            with open(dest, 'wb') as f:
+                f.write(body)
+            self._respond(200, {'ok': True, 'path': target})
         except Exception as e:
             self._respond(500, {'ok': False, 'error': str(e)})
 
