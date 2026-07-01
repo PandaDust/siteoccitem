@@ -411,7 +411,7 @@ function section(id, title, body) {
 // ── Section renderers ─────────────────────────────────────────────────────────
 
 function renderNav() {
-  const keys = ['about', 'tech', 'services', 'markets', 'trust', 'video', 'contact'];
+  const keys = ['about', 'history', 'tech', 'services', 'markets', 'trust', 'video', 'contact'];
   return section('nav', 'Navigation',
     `<div class="ed-grid-nav">${keys.map(k => F(`nav.${k}`, k)).join('')}</div>`
   );
@@ -432,6 +432,37 @@ function renderAbout() {
     ${F('about.text1',           'paragraphe 1',   'multiline muted')}
     ${F('about.text2',           'paragraphe 2',   'multiline muted')}
     ${F('about.atelier_caption', 'légende photo',  'muted small')}
+  `);
+}
+
+function renderHistory() {
+  const items = data.history[lang].items;
+
+  const cards = items.map((item, i) => {
+    const eventEls = (item.events || []).map((_, j) => `
+      <div style="display:flex;align-items:flex-start;gap:6px">
+        ${E(`history.items.${i}.events.${j}`, 'muted small')}
+        <button class="btn-remove-tag" style="position:static;display:flex;flex-shrink:0" onclick="removeHistoryEvent(${i},${j})" title="Supprimer">×</button>
+      </div>`).join('');
+
+    return `
+      <div class="ed-card" style="position:relative">
+        <button class="btn-remove-card" onclick="removeHistoryItem(${i})" title="Supprimer cette étape">×</button>
+        ${F(`history.items.${i}.year`, 'année', 'card-value small')}
+        <div class="ed-field">
+          <label class="ed-label">événements (${(item.events || []).length})</label>
+          <div style="display:flex;flex-direction:column;gap:6px">${eventEls}</div>
+          <button class="btn-add" onclick="addHistoryEvent(${i})" style="margin-top:6px">+ Ajouter un événement</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  return section('history', 'Histoire', `
+    ${F('history.label',    'label section', 'sec-label')}
+    ${F('history.title',    'titre',         'sec-title')}
+    ${F('history.subtitle', 'sous-titre',    'muted')}
+    ${cards}
+    <button class="btn-add" onclick="addHistoryItem()">+ Ajouter une année</button>
   `);
 }
 
@@ -578,6 +609,7 @@ function render() {
     renderNav(),
     renderHero(),
     renderAbout(),
+    renderHistory(),
     renderTech(),
     renderServices(),
     renderMarkets(),
@@ -633,6 +665,38 @@ function addContact() {
   render();
   const cards = document.querySelectorAll('#ed-contact .ed-card');
   if (cards.length) cards[cards.length - 1].querySelector('.editable').focus();
+}
+
+function removeHistoryItem(i) {
+  data.history[lang].items.splice(i, 1);
+  markDirty();
+  render();
+}
+
+function addHistoryItem() {
+  data.history[lang].items.push({ year: '', events: [] });
+  markDirty();
+  render();
+  const cards = document.querySelectorAll('#ed-history .ed-card');
+  if (cards.length) cards[cards.length - 1].querySelector('.editable').focus();
+}
+
+function removeHistoryEvent(i, j) {
+  data.history[lang].items[i].events.splice(j, 1);
+  markDirty();
+  render();
+}
+
+function addHistoryEvent(i) {
+  data.history[lang].items[i].events.push('');
+  markDirty();
+  render();
+  const cards = document.querySelectorAll('#ed-history .ed-card');
+  const card = cards[i];
+  if (card) {
+    const eventEls = card.querySelectorAll('.editable');
+    if (eventEls.length) eventEls[eventEls.length - 1].focus();
+  }
 }
 
 function removeServiceExtra(i) {

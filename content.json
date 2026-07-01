@@ -37,14 +37,14 @@
     "fr": {
       "label": "Qui sommes-nous",
       "title": "Une entreprise française spécialisée dans les machines électriques",
-      "text1": "OCCITEM conçoit, développe et fabrique en petite série des machines électriques de haute fiabilité et haute performance.",
+      "text1": "OCCITEM conçoit, développe et fabrique en petite série des moteurs électriques de haute fiabilité et haute performance.",
       "text2": "Basée à Colomiers (31), notre équipe maîtrise l'ensemble de la chaîne, du bureau d'études jusqu'à la fabrication semi-automatisée, en s'appuyant sur notre technologie de bobinage U-PIN développée en interne.",
       "atelier_caption": "Notre atelier de fabrication — Colomiers, France"
     },
     "en": {
       "label": "About us",
       "title": "A French company specialized in electrical machines",
-      "text1": "OCCITEM designs, develops and manufactures high-reliability, high-performance electrical machines in small series.",
+      "text1": "OCCITEM designs, develops and manufactures high-reliability, high-performance electrical motors in small series.",
       "text2": "Based in Colomiers (31), our team masters the entire chain, from engineering to semi-automated manufacturing, leveraging our in-house U-PIN winding technology.",
       "atelier_caption": "Our manufacturing facility — Colomiers, France"
     }
@@ -68,7 +68,7 @@
           "year": "2021",
           "events": [
             "1er projet d'innovation subventionné, soutenu par la Région Occitanie — PEPS16",
-            "Contrat de développement du POD25 avec Fountaine Pajot — futur moteur de série chez OCCITEM"
+            "Contrat de développement d’un moteur POD pour équiper les catamarans de Fountaine Pajot"
           ]
         },
         {
@@ -76,7 +76,7 @@
           "events": [
             "13 salariés",
             "1 M€ de chiffre d'affaires",
-            "Nouveau nom : TEM devient OCCITEM, nouveaux locaux à Colomiers"
+            "Emménagement à Colomiers"
           ]
         },
         {
@@ -84,7 +84,7 @@
           "events": [
             "Mise en place de l'ERP",
             "Structuration de l'équipe BE autour des métiers électrotechnique et mécanique",
-            "Lancement de la ligne de production : conception et achat des moyens de production"
+            "Lancement de la ligne de production série"
           ]
         },
         {
@@ -123,7 +123,7 @@
           "year": "2021",
           "events": [
             "1st subsidised innovation project, backed by the Occitanie Region — PEPS16",
-            "POD25 development contract with Fountaine Pajot — future series motor at OCCITEM"
+            "POD motor development contract with Fountaine Pajot"
           ]
         },
         {
@@ -131,7 +131,7 @@
           "events": [
             "13 employees",
             "€1M revenue",
-            "New name: TEM becomes OCCITEM, new premises in Colomiers"
+            "New premises in Colomiers"
           ]
         },
         {
@@ -139,7 +139,7 @@
           "events": [
             "ERP implementation",
             "Engineering team structured around electrical and mechanical disciplines",
-            "Production line launched: design and purchase of production equipment"
+            "Production line launched"
           ]
         },
         {
