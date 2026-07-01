@@ -511,39 +511,6 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
    ============================================================ */
 .tech {
   position: relative;
-  overflow: hidden;
-}
-.tech::before,
-.tech::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  z-index: 0;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 18%,
-    black 82%,
-    transparent 100%
-  );
-}
-.tech::before {
-  left: 0;
-  background:
-    linear-gradient(rgba(13,27,42,0.72), rgba(13,27,42,0.72)),
-    url('assets/bobinage-comparaison.png') center / cover no-repeat;
-}
-.tech::after {
-  right: 0;
-  background:
-    linear-gradient(rgba(13,27,42,0.60), rgba(13,27,42,0.60)),
-    url('assets/hero-bg.jpg') right center / cover no-repeat;
-}
-.tech .container {
-  position: relative;
-  z-index: 1;
 }
 
 .tech__intro {
@@ -551,6 +518,35 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   max-width: 680px;
   line-height: 1.7;
   margin-top: 0.5rem;
+}
+
+.tech__compare {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin: 2rem 0 2.5rem;
+}
+.tech__compare-frame {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(13,27,42,0.82);
+}
+.tech__compare-frame img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.tech__compare-frame figcaption {
+  padding: 0.75rem 1.1rem;
+  font-family: var(--font-title);
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: var(--white);
+  border-top: 1px solid var(--border);
 }
 
 
@@ -954,10 +950,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 
 @media (max-width: 768px) {
-  .tech::before,
-  .tech::after {
-    display: none;
-  }
+  .tech__compare { grid-template-columns: 1fr; }
 
   /* Frise : colonne unique, ligne à gauche */
   .history__subtitle { margin-bottom: 2.5rem; }

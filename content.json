@@ -90,8 +90,8 @@
         {
           "year": "2024",
           "events": [
-            "Achat du bâtiment et aménagement de l'atelier de production",
-            "Production de plusieurs séries > 100 pièces / an",
+            "Aménagement de l'atelier de production",
+            "Production de plusieurs séries > 100 pièces",
             "Mise en place du PLM"
           ]
         },
@@ -145,8 +145,8 @@
         {
           "year": "2024",
           "events": [
-            "Building acquired and production workshop fitted out",
-            "Several series produced > 100 units / year",
+            "Production workshop fitted out",
+            "Several series produced > 100 units",
             "PLM implementation"
           ]
         },
@@ -184,7 +184,7 @@
         },
         {
           "key": "robustesse",
-          "value": "<5x",
+          "value": "~5x",
           "label": "Plus robuste",
           "desc": "Moins de court-circuits électriques grâce à la maîtrise du positionnement des fils."
         },
@@ -230,7 +230,7 @@
         },
         {
           "key": "robustesse",
-          "value": "<5x",
+          "value": "~5x",
           "label": "More robust",
           "desc": "Fewer electrical short circuits thanks to precise conductor positioning."
         },
