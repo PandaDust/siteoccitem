@@ -920,74 +920,82 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   color: var(--muted);
   margin-bottom: 3rem;
 }
-.contact__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-}
-.contact-card {
-  background: rgba(255,255,255,0.03);
+
+.contact-panel {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 3rem;
+  max-width: 780px;
+  padding: 3rem 3.5rem;
+  background:
+    radial-gradient(circle at 15% 20%, var(--accent-dim), transparent 55%),
+    rgba(255,255,255,0.025);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 2rem;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
-.contact-card:hover {
+.contact-panel:hover {
   border-color: var(--accent);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.35);
 }
-.contact-card__name {
-  font-family: var(--font-title);
-  font-size: 1.15rem;
-  font-weight: 300;
-  color: var(--white);
-  margin-bottom: 0.2rem;
+.contact-panel__corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--accent);
+  opacity: 0.6;
 }
-.contact-card__role {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 1.25rem;
+.contact-panel__corner--tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.contact-panel__corner--br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+.contact-panel__block {
+  flex: 1;
+  min-width: 0;
 }
-.contact-card__links { display: flex; flex-direction: column; gap: 0.5rem; }
-.contact-card__link {
+.contact-panel__icon {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.9rem;
-  color: var(--muted);
-  transition: color var(--transition);
-}
-.contact-card__link:hover { color: var(--white); }
-.contact-card__link svg { flex-shrink: 0; color: var(--accent); }
-
-.contact__address {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 1.5rem;
-  background: rgba(255,255,255,0.02);
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 1.1rem;
+  color: var(--accent);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  max-width: 360px;
+  border-radius: 50%;
 }
-.contact__address-icon { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
-.contact__address-label {
+.contact-panel__label {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }
-.contact__address-text {
-  font-size: 0.9rem;
+.contact-panel__email {
+  display: inline-block;
+  font-family: var(--font-title);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 300;
+  color: var(--white);
+  word-break: break-word;
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+.contact-panel__email:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.contact-panel__text {
+  font-size: 0.95rem;
   color: var(--muted);
   white-space: pre-line;
   line-height: 1.6;
+}
+.contact-panel__divider {
+  width: 1px;
+  background: var(--border);
+  flex-shrink: 0;
 }
 
 /* ============================================================
@@ -1278,7 +1286,9 @@ body.modal-open {
   .services__grid { grid-template-columns: 1fr; }
   .markets__grid { grid-template-columns: 1fr; min-height: unset; }
   .market-card { min-height: 320px; }
-  .contact__grid { grid-template-columns: 1fr; }
+
+  .contact-panel { flex-direction: column; gap: 2rem; padding: 2.25rem 1.75rem; }
+  .contact-panel__divider { width: 100%; height: 1px; }
 
   .offer-modal { padding: 1rem; }
   .offer-modal__dialog { padding: 1.75rem; }

@@ -694,31 +694,18 @@ function renderVideo() {
 }
 
 function renderContact() {
-  const contacts = data.contact[lang].contacts;
-
-  const cards = contacts.map((_, i) => `
-    <div class="ed-card" style="position:relative">
-      <button class="btn-remove-card" onclick="removeContact(${i})" title="Supprimer ce contact">×</button>
-      <div class="ed-grid-2">
-        ${F(`contact.contacts.${i}.name`,  'nom',       'card-title')}
-        ${F(`contact.contacts.${i}.role`,  'rôle',      'muted')}
-      </div>
-      <div class="ed-grid-2">
-        ${F(`contact.contacts.${i}.email`, 'email',     'muted small')}
-        ${F(`contact.contacts.${i}.phone`, 'téléphone', 'muted small')}
-      </div>
-    </div>`).join('');
-
   return section('contact', 'Contact', `
     ${F('contact.label',        'label section', 'sec-label')}
     ${F('contact.title',        'titre',         'sec-title')}
     ${F('contact.subtitle',     'sous-titre',    'muted')}
     <div class="ed-grid-2">
+      ${F('contact.email_label', 'libellé e-mail')}
+      ${F('contact.email',       'e-mail de contact')}
+    </div>
+    <div class="ed-grid-2">
       ${F('contact.address_label', 'libellé adresse')}
       ${F('contact.address',       'adresse',       'multiline')}
     </div>
-    ${cards}
-    <button class="btn-add" onclick="addContact()">+ Ajouter un contact</button>
   `);
 }
 
@@ -808,20 +795,6 @@ function render() {
 function setLang(l) {
   lang = l;
   render();
-}
-
-function removeContact(i) {
-  data.contact[lang].contacts.splice(i, 1);
-  markDirty();
-  render();
-}
-
-function addContact() {
-  data.contact[lang].contacts.push({ name: '', role: '', email: '', phone: '' });
-  markDirty();
-  render();
-  const cards = document.querySelectorAll('#ed-contact .ed-card');
-  if (cards.length) cards[cards.length - 1].querySelector('.editable').focus();
 }
 
 function removeHistoryItem(i) {

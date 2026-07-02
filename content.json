@@ -620,43 +620,19 @@
       "label": "Contact",
       "title": "Parlons de votre projet",
       "subtitle": "Notre équipe est à votre disposition pour étudier vos besoins.",
+      "email_label": "Écrivez-nous",
+      "email": "contact@occitem.com",
       "address_label": "Adresse",
-      "address": "22 Avenue du Louron\n31770 Colomiers, France",
-      "contacts": [
-        {
-          "name": "Marc Tunzini",
-          "role": "Contact technique",
-          "email": "marc.tunzini@occitem.com",
-          "phone": "+33 (0)6 16 70 67 19"
-        },
-        {
-          "name": "Géraldine Vieillard",
-          "role": "Contact commercial",
-          "email": "geraldine.vieillard@occitem.com",
-          "phone": "+33 (0)6 12 13 56 51"
-        }
-      ]
+      "address": "22 Avenue du Louron\n31770 Colomiers, France"
     },
     "en": {
       "label": "Contact",
       "title": "Let's talk about your project",
       "subtitle": "Our team is available to discuss your needs.",
+      "email_label": "Write to us",
+      "email": "contact@occitem.com",
       "address_label": "Address",
-      "address": "22 Avenue du Louron\n31770 Colomiers, France",
-      "contacts": [
-        {
-          "name": "Marc Tunzini",
-          "role": "Technical contact",
-          "email": "marc.tunzini@occitem.com",
-          "phone": "+33 (0)6 16 70 67 19"
-        },
-        {
-          "name": "Géraldine Vieillard",
-          "role": "Sales contact",
-          "email": "geraldine.vieillard@occitem.com",
-          "phone": "+33 (0)6 12 13 56 51"
-        }
-      ]
+      "address": "22 Avenue du Louron\n31770 Colomiers, France"
     }
   },
   "footer": {

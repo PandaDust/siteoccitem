@@ -189,17 +189,26 @@
       <h2 class="section__title reveal reveal--delay-1" data-key="contact.title"></h2>
       <p class="contact__subtitle reveal reveal--delay-2" data-key="contact.subtitle"></p>
 
-      <div class="contact__grid" id="contactGrid">
-        <!-- Généré par JS depuis content.json -->
-      </div>
+      <div class="contact-panel reveal reveal--delay-2">
+        <div class="contact-panel__corner contact-panel__corner--tl" aria-hidden="true"></div>
+        <div class="contact-panel__corner contact-panel__corner--br" aria-hidden="true"></div>
 
-      <div class="contact__address reveal reveal--delay-2">
-        <div class="contact__address-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="contact-panel__block">
+          <div class="contact-panel__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div class="contact-panel__label" data-key="contact.email_label"></div>
+          <a class="contact-panel__email" id="contactEmail" href="#"></a>
         </div>
-        <div>
-          <div class="contact__address-label" data-key="contact.address_label"></div>
-          <div class="contact__address-text" data-key="contact.address"></div>
+
+        <div class="contact-panel__divider" aria-hidden="true"></div>
+
+        <div class="contact-panel__block">
+          <div class="contact-panel__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-panel__label" data-key="contact.address_label"></div>
+          <div class="contact-panel__text" data-key="contact.address"></div>
         </div>
       </div>
     </div>
