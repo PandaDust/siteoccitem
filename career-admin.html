@@ -244,6 +244,33 @@ body {
 }
 .btn-add:hover { border-color: var(--focus); color: var(--focus); background: var(--hover-bg); }
 
+.ed-image {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+.ed-image-thumb {
+  width: 88px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: #08141f;
+  flex-shrink: 0;
+  color: var(--label-color);
+  font-size: 9px;
+  text-align: center;
+  overflow: hidden;
+}
+.ed-image-thumb--empty {
+  border-style: dashed;
+}
+.ed-image-actions { display: flex; align-items: center; gap: 10px; }
+.ed-image-status { font-size: 11px; color: var(--muted); }
+.ed-image-status.ok  { color: #7fffbf; }
+.ed-image-status.err { color: #ffa0a0; }
+
 .ed-error {
   padding: 48px 24px;
   text-align: center;
@@ -328,6 +355,58 @@ function section(id, title, body) {
     <div class="ed-section-header">${title}</div>
     <div class="ed-section-body">${body}</div>
   </section>`;
+}
+
+// Champ image : upload vers /api/upload-careers-image, chemin lu/écrit dans careers.json (jsonPath)
+const imgVersions = {};
+function bust(path) {
+  return imgVersions[path] ? `${path}?v=${imgVersions[path]}` : path;
+}
+
+function ImgField(label, { jsonPath, note } = {}) {
+  return `<div class="ed-field">
+    <label class="ed-label">${label}</label>
+    <div class="ed-image" data-img-json-path="${jsonPath}">
+      <img class="ed-image-thumb" alt="Aucune image — cliquez sur Remplacer" onerror="this.classList.add('ed-image-thumb--empty')" onload="this.classList.remove('ed-image-thumb--empty')">
+      <div class="ed-image-actions">
+        <button type="button" class="btn-add" onclick="this.closest('.ed-image').querySelector('input[type=file]').click()">Remplacer</button>
+        <span class="ed-image-status"></span>
+      </div>
+      <input type="file" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="onImageFileChosen(event)">
+    </div>
+    ${note ? `<div class="ed-note" style="margin-top:2px">${note}</div>` : ''}
+  </div>`;
+}
+
+async function onImageFileChosen(e) {
+  const input = e.target;
+  const wrapper = input.closest('.ed-image');
+  const target = wrapper.dataset.target;
+  const file = input.files[0];
+  if (!file || !target) return;
+  const statusEl = wrapper.querySelector('.ed-image-status');
+  const imgEl = wrapper.querySelector('.ed-image-thumb');
+  statusEl.textContent = '↻ envoi…';
+  statusEl.className = 'ed-image-status';
+  try {
+    const r = await fetch(`/api/upload-careers-image?target=${encodeURIComponent(target)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file
+    });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'Erreur serveur');
+    imgVersions[target] = Date.now();
+    imgEl.src = bust(target);
+    statusEl.textContent = '✓ remplacée';
+    statusEl.className = 'ed-image-status ok';
+    setTimeout(() => { statusEl.textContent = ''; statusEl.className = 'ed-image-status'; }, 2500);
+  } catch (err) {
+    statusEl.textContent = '✗ ' + err.message;
+    statusEl.className = 'ed-image-status err';
+  } finally {
+    input.value = '';
+  }
 }
 
 // Champ riche : gras / italique / liste à puces, via execCommand.
@@ -428,6 +507,15 @@ function renderSettings() {
   `);
 }
 
+function renderIntro() {
+  return section('intro', 'Présentation ("Pourquoi nous ?")', `
+    ${F('intro_title', 'titre de la section')}
+    ${RichField('intro_text', 'texte de présentation')}
+    ${ImgField('image (à droite du texte)', { jsonPath: 'intro_img' })}
+    <p class="ed-note">Affiché en haut de la page Carrières, avant la liste des offres. Laisser le texte vide masque toute la section.</p>
+  `);
+}
+
 function renderOffers() {
   const offers = data.offers;
   const cards = offers.map((o, i) => `
@@ -458,13 +546,19 @@ function renderOffers() {
 
 function render() {
   const root = document.getElementById('editor-root');
-  root.innerHTML = [renderSettings(), renderOffers()].join('');
+  root.innerHTML = [renderIntro(), renderSettings(), renderOffers()].join('');
 
   root.querySelectorAll('[data-path]').forEach(el => {
     el.innerText = String(getVal(el.dataset.path) ?? '');
   });
   root.querySelectorAll('[data-rich-path]').forEach(el => {
     el.innerHTML = toRichHtml(String(getVal(el.dataset.richPath) ?? ''));
+  });
+
+  root.querySelectorAll('[data-img-json-path]').forEach(el => {
+    const target = String(getVal(el.dataset.imgJsonPath) ?? '');
+    el.dataset.target = target;
+    if (target) el.querySelector('.ed-image-thumb').src = bust(target);
   });
 
   root.querySelectorAll('[data-path]').forEach(el => {

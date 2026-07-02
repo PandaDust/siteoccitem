@@ -46,11 +46,26 @@
       <h1 class="section__title reveal reveal--delay-1" data-key="careers.page_title"></h1>
       <p class="careers__subtitle reveal reveal--delay-2" data-key="careers.page_subtitle"></p>
 
+      <div class="careers__intro reveal reveal--delay-2" id="careersIntro" hidden>
+        <!-- Généré par JS depuis careers.json (intro_title / intro_text) -->
+      </div>
+
       <div class="careers__grid" id="careersGrid">
         <!-- Généré par JS depuis careers.json -->
       </div>
     </div>
   </section>
+
+  <!-- DÉTAIL D'UNE OFFRE -->
+  <div class="offer-modal" id="offerModal" aria-hidden="true">
+    <div class="offer-modal__backdrop" data-close></div>
+    <div class="offer-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="offerModalTitle">
+      <button type="button" class="offer-modal__close" data-close aria-label="Fermer">×</button>
+      <div class="offer-modal__content" id="offerModalContent">
+        <!-- Généré par JS -->
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer">

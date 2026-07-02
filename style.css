@@ -1005,20 +1005,62 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   max-width: 640px;
   margin-bottom: 3rem;
 }
+.careers__intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 3.5rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+.careers__intro-col:only-child {
+  grid-column: 1 / -1;
+  max-width: 720px;
+}
+.careers__intro-title {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+.careers__intro-text {
+  color: var(--muted);
+  line-height: 1.65;
+}
+.careers__intro-text p { margin-bottom: 0.75em; }
+.careers__intro-text p:last-child { margin-bottom: 0; }
+.careers__intro-img {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
 .careers__grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
 }
 .careers__empty {
   color: var(--muted);
   padding: 2rem 0;
 }
 .career-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.75rem;
+  padding: 1.5rem;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 .career-card:hover {
@@ -1026,23 +1068,9 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   border-color: var(--accent);
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
-.career-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  cursor: pointer;
-}
-.career-card__heading {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  flex: 1;
-  min-width: 0;
-}
 .career-card__title {
   font-family: var(--font-title);
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 300;
   color: var(--white);
 }
@@ -1052,7 +1080,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   gap: 0.5rem;
 }
 .career-card__tag {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--muted);
@@ -1061,37 +1089,94 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   padding: 0.25rem 0.85rem;
   white-space: nowrap;
 }
-.career-card__chevron {
-  flex-shrink: 0;
-  color: var(--accent);
+
+/* ============================================================
+   FENÊTRE DE DÉTAIL D'UNE OFFRE
+   ============================================================ */
+body.modal-open {
+  overflow: hidden;
+}
+.offer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition);
+}
+.offer-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.offer-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5,10,16,0.8);
+  backdrop-filter: blur(3px);
+}
+.offer-modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  padding: 2.5rem;
+  transform: translateY(16px);
   transition: transform var(--transition);
 }
-.career-card.is-open .career-card__chevron { transform: rotate(180deg); }
-
-.career-card__body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
+.offer-modal.is-open .offer-modal__dialog {
+  transform: translateY(0);
 }
-.career-card.is-open .career-card__body {
-  max-height: 3000px;
-  padding-top: 1.5rem;
+.offer-modal__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
 }
-.career-card__desc {
+.offer-modal__close:hover {
+  color: var(--white);
+  border-color: var(--accent);
+}
+.offer-modal__title {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--white);
+  margin-bottom: 0.85rem;
+  padding-right: 2.5rem;
+}
+.offer-modal__desc {
   font-size: 0.9rem;
   color: var(--muted);
-  line-height: 1.55;
-  margin-bottom: 1.25rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
 }
-.career-card__desc p { margin-bottom: 0.5em; }
-.career-card__desc p:last-child { margin-bottom: 0; }
-.career-card__desc ul,
-.career-card__desc ol { padding-left: 1.25em; margin: 0.25em 0 0.5em; }
-.career-card__desc li { margin-bottom: 0.2em; }
-.career-card__desc li::marker { color: var(--accent); }
-.career-card__desc b,
-.career-card__desc strong { color: var(--white); font-weight: 600; }
-.career-card__apply { font-size: 0.85rem; padding: 0.65rem 1.75rem; }
+.offer-modal__desc p { margin-bottom: 0.5em; }
+.offer-modal__desc p:last-child { margin-bottom: 0; }
+.offer-modal__desc ul,
+.offer-modal__desc ol { padding-left: 1.25em; margin: 0.25em 0 0.5em; }
+.offer-modal__desc li { margin-bottom: 0.2em; }
+.offer-modal__desc li::marker { color: var(--accent); }
+.offer-modal__desc b,
+.offer-modal__desc strong { color: var(--white); font-weight: 600; }
+.offer-modal__apply { font-size: 0.85rem; padding: 0.65rem 1.75rem; }
 
 /* ============================================================
    FOOTER
@@ -1180,12 +1265,19 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   .about__grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .about__photos { min-height: 280px; }
 
+  .careers__intro { grid-template-columns: 1fr; gap: 2rem; }
+  .careers__intro-img { order: -1; max-height: 240px; }
+
 .tech__grid { grid-template-columns: 1fr 1fr; }
 
   .services__grid { grid-template-columns: 1fr; }
   .markets__grid { grid-template-columns: 1fr; min-height: unset; }
   .market-card { min-height: 320px; }
   .contact__grid { grid-template-columns: 1fr; }
+
+  .offer-modal { padding: 1rem; }
+  .offer-modal__dialog { padding: 1.75rem; }
+  .offer-modal__title { font-size: 1.35rem; }
 
   .footer__inner { flex-direction: column; text-align: center; gap: 0.5rem; }
 }

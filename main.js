@@ -4,6 +4,8 @@
   let content = null;
   let currentLang = 'fr';
   let careersData = null;
+  let currentOffers = [];
+  let lastFocusedEl = null;
 
   // ============================================================
   // INIT
@@ -23,7 +25,7 @@
       // initHeroSnap();
 
       if (document.getElementById('careersGrid')) {
-        initCareersAccordion();
+        initOfferModal();
         fetch('careers.json', { cache: 'no-cache' })
           .then(r => r.json())
           .then(data => { careersData = data; renderCareers(currentLang); })
@@ -238,62 +240,96 @@
   // ============================================================
   function renderCareers(lang) {
     const grid = document.getElementById('careersGrid');
+    const introEl = document.getElementById('careersIntro');
     if (!grid || !careersData || !content.careers) return;
     const t = content.careers[lang];
-    const offers = (careersData.offers || []).filter(o => o.active);
 
-    if (!offers.length) {
+    if (introEl) {
+      const hasIntro = Boolean(careersData.intro_title || careersData.intro_text);
+      introEl.hidden = !hasIntro;
+      introEl.innerHTML = hasIntro ? `
+        <div class="careers__intro-col">
+          ${careersData.intro_title ? `<h2 class="careers__intro-title">${careersData.intro_title}</h2>` : ''}
+          <div class="careers__intro-text">${formatDescription(careersData.intro_text || '')}</div>
+        </div>
+        ${careersData.intro_img ? `<img class="careers__intro-img" src="${careersData.intro_img}" alt="">` : ''}
+      ` : '';
+    }
+
+    currentOffers = (careersData.offers || []).filter(o => o.active);
+
+    if (!currentOffers.length) {
       grid.innerHTML = `<p class="careers__empty reveal">${t.empty_message}</p>`;
       grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
       return;
     }
 
-    const email = careersData.contact_email;
-    grid.innerHTML = offers.map((o, i) => `
-      <div class="career-card reveal reveal--delay-${i % 3}">
-        <div class="career-card__header" role="button" tabindex="0" aria-expanded="false">
-          <div class="career-card__heading">
-            <h3 class="career-card__title">${o.title}</h3>
-            <div class="career-card__tags">
-              <span class="career-card__tag">${t.contract_label} · ${o.contract_type}</span>
-              <span class="career-card__tag">${t.location_label} · ${o.location}</span>
-            </div>
-          </div>
-          <svg class="career-card__chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    grid.innerHTML = currentOffers.map((o, i) => `
+      <button type="button" class="career-card reveal reveal--delay-${i % 3}" data-offer-index="${i}">
+        <h3 class="career-card__title">${o.title}</h3>
+        <div class="career-card__tags">
+          <span class="career-card__tag">${t.contract_label} · ${o.contract_type}</span>
+          <span class="career-card__tag">${t.location_label} · ${o.location}</span>
         </div>
-        <div class="career-card__body">
-          <div class="career-card__desc">${formatDescription(o.description)}</div>
-          ${email
-            ? `<a class="btn btn--primary career-card__apply" href="mailto:${email}?subject=${encodeURIComponent('Candidature - ' + o.title)}">${t.apply_cta}</a>`
-            : ''}
-        </div>
-      </div>
+      </button>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    if (!grid.dataset.bound) {
+      grid.dataset.bound = 'true';
+      grid.addEventListener('click', e => {
+        const card = e.target.closest('.career-card');
+        if (!card) return;
+        openOfferModal(Number(card.dataset.offerIndex));
+      });
+    }
   }
 
-  // Accordéon : chaque offre démarre repliée, pour que toutes les offres soient visibles
-  // d'un coup d'œil en arrivant sur la page — le clic déplie la description.
-  function initCareersAccordion() {
-    const grid = document.getElementById('careersGrid');
-    if (!grid) return;
+  // Fenêtre de détail d'une offre — ouverte au clic sur une carte compacte.
+  function openOfferModal(index) {
+    const o = currentOffers[index];
+    const modal = document.getElementById('offerModal');
+    const body = document.getElementById('offerModalContent');
+    if (!o || !modal || !body) return;
+    const t = content.careers[currentLang];
+    const email = careersData.contact_email;
 
-    function toggle(header) {
-      const card = header.closest('.career-card');
-      const open = card.classList.toggle('is-open');
-      header.setAttribute('aria-expanded', String(open));
-    }
+    body.innerHTML = `
+      <h2 class="offer-modal__title" id="offerModalTitle">${o.title}</h2>
+      <div class="career-card__tags">
+        <span class="career-card__tag">${t.contract_label} · ${o.contract_type}</span>
+        <span class="career-card__tag">${t.location_label} · ${o.location}</span>
+      </div>
+      <div class="offer-modal__desc">${formatDescription(o.description)}</div>
+      ${email
+        ? `<a class="btn btn--primary offer-modal__apply" href="mailto:${email}?subject=${encodeURIComponent('Candidature - ' + o.title)}">${t.apply_cta}</a>`
+        : ''}
+    `;
 
-    grid.addEventListener('click', e => {
-      const header = e.target.closest('.career-card__header');
-      if (header) toggle(header);
+    lastFocusedEl = document.activeElement;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    modal.querySelector('.offer-modal__close').focus();
+  }
+
+  function closeOfferModal() {
+    const modal = document.getElementById('offerModal');
+    if (!modal || !modal.classList.contains('is-open')) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    if (lastFocusedEl) lastFocusedEl.focus();
+  }
+
+  function initOfferModal() {
+    const modal = document.getElementById('offerModal');
+    if (!modal) return;
+    modal.addEventListener('click', e => {
+      if (e.target.closest('[data-close]')) closeOfferModal();
     });
-    grid.addEventListener('keydown', e => {
-      const header = e.target.closest('.career-card__header');
-      if (header && (e.key === 'Enter' || e.key === ' ')) {
-        e.preventDefault();
-        toggle(header);
-      }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeOfferModal();
     });
   }
 

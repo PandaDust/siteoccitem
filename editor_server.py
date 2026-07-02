@@ -7,7 +7,8 @@ Authentification : si les variables d'environnement AUTH_USER et AUTH_PASS
 sont définies, un Basic Auth est exigé sur l'éditeur de contenu
 (editor.html + /api/save + /api/upload-image). Si RH_AUTH_USER et RH_AUTH_PASS
 sont définies, un Basic Auth (avec des identifiants distincts) est exigé sur
-le mini-éditeur RH (career-admin.html + /api/save-careers). Le reste du site
+le mini-éditeur RH (career-admin.html + /api/save-careers +
+/api/upload-careers-image). Le reste du site
 (index.html, carriere.html, content.json, careers.json, assets...) reste
 public. À activer avant toute exposition externe (ex : tunnel ngrok).
 """
@@ -37,7 +38,7 @@ IMAGE_PATH_RE = re.compile(r'^assets/[A-Za-z0-9_\-./]+\.(png|jpg|jpeg|webp)$', r
 # Ressources protégées par les identifiants de l'éditeur de contenu (Mathieu)
 MAIN_EDITOR_PATHS = {'/editor.html', '/api/save', '/api/upload-image'}
 # Ressources protégées par les identifiants du mini-éditeur RH (offres d'emploi)
-RH_EDITOR_PATHS = {'/career-admin.html', '/api/save-careers'}
+RH_EDITOR_PATHS = {'/career-admin.html', '/api/save-careers', '/api/upload-careers-image'}
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -77,6 +78,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._upload_image()
         elif path == '/api/save-careers':
             self._save_careers()
+        elif path == '/api/upload-careers-image':
+            self._upload_image()
         else:
             self.send_error(404)
 
