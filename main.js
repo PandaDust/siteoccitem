@@ -59,6 +59,7 @@
     renderServices(lang);
     renderMarkets(lang);
     renderTrust(lang);
+    renderSupporters(lang);
     renderContact(lang);
     renderCareers(lang);
   }
@@ -158,6 +159,21 @@
     const partners = content.trust[lang].partners;
     const cards = partners.map(p => `
       <div class="trust-card">
+        <img src="${p.img}" alt="${p.name}" title="${p.name}">
+      </div>
+    `).join('');
+    grid.innerHTML = `<div class="trust__track">${cards}${cards}</div>`;
+  }
+
+  // ============================================================
+  // SUPPORTERS — bandeau logos partenaires institutionnels
+  // ============================================================
+  function renderSupporters(lang) {
+    const grid = document.getElementById('supportersGrid');
+    if (!grid || !content.supporters) return;
+    const partners = content.supporters[lang].partners;
+    const cards = partners.map(p => `
+      <div class="trust-card${p.color ? ' trust-card--color' : ''}">
         <img src="${p.img}" alt="${p.name}" title="${p.name}">
       </div>
     `).join('');

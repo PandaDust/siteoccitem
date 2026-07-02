@@ -287,7 +287,7 @@
         "Dossier de fabrication clé en main",
         "Prototypage",
         "Petite série ≤ 1 000/an",
-        "Maintenance de produits OCCITEM"
+        "Essais de performance moteur et système"
       ]
     },
     "en": {
@@ -321,7 +321,7 @@
         "Turnkey manufacturing file",
         "Prototyping",
         "Small series ≤ 1,000/year",
-        "OCCITEM product maintenance"
+        "Motor and System Performance Tests"
       ]
     }
   },
@@ -335,7 +335,7 @@
           "key": "aero",
           "title": "Aéronautique",
           "metric": "16 kW · 5,5 kg",
-          "desc": "Propulsion électrique pour ultra-légers, drones et aéronefs. Produit phare : PEPS16 — 16kW, 5,5kg, développé avec Airbus et soutenu par BPI France.",
+          "desc": "Propulsion électrique pour ultra-légers, drones et aéronefs. Produit phare : PEPS16 — 16kW, 5,5kg, soutenu par BPI France et la région Occitanie",
           "img": "assets/marche-aero.png",
           "tags": [
             "Propulsion électrique",
@@ -346,7 +346,7 @@
           "key": "marine",
           "title": "Marine & Fluvial",
           "metric": "Jusqu'à 100 kW",
-          "desc": "Moteurs immergés et POD électriques pour voiliers, bateaux fluviaux et applications sous-marines. Produit phare : AURA — jusqu'à 100kW, hélice immergée.",
+          "desc": "Moteurs immergés électriques (POD) pour voiliers, bateaux fluviaux et applications sous-marines. Produit phare : POD 25/50/100 kW",
           "img": "assets/marche-marine.png",
           "tags": [
             "Moteurs immergés",
@@ -357,7 +357,7 @@
           "key": "terre",
           "title": "Terrestre",
           "metric": "Haute densité de puissance",
-          "desc": "Traction électrique pour deux-roues, véhicules légers et engins industriels. Haute densité de puissance, compacité et robustesse.",
+          "desc": "Traction électrique pour deux-roues, véhicules légers et engins industriels. \nPrototypage et sous traitance de fabrication pour les constructeurs automobiles",
           "img": "assets/marche-terrestre.png",
           "tags": [
             "Traction électrique",
@@ -375,7 +375,7 @@
           "key": "aero",
           "title": "Aeronautics",
           "metric": "16 kW · 5.5 kg",
-          "desc": "Electric propulsion for ultralight aircraft, drones and UAVs. Flagship product: PEPS16 — 16kW, 5.5kg, developed with Airbus and supported by BPI France.",
+          "desc": "Electric propulsion systems for ultralights, drones, and aircraft. Flagship product: PEPS16 — 16 kW, 5.5 kg, supported by BPI France and the Occitanie region",
           "img": "assets/marche-aero.png",
           "tags": [
             "Electric propulsion",
@@ -386,7 +386,7 @@
           "key": "marine",
           "title": "Marine & Inland",
           "metric": "Up to 100 kW",
-          "desc": "Immersed motors and electric PODs for sailboats, river boats and underwater applications. Flagship product: AURA — up to 100kW, immersed propeller.",
+          "desc": "Submersible electric motors (POD) for sailboats, river boats, and underwater applications. Flagship product: POD 25/50/100 kW",
           "img": "assets/marche-marine.png",
           "tags": [
             "Immersed motors",
@@ -397,7 +397,7 @@
           "key": "terre",
           "title": "Land",
           "metric": "High power density",
-          "desc": "Electric traction for two-wheelers, light vehicles and industrial machinery. High power density, compactness and robustness.",
+          "desc": "Electric propulsion systems for two-wheeled vehicles, light vehicles, and industrial machinery. \nPrototyping and contract manufacturing for automotive manufacturers",
           "img": "assets/marche-terrestre.png",
           "tags": [
             "Electric traction",
@@ -426,10 +426,6 @@
           "img": "assets/logos/totalenergies.png"
         },
         {
-          "name": "NEXTER",
-          "img": "assets/logos/nexter.png"
-        },
-        {
           "name": "Fountaine Pajot",
           "img": "assets/logos/fountaine-pajot.png"
         },
@@ -450,16 +446,8 @@
           "img": "assets/logos/cirtem.png"
         },
         {
-          "name": "Gehring",
-          "img": "assets/logos/gehring.png"
-        },
-        {
           "name": "Danielson",
           "img": "assets/logos/danielson.png"
-        },
-        {
-          "name": "Autos Énergies",
-          "img": "assets/logos/autos-energies.png"
         },
         {
           "name": "Alt. Énergies",
@@ -485,10 +473,6 @@
           "img": "assets/logos/totalenergies.png"
         },
         {
-          "name": "NEXTER",
-          "img": "assets/logos/nexter.png"
-        },
-        {
           "name": "Fountaine Pajot",
           "img": "assets/logos/fountaine-pajot.png"
         },
@@ -509,20 +493,88 @@
           "img": "assets/logos/cirtem.png"
         },
         {
-          "name": "Gehring",
-          "img": "assets/logos/gehring.png"
-        },
-        {
           "name": "Danielson",
           "img": "assets/logos/danielson.png"
         },
         {
-          "name": "Autos Energies",
-          "img": "assets/logos/autos-energies.png"
-        },
-        {
           "name": "Alt. Energies",
           "img": "assets/logos/alternatives-energies.png"
+        }
+      ]
+    }
+  },
+  "supporters": {
+    "fr": {
+      "label": "Ils nous soutiennent",
+      "title": "Des partenaires institutionnels engagés à nos côtés",
+      "subtitle": "Notre croissance est soutenue par des acteurs publics et privés de l'écosystème aéronautique, industriel et régional.",
+      "partners": [
+        {
+          "name": "Airbus Développement",
+          "img": "assets/logos/airbus-developpement.png"
+        },
+        {
+          "name": "Région Occitanie",
+          "img": "assets/logos/region-occitanie.png"
+        },
+        {
+          "name": "BPI France",
+          "img": "assets/logos/bpifrance.png"
+        },
+        {
+          "name": "DGA",
+          "img": "assets/logos/dga.png"
+        },
+        {
+          "name": "Réseau Initiative Haute-Garonne",
+          "img": "assets/logos/reseau-initiative-haute-garonne.png",
+          "color": false
+        },
+        {
+          "name": "Aerospace Valley",
+          "img": "assets/logos/aerospace-valley.png",
+          "color": true
+        },
+        {
+          "name": "GICAN",
+          "img": "assets/logos/gican.png"
+        }
+      ]
+    },
+    "en": {
+      "label": "They support us",
+      "title": "Institutional partners backing our growth",
+      "subtitle": "Our growth is backed by public and private players across the aerospace, industrial and regional ecosystem.",
+      "partners": [
+        {
+          "name": "Airbus Développement",
+          "img": "assets/logos/airbus-developpement.png"
+        },
+        {
+          "name": "Région Occitanie",
+          "img": "assets/logos/region-occitanie.png"
+        },
+        {
+          "name": "BPI France",
+          "img": "assets/logos/bpifrance.png"
+        },
+        {
+          "name": "DGA",
+          "img": "assets/logos/dga.png"
+        },
+        {
+          "name": "Réseau Initiative Haute-Garonne",
+          "img": "assets/logos/reseau-initiative-haute-garonne.png",
+          "color": false
+        },
+        {
+          "name": "Aerospace Valley",
+          "img": "assets/logos/aerospace-valley.png",
+          "color": true
+        },
+        {
+          "name": "GICAN",
+          "img": "assets/logos/gican.png"
         }
       ]
     }
@@ -598,8 +650,8 @@
       "nav_label": "Carrières",
       "label": "Rejoignez-nous",
       "page_title": "Nos offres d'emploi",
-      "page_subtitle": "Découvrez les opportunités de carrière chez OCCITEM et rejoignez une équipe passionnée par l'innovation électrique.",
-      "empty_message": "Aucune offre disponible pour le moment. N'hésitez pas à nous envoyer une candidature spontanée.",
+      "page_subtitle": "Rejoignez une entreprise industrielle agile, technique et tournée vers l'innovation.",
+      "empty_message": "Aucune offre n'est disponible pour le moment. N'hésitez pas à nous envoyer une candidature spontanée.",
       "apply_cta": "Postuler",
       "contract_label": "Contrat",
       "location_label": "Lieu",
@@ -608,9 +660,9 @@
     "en": {
       "nav_label": "Careers",
       "label": "Join us",
-      "page_title": "Job openings",
-      "page_subtitle": "Discover career opportunities at OCCITEM and join a team passionate about electrical innovation.",
-      "empty_message": "No openings available at the moment. Feel free to send us a spontaneous application.",
+      "page_title": "Our job openings",
+      "page_subtitle": "Join an agile, technical, innovation-driven industrial company.",
+      "empty_message": "No openings are available right now. Feel free to send us a spontaneous application.",
       "apply_cta": "Apply",
       "contract_label": "Contract",
       "location_label": "Location",

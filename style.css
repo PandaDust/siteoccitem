@@ -606,7 +606,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 .services__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   margin-bottom: 3rem;
 }
@@ -816,6 +816,26 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   object-fit: contain;
   filter: grayscale(1) brightness(0) invert(1);
   opacity: 0.85;
+}
+.trust-card--color img {
+  filter: none;
+  opacity: 1;
+}
+
+/* ============================================================
+   ILS NOUS SOUTIENNENT
+   ============================================================ */
+
+.supporters__subtitle {
+  color: var(--muted);
+  margin-bottom: 3rem;
+  max-width: 600px;
+}
+
+.supporters__grid {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
 /* ============================================================
@@ -1055,6 +1075,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
    ============================================================ */
 @media (max-width: 1024px) {
   .tech__grid { grid-template-columns: repeat(2, 1fr); }
+  .services__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {

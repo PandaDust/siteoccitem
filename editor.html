@@ -660,6 +660,27 @@ function renderTrust() {
   `);
 }
 
+function renderSupporters() {
+  const partners = data.supporters[lang].partners;
+  const logos = partners.map((p, i) => `
+    <div class="ed-card" style="position:relative">
+      <button class="btn-remove-card" onclick="removeSupporterLogo(${i})" title="Supprimer ce logo">×</button>
+      ${ImgField(`logo ${i + 1}`, { jsonPath: `supporters.partners.${i}.img` })}
+      <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:13px">
+        <input type="checkbox" ${p.color ? 'checked' : ''} onchange="toggleSupporterColor(${i}, this.checked)">
+        Couleurs d'origine (ne pas convertir en blanc)
+      </label>
+    </div>`).join('');
+
+  return section('supporters', 'Ils nous soutiennent', `
+    ${F('supporters.label',    'label section', 'sec-label')}
+    ${F('supporters.title',    'titre',         'sec-title')}
+    ${F('supporters.subtitle', 'sous-titre',    'multiline muted')}
+    <div class="ed-grid-3">${logos}</div>
+    <button class="btn-add" onclick="addSupporterLogo()">+ Ajouter un logo</button>
+  `);
+}
+
 function renderVideo() {
   return section('video', 'Vidéo', `
     ${F('video.label',    'label section', 'sec-label')}
@@ -738,6 +759,7 @@ function render() {
     renderServices(),
     renderMarkets(),
     renderTrust(),
+    renderSupporters(),
     renderVideo(),
     renderContact(),
     renderFooter(),
@@ -847,6 +869,31 @@ function addTrustLogo() {
   render();
   const cards = document.querySelectorAll('#ed-trust .ed-card');
   if (cards.length) cards[cards.length - 1].querySelector('.btn-add').click();
+}
+
+function removeSupporterLogo(i) {
+  // Les logos partenaires sont identiques en FR/EN : on garde les deux langues synchronisées.
+  data.supporters.fr.partners.splice(i, 1);
+  data.supporters.en.partners.splice(i, 1);
+  markDirty();
+  render();
+}
+
+function addSupporterLogo() {
+  const entry = { name: '', img: `assets/logos/logo-${Date.now()}.png` };
+  data.supporters.fr.partners.push({ ...entry });
+  data.supporters.en.partners.push({ ...entry });
+  markDirty();
+  render();
+  const cards = document.querySelectorAll('#ed-supporters .ed-card');
+  if (cards.length) cards[cards.length - 1].querySelector('.btn-add').click();
+}
+
+function toggleSupporterColor(i, checked) {
+  // Les logos partenaires sont identiques en FR/EN : on garde les deux langues synchronisées.
+  data.supporters.fr.partners[i].color = checked;
+  data.supporters.en.partners[i].color = checked;
+  markDirty();
 }
 
 function removeServiceExtra(i) {
