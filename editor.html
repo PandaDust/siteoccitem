@@ -632,6 +632,9 @@ function renderMarkets() {
           <label class="ed-label">tags</label>
           <div class="ed-tags">${tagEls}</div>
         </div>
+        <p class="ed-note">Verso de la carte (révélé au clic) — photo du produit OCCITEM correspondant.</p>
+        ${ImgField('image produit (verso)', { jsonPath: `markets.items.${i}.product_img` })}
+        ${F(`markets.items.${i}.product_desc`, 'description produit (verso)', 'multiline muted small')}
       </div>`;
   }).join('');
 

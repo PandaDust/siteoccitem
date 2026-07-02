@@ -278,6 +278,12 @@
           "title": "Prototyper",
           "desc": "Laboratoire dédié pour les tests de performance, plans d'expérience et tests d'endurance. Dossier de fabrication clé en main.",
           "img": "assets/service-prototyper.png"
+        },
+        {
+          "key": "qualifier",
+          "title": "Qualifier",
+          "desc": "Moyens de qualification de moteur 500kW jusqu'à 30 000 tr/min.",
+          "img": "assets/service-qualifier.png"
         }
       ],
       "extra_title": "Nos prestations",
@@ -312,6 +318,12 @@
           "title": "Prototype",
           "desc": "Dedicated laboratory for performance testing, design of experiments and endurance tests. Turnkey manufacturing file.",
           "img": "assets/service-prototyper.png"
+        },
+        {
+          "key": "qualifier",
+          "title": "Qualify",
+          "desc": "Motor qualification facilities up to 500kW and 30,000 rpm.",
+          "img": "assets/service-qualifier.png"
         }
       ],
       "extra_title": "Our capabilities",
@@ -340,7 +352,9 @@
           "tags": [
             "Propulsion électrique",
             "BPI France"
-          ]
+          ],
+          "product_img": "assets/marche-aero-produit.png",
+          "product_desc": "PEPS16 : notre propulseur électrique pour l'aviation légère — 16 kW, 5,5 kg, soutenu par BPI France et la Région Occitanie."
         },
         {
           "key": "marine",
@@ -351,7 +365,9 @@
           "tags": [
             "Moteurs immergés",
             "POD électrique"
-          ]
+          ],
+          "product_img": "assets/marche-marine-produit.png",
+          "product_desc": "POD 25/50/100 kW : notre moteur immergé pour la propulsion électrique des bateaux de plaisance et fluviaux."
         },
         {
           "key": "terre",
@@ -362,7 +378,9 @@
           "tags": [
             "Traction électrique",
             "Haute compacité"
-          ]
+          ],
+          "product_img": "assets/marche-terrestre-produit.png",
+          "product_desc": "Un moteur compact et robuste, prototypé et fabriqué pour les deux-roues électriques et véhicules légers."
         }
       ]
     },
@@ -380,7 +398,9 @@
           "tags": [
             "Electric propulsion",
             "BPI France"
-          ]
+          ],
+          "product_img": "assets/marche-aero-produit.png",
+          "product_desc": "PEPS16: our electric propulsion unit for light aviation — 16 kW, 5.5 kg, supported by BPI France and the Occitanie Region."
         },
         {
           "key": "marine",
@@ -391,7 +411,9 @@
           "tags": [
             "Immersed motors",
             "Electric POD"
-          ]
+          ],
+          "product_img": "assets/marche-marine-produit.png",
+          "product_desc": "POD 25/50/100 kW: our submersible motor for electric propulsion of leisure and river boats."
         },
         {
           "key": "terre",
@@ -402,7 +424,9 @@
           "tags": [
             "Electric traction",
             "Ultra-compact"
-          ]
+          ],
+          "product_img": "assets/marche-terrestre-produit.png",
+          "product_desc": "A compact, robust motor, prototyped and manufactured for electric two-wheelers and light vehicles."
         }
       ]
     }

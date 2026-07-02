@@ -136,18 +136,45 @@
     const grid = document.getElementById('marketsGrid');
     if (!grid || !content.markets) return;
     const items = content.markets[lang].items;
+    const flipLabel = lang === 'fr' ? 'Voir le produit associé' : 'View associated product';
     grid.innerHTML = items.map((item, i) => `
       <div class="market-card reveal reveal--delay-${i}">
-        <img class="market-card__bg" src="${item.img}" alt="${item.title}">
-        <div class="market-card__overlay"></div>
-        <div class="market-card__label">${item.title}</div>
-      <div class="market-card__content">
-          <div class="market-card__metric">${item.metric}</div>
-          <div class="market-card__desc">${item.desc}</div>
-        </div>
+        <button type="button" class="market-card__flip-trigger" aria-expanded="false" aria-label="${flipLabel} — ${item.title}">
+          <div class="market-card__inner">
+            <div class="market-card__face market-card__face--front">
+              <img class="market-card__bg" src="${item.img}" alt="${item.title}">
+              <div class="market-card__overlay"></div>
+              <div class="market-card__label">${item.title}</div>
+              <div class="market-card__content">
+                <div class="market-card__metric">${item.metric}</div>
+                <div class="market-card__desc">${item.desc}</div>
+              </div>
+              <svg class="market-card__flip-hint" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+            </div>
+            <div class="market-card__face market-card__face--back">
+              <img class="market-card__bg" src="${item.product_img}" alt="${item.title}">
+              <div class="market-card__overlay"></div>
+              <div class="market-card__label">${item.title}</div>
+              <div class="market-card__content">
+                <div class="market-card__desc market-card__desc--product">${item.product_desc}</div>
+              </div>
+            </div>
+          </div>
+        </button>
       </div>
     `).join('');
     grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    if (!grid.dataset.flipBound) {
+      grid.dataset.flipBound = 'true';
+      grid.addEventListener('click', e => {
+        const trigger = e.target.closest('.market-card__flip-trigger');
+        if (!trigger) return;
+        const card = trigger.closest('.market-card');
+        const flipped = card.classList.toggle('is-flipped');
+        trigger.setAttribute('aria-expanded', String(flipped));
+      });
+    }
   }
 
   // ============================================================
