@@ -825,7 +825,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
 }
 
 /* ============================================================
-   ILS NOUS FONT CONFIANCE
+   ILS NOUS FONT CONFIANCE + ILS NOUS SOUTIENNENT
    ============================================================ */
 
 .trust__subtitle {
@@ -871,9 +871,14 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   opacity: 1;
 }
 
-/* ============================================================
-   ILS NOUS SOUTIENNENT
-   ============================================================ */
+.trust-divider {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 3.5rem 0 2.5rem;
+}
+
+.section__title--sub {
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+}
 
 .supporters__subtitle {
   color: var(--muted);
