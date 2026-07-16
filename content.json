@@ -347,7 +347,7 @@
           "key": "aero",
           "title": "Aéronautique",
           "metric": "16 kW · 5,5 kg",
-          "desc": "Propulsion électrique pour ultra-légers, drones et aéronefs. Produit phare : PEPS16 — 16kW, 5,5kg, soutenu par BPI France et la région Occitanie",
+          "desc": "Propulsion électrique pour ultra-légers, drones et aéronefs.",
           "img": "assets/marche-aero.png",
           "tags": [
             "Propulsion électrique",
@@ -360,7 +360,7 @@
           "key": "marine",
           "title": "Marine & Fluvial",
           "metric": "Jusqu'à 100 kW",
-          "desc": "Moteurs immergés électriques (POD) pour voiliers, bateaux fluviaux et applications sous-marines. Produit phare : POD 25/50/100 kW",
+          "desc": "Moteurs immergés électriques (POD) pour voiliers, bateaux fluviaux et applications sous-marines.",
           "img": "assets/marche-marine.png",
           "tags": [
             "Moteurs immergés",
@@ -373,14 +373,14 @@
           "key": "terre",
           "title": "Terrestre",
           "metric": "Haute densité de puissance",
-          "desc": "Traction électrique pour deux-roues, véhicules légers et engins industriels. \nPrototypage et sous traitance de fabrication pour les constructeurs automobiles",
+          "desc": "Traction électrique pour deux-roues, véhicules légers et engins industriels. \n",
           "img": "assets/marche-terrestre.png",
           "tags": [
             "Traction électrique",
             "Haute compacité"
           ],
           "product_img": "assets/marche-terrestre-produit.png",
-          "product_desc": "Un moteur compact et robuste, prototypé et fabriqué pour les deux-roues électriques et véhicules légers."
+          "product_desc": "Activité phare : Prototypage et sous-traitance de fabrication pour les constructeurs automobiles"
         }
       ]
     },
@@ -393,7 +393,7 @@
           "key": "aero",
           "title": "Aeronautics",
           "metric": "16 kW · 5.5 kg",
-          "desc": "Electric propulsion systems for ultralights, drones, and aircraft. Flagship product: PEPS16 — 16 kW, 5.5 kg, supported by BPI France and the Occitanie region",
+          "desc": "Electric propulsion systems for ultralights, drones, and aircraft. ",
           "img": "assets/marche-aero.png",
           "tags": [
             "Electric propulsion",
@@ -406,7 +406,7 @@
           "key": "marine",
           "title": "Marine & Inland",
           "metric": "Up to 100 kW",
-          "desc": "Submersible electric motors (POD) for sailboats, river boats, and underwater applications. Flagship product: POD 25/50/100 kW",
+          "desc": "Submersible electric motors (POD) for sailboats, river boats, and underwater applications. ",
           "img": "assets/marche-marine.png",
           "tags": [
             "Immersed motors",
@@ -419,14 +419,14 @@
           "key": "terre",
           "title": "Land",
           "metric": "High power density",
-          "desc": "Electric propulsion systems for two-wheeled vehicles, light vehicles, and industrial machinery. \nPrototyping and contract manufacturing for automotive manufacturers",
+          "desc": "Electric propulsion systems for two-wheeled vehicles, light vehicles, and industrial machinery. ",
           "img": "assets/marche-terrestre.png",
           "tags": [
             "Electric traction",
             "Ultra-compact"
           ],
           "product_img": "assets/marche-terrestre-produit.png",
-          "product_desc": "A compact, robust motor, prototyped and manufactured for electric two-wheelers and light vehicles."
+          "product_desc": "Core Business: Prototyping and Contract Manufacturing for Automakers"
         }
       ]
     }
@@ -476,6 +476,26 @@
         {
           "name": "Alt. Énergies",
           "img": "assets/logos/alternatives-energies.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784206155118.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784206421730.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784208705034.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784208737748.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784208759962.png"
         }
       ]
     },
@@ -523,6 +543,26 @@
         {
           "name": "Alt. Energies",
           "img": "assets/logos/alternatives-energies.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784206155118.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784206421730.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784208705034.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784208737748.png"
+        },
+        {
+          "name": "",
+          "img": "assets/logos/logo-1784208759962.png"
         }
       ]
     }
