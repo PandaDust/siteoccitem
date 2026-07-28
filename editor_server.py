@@ -19,6 +19,9 @@ import json
 import os
 import re
 import shutil
+import subprocess
+import threading
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
 
@@ -34,6 +37,80 @@ RH_AUTH_PASS = os.environ.get('RH_AUTH_PASS')
 
 MAX_IMAGE_SIZE = 20 * 1024 * 1024  # 20 Mo
 IMAGE_PATH_RE = re.compile(r'^assets/[A-Za-z0-9_\-./]+\.(png|jpg|jpeg|webp)$', re.IGNORECASE)
+
+# Synchronisation git : chaque enregistrement est commité puis poussé sur
+# GitHub. Désactivée par défaut — en édition locale, les commits doivent rester
+# à la main de l'utilisateur. Le service systemd du VPS pose GIT_AUTO_SYNC=1.
+GIT_AUTO_SYNC = os.environ.get('GIT_AUTO_SYNC') == '1'
+GIT_LOG_FILE = BASE_DIR / 'git-sync.log'
+# Sérialise les synchronisations : deux enregistrements rapprochés lanceraient
+# sinon deux rebase/push concurrents dans le même dépôt.
+_git_lock = threading.Lock()
+
+
+def _git_log(message):
+    stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    try:
+        with open(GIT_LOG_FILE, 'a', encoding='utf-8') as f:
+            f.write(f'[{stamp}] {message}\n')
+    except OSError:
+        pass
+
+
+def _git(*args, timeout=120):
+    return subprocess.run(
+        ('git',) + args, cwd=BASE_DIR,
+        capture_output=True, text=True, timeout=timeout,
+    )
+
+
+def _git_sync_worker(paths, message):
+    with _git_lock:
+        try:
+            _git('add', '--', *paths)
+            # Rien d'indexé : l'enregistrement n'a pas modifié le contenu
+            # (réécriture à l'identique). Inutile de créer un commit vide.
+            if _git('diff', '--cached', '--quiet').returncode == 0:
+                return
+            r = _git('commit', '-m', message)
+            if r.returncode != 0:
+                _git_log(f'ECHEC commit : {r.stderr.strip()}')
+                return
+            _git_log(f'commit : {message}')
+
+            # Rebase avant push : sans lui, un push local fait entre-temps
+            # ferait rejeter le nôtre et le contenu du client resterait bloqué
+            # sur le VPS jusqu'au cron de rattrapage.
+            r = _git('pull', '--rebase')
+            if r.returncode != 0:
+                _git_log(f'ECHEC pull --rebase : {r.stderr.strip()} — rebase annule')
+                _git('rebase', '--abort')
+                return
+
+            r = _git('push')
+            if r.returncode != 0:
+                # Le commit reste local ; le cron de rattrapage le poussera.
+                _git_log(f'ECHEC push : {r.stderr.strip()}')
+                return
+            _git_log('push : OK')
+        except subprocess.TimeoutExpired:
+            _git_log('ECHEC : timeout git')
+        except Exception as e:
+            _git_log(f'ECHEC : {e}')
+
+
+def git_sync(paths, message):
+    """Commit + push en tâche de fond des fichiers modifiés par l'éditeur.
+
+    Lancé dans un thread : le push distant prend 1 à 2 secondes, et l'interface
+    ne doit pas rester figée en attendant GitHub. En cas d'échec, le commit
+    subsiste localement et sera repris par le cron de rattrapage.
+    """
+    if not GIT_AUTO_SYNC:
+        return
+    threading.Thread(
+        target=_git_sync_worker, args=(list(paths), message), daemon=True,
+    ).start()
 
 # Ressources protégées par les identifiants de l'éditeur de contenu (Mathieu)
 MAIN_EDITOR_PATHS = {'/editor.html', '/api/save', '/api/upload-image'}
@@ -92,6 +169,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 shutil.copy2(CONTENT_FILE, CONTENT_FILE.with_suffix('.json.bak'))
             with open(CONTENT_FILE, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
+            git_sync(['content.json'], 'contenu : mise à jour depuis l\'éditeur')
             self._respond(200, {'ok': True})
         except json.JSONDecodeError as e:
             self._respond(400, {'ok': False, 'error': f'JSON invalide : {e}'})
@@ -107,6 +185,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 shutil.copy2(CAREERS_FILE, CAREERS_FILE.with_suffix('.json.bak'))
             with open(CAREERS_FILE, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
+            git_sync(['careers.json'], 'carrières : mise à jour des offres')
             self._respond(200, {'ok': True})
         except json.JSONDecodeError as e:
             self._respond(400, {'ok': False, 'error': f'JSON invalide : {e}'})
@@ -133,6 +212,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 shutil.copy2(dest, dest.with_suffix(dest.suffix + '.bak'))
             with open(dest, 'wb') as f:
                 f.write(body)
+            git_sync([target], f'image : remplacement de {target}')
             self._respond(200, {'ok': True, 'path': target})
         except Exception as e:
             self._respond(500, {'ok': False, 'error': str(e)})
@@ -168,6 +248,10 @@ if __name__ == '__main__':
         print(f'Authentification éditeur RH activée (utilisateur : {RH_AUTH_USER})')
     else:
         print('⚠ Éditeur RH sans authentification (RH_AUTH_USER / RH_AUTH_PASS non définies) — à éviter en exposition externe.')
+    if GIT_AUTO_SYNC:
+        print(f'Synchronisation git activée — chaque enregistrement est commité et poussé (journal : {GIT_LOG_FILE.name})')
+    else:
+        print('Synchronisation git désactivée (GIT_AUTO_SYNC≠1) — les commits restent manuels.')
     print('Ctrl+C pour arrêter\n')
     try:
         httpd.serve_forever()

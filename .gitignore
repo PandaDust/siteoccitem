@@ -1,1 +1,11 @@
 _ressources/
+
+# Sauvegardes créées par editor_server.py à chaque enregistrement
+# (content.json.bak, careers.json.bak, assets/*.png.bak…) — jamais versionnées,
+# sinon chaque commit automatique du VPS les embarquerait.
+*.bak
+
+# Journal de la synchronisation git automatique du VPS (editor_server.py)
+git-sync.log
+
+__pycache__/
