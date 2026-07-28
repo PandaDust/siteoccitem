@@ -686,7 +686,7 @@
     }
   },
   "careers": {
-    "nav_enabled": false,
+    "nav_enabled": true,
     "fr": {
       "nav_label": "Carrières",
       "label": "Rejoignez-nous",
