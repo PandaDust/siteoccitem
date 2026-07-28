@@ -325,7 +325,7 @@ async function save() {
   btn.className = '';
   btn.disabled = true;
   try {
-    const r = await fetch('/api/save-careers', {
+    const r = await fetch('api/save-careers', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data, null, 2)
@@ -389,7 +389,7 @@ async function onImageFileChosen(e) {
   statusEl.textContent = '↻ envoi…';
   statusEl.className = 'ed-image-status';
   try {
-    const r = await fetch(`/api/upload-careers-image?target=${encodeURIComponent(target)}`, {
+    const r = await fetch(`api/upload-careers-image?target=${encodeURIComponent(target)}`, {
       method: 'POST',
       headers: { 'Content-Type': file.type || 'application/octet-stream' },
       body: file
