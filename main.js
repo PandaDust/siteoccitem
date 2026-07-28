@@ -48,6 +48,17 @@
       }
     });
 
+    // Lien « Carrières » du menu — masqué quand careers.nav_enabled vaut false.
+    // Le réglage est hors des blocs fr/en : il vaut pour les deux langues.
+    // Absent (anciens content.json) = affiché, pour ne pas faire disparaître le
+    // lien lors d'un déploiement antérieur à ce réglage.
+    const careersLink = document.querySelector('.nav__links a[href="carriere.html"]');
+    if (careersLink) {
+      // style.display plutôt que l'attribut hidden : la nav est en flex, et une
+      // règle CSS sur les liens l'emporterait sur le display:none de hidden.
+      careersLink.style.display = content.careers && content.careers.nav_enabled === false ? 'none' : '';
+    }
+
     // Langue sur <html>
     document.documentElement.lang = lang;
 
