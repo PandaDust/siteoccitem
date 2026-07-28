@@ -337,6 +337,99 @@ body {
   text-align: center;
   color: var(--accent);
 }
+
+/* ── Gestion des comptes ──────────────────────────────────────────────── */
+.ed-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+}
+.ed-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.ed-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.ed-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.ed-users {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.ed-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  flex-wrap: wrap;
+}
+.ed-user-name {
+  font-weight: 600;
+  min-width: 120px;
+}
+.ed-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  white-space: nowrap;
+}
+.ed-badge--admin {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.ed-badge--master {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.ed-user-spacer { flex: 1; }
+.ed-btn-danger {
+  padding: 5px 12px;
+  border: 1px solid rgba(220, 80, 60, 0.5);
+  border-radius: 4px;
+  background: transparent;
+  color: #e06a54;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+}
+.ed-btn-danger:hover { background: rgba(220, 80, 60, 0.12); }
+.ed-btn-danger:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: inherit;
+}
+.ed-user-status {
+  font-size: 13px;
+  margin-top: 10px;
+  min-height: 18px;
+}
+.ed-user-status--ok { color: #4ba36b; }
+.ed-user-status--err { color: #e06a54; }
 .ed-error p { margin-top: 8px; color: var(--muted); font-size: 13px; }
 </style>
 </head>
@@ -352,6 +445,9 @@ body {
 </div>
 
 <div id="editor-root"></div>
+<!-- Hors de #editor-root : render() réécrit ce conteneur à chaque bascule de
+     langue, ce qui viderait le formulaire de création en cours de saisie. -->
+<div id="accounts-root"></div>
 
 <script>
 'use strict';
@@ -887,9 +983,164 @@ function addServiceExtra() {
   if (tags.length) tags[tags.length - 1].focus();
 }
 
+// ── Comptes ───────────────────────────────────────────────────────────────────
+
+let account = null;    // compte connecté (/api/me)
+let accounts = [];     // comptes existants (/api/users/list)
+
+async function loadAccount() {
+  try {
+    const r = await fetch('api/me', { cache: 'no-store' });
+    if (r.ok) account = await r.json();
+  } catch (e) {
+    // Éditeur ouvert sans authentification configurée : la section comptes
+    // reste simplement masquée, l'édition du contenu n'est pas affectée.
+    account = null;
+  }
+}
+
+async function loadAccounts() {
+  if (!account || !account.admin) return;
+  try {
+    const r = await fetch('api/users/list', { cache: 'no-store' });
+    if (r.ok) accounts = (await r.json()).users || [];
+  } catch (e) {
+    accounts = [];
+  }
+}
+
+function accessLabel(a) {
+  const parts = [];
+  if (a.includes('content')) parts.push('Contenu');
+  if (a.includes('careers')) parts.push('Offres RH');
+  return parts.length ? parts.join(' + ') : 'Aucun accès';
+}
+
+function renderAccounts() {
+  const root = document.getElementById('accounts-root');
+  if (!account || !account.admin) { root.innerHTML = ''; return; }
+
+  const rows = accounts.map(u => {
+    const badges = [
+      u.master ? '<span class="ed-badge ed-badge--master">Compte maître</span>' : '',
+      u.admin && !u.master ? '<span class="ed-badge ed-badge--admin">Administrateur</span>' : '',
+      u.legacy ? '<span class="ed-badge">Configuration serveur</span>' : '',
+      `<span class="ed-badge">${accessLabel(u.access)}</span>`
+    ].join('');
+    // Le compte maître et les comptes issus des variables d'environnement ne
+    // vivent pas dans users.json : ils ne peuvent pas être supprimés d'ici.
+    const locked = u.master || u.legacy;
+    const isSelf = account && u.name === account.name;
+    const title = locked
+      ? 'Compte défini dans la configuration du serveur — non supprimable'
+      : (isSelf ? 'Vous ne pouvez pas supprimer votre propre compte' : 'Supprimer ce compte');
+    return `<div class="ed-user">
+      <span class="ed-user-name">${u.name}</span>
+      ${badges}
+      <span class="ed-user-spacer"></span>
+      ${u.created ? `<span class="ed-note">créé le ${u.created}</span>` : ''}
+      <button class="ed-btn-danger" title="${title}"
+        ${locked || isSelf ? 'disabled' : ''}
+        onclick="deleteAccount('${u.name}')">Supprimer</button>
+    </div>`;
+  }).join('');
+
+  root.innerHTML = `<section class="ed-section" id="ed-comptes">
+    <div class="ed-section-header">Comptes d'accès</div>
+    <div class="ed-section-body">
+      <div class="ed-users">${rows}</div>
+      <div class="ed-card">
+        <div class="ed-grid-2">
+          <div class="ed-field">
+            <label class="ed-label">Identifiant</label>
+            <input class="ed-input" id="new-user-name" autocomplete="off"
+                   placeholder="3 à 32 caractères">
+          </div>
+          <div class="ed-field">
+            <label class="ed-label">Mot de passe</label>
+            <input class="ed-input" id="new-user-pass" type="password"
+                   autocomplete="new-password" placeholder="8 caractères minimum">
+          </div>
+        </div>
+        <div class="ed-field">
+          <label class="ed-label">Accès autorisés</label>
+          <label class="ed-check"><input type="checkbox" id="new-user-content" checked>
+            Contenu principal (editor.html)</label>
+          <label class="ed-check" style="margin-top:6px"><input type="checkbox" id="new-user-careers">
+            Offres d'emploi (career-admin.html)</label>
+          <label class="ed-check" style="margin-top:6px"><input type="checkbox" id="new-user-admin">
+            Administrateur — peut gérer les comptes</label>
+        </div>
+        <button class="btn-add" onclick="createAccount()">+ Créer le compte</button>
+        <div class="ed-user-status" id="new-user-status"></div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function accountStatus(message, ok) {
+  const el = document.getElementById('new-user-status');
+  if (!el) return;
+  el.textContent = message;
+  el.className = 'ed-user-status ' + (ok ? 'ed-user-status--ok' : 'ed-user-status--err');
+}
+
+async function createAccount() {
+  const name = document.getElementById('new-user-name').value.trim();
+  const password = document.getElementById('new-user-pass').value;
+  const access = [];
+  if (document.getElementById('new-user-content').checked) access.push('content');
+  if (document.getElementById('new-user-careers').checked) access.push('careers');
+  const admin = document.getElementById('new-user-admin').checked;
+
+  accountStatus('Création…', true);
+  try {
+    const r = await fetch('api/users/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, password, access, admin })
+    });
+    const res = await r.json();
+    if (!r.ok || !res.ok) return accountStatus(res.error || `Erreur HTTP ${r.status}`, false);
+    document.getElementById('new-user-name').value = '';
+    document.getElementById('new-user-pass').value = '';
+    await loadAccounts();
+    renderAccounts();
+    accountStatus(`Compte « ${name} » créé.`, true);
+  } catch (e) {
+    accountStatus(`Erreur : ${e.message}`, false);
+  }
+}
+
+async function deleteAccount(name) {
+  if (!confirm(`Supprimer définitivement le compte « ${name} » ?`)) return;
+  try {
+    const r = await fetch('api/users/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+    const res = await r.json();
+    await loadAccounts();
+    renderAccounts();
+    accountStatus(
+      (!r.ok || !res.ok) ? (res.error || `Erreur HTTP ${r.status}`) : `Compte « ${name} » supprimé.`,
+      r.ok && res.ok
+    );
+  } catch (e) {
+    accountStatus(`Erreur : ${e.message}`, false);
+  }
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 async function init() {
+  // Chargé avant le contenu : la section comptes doit rester disponible même
+  // si content.json est illisible, pour ne pas perdre l'accès à la gestion.
+  await loadAccount();
+  await loadAccounts();
+  renderAccounts();
+
   try {
     const r = await fetch('content.json', { cache: 'no-store' });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);

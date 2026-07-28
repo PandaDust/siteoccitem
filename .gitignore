@@ -8,4 +8,11 @@ _ressources/
 # Journal de la synchronisation git automatique du VPS (editor_server.py)
 git-sync.log
 
+# Comptes de l'éditeur. Sur le VPS ils vivent dans /etc/occitem/users.json
+# (variable USERS_FILE) ; ce filet couvre un lancement local sans la variable,
+# qui créerait le fichier ici — des empreintes de mots de passe n'ont rien à
+# faire dans un dépôt distant.
+users.json
+users.json.tmp
+
 __pycache__/
