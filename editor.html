@@ -813,16 +813,25 @@ function renderFooter() {
 }
 
 function renderCareers() {
-  // Absent d'un content.json antérieur à ce réglage = considéré activé.
+  // Absents d'un content.json antérieur à ces réglages = considérés activés.
   const navOn = !(data.careers && data.careers.nav_enabled === false);
+  const pageOn = !(data.careers && data.careers.page_enabled === false);
   return section('careers', 'Carrières', `
     <div class="ed-field">
       <label class="ed-check">
-        <input type="checkbox" id="careers-nav-toggle" ${navOn ? 'checked' : ''}
+        <input type="checkbox" id="careers-page-toggle" ${pageOn ? 'checked' : ''}
+               onchange="setCareersPageEnabled(this.checked)">
+        Activer la page carrières
+      </label>
+      <p class="ed-note" id="careers-page-note">${careersPageNote(pageOn)}</p>
+    </div>
+    <div class="ed-field">
+      <label class="ed-check" ${pageOn ? '' : 'style="opacity:.5"'}>
+        <input type="checkbox" id="careers-nav-toggle" ${navOn ? 'checked' : ''} ${pageOn ? '' : 'disabled'}
                onchange="setCareersNavEnabled(this.checked)">
         Afficher le lien « Carrières » dans le menu du site
       </label>
-      <p class="ed-note" id="careers-nav-note">${careersNavNote(navOn)}</p>
+      <p class="ed-note" id="careers-nav-note">${pageOn ? careersNavNote(navOn) : 'Sans objet : la page est désactivée ci-dessus.'}</p>
     </div>
     ${F('careers.nav_label',      'libellé nav')}
     ${F('careers.label',          'label section', 'sec-label')}
@@ -1010,6 +1019,24 @@ function setCareersNavEnabled(on) {
   const note = document.getElementById('careers-nav-note');
   if (note) note.innerHTML = careersNavNote(on);
   markDirty();
+}
+
+function careersPageNote(on) {
+  return on
+    ? 'La page est accessible normalement.'
+    : 'Un visiteur qui ouvre <code>carriere.html</code> (menu, favori, lien '
+      + 'partagé) est aussitôt redirigé vers l\'accueil — la vérification a lieu '
+      + 'côté navigateur, donc <code>content.json</code>/<code>careers.json</code> '
+      + 'restent techniquement récupérables, comme pour le lien de menu seul : '
+      + 'ce réglage ferme l\'accès normal, il ne rend pas les offres confidentielles.';
+}
+
+function setCareersPageEnabled(on) {
+  // Le réglage vit à côté de fr/en, jamais dedans : setVal() y insérerait la
+  // langue courante et créerait un doublon par langue.
+  data.careers.page_enabled = on;
+  markDirty();
+  render(); // la page désactivée grise/désactive aussi la case du lien de menu
 }
 
 // ── Comptes ───────────────────────────────────────────────────────────────────

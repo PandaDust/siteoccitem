@@ -16,6 +16,17 @@
     .then(r => r.json())
     .then(data => {
       content = data;
+
+      // Page carrières totalement désactivée (careers.page_enabled === false) :
+      // redirection immédiate, avant tout rendu, pour qu'un lien direct connu
+      // par cœur (favori, ancien mail, moteur de recherche) ne mène nulle part.
+      // Vérification uniquement côté client : quelqu'un qui inspecte le réseau
+      // verrait encore content.json/careers.json, comme pour nav_enabled.
+      if (document.getElementById('careersGrid') && content.careers && content.careers.page_enabled === false) {
+        window.location.replace('index.html');
+        return;
+      }
+
       initScrollReveal();   // observer doit exister avant render()
       render(currentLang);
       initNavScroll();
@@ -48,15 +59,19 @@
       }
     });
 
-    // Lien « Carrières » du menu — masqué quand careers.nav_enabled vaut false.
-    // Le réglage est hors des blocs fr/en : il vaut pour les deux langues.
-    // Absent (anciens content.json) = affiché, pour ne pas faire disparaître le
-    // lien lors d'un déploiement antérieur à ce réglage.
+    // Lien « Carrières » du menu — masqué quand careers.nav_enabled vaut false,
+    // ou quand la page elle-même est désactivée (careers.page_enabled false) :
+    // un lien vers une page qui redirige aussitôt serait trompeur.
+    // Les réglages sont hors des blocs fr/en : ils valent pour les deux langues.
+    // Absents (anciens content.json) = affiché, pour ne pas faire disparaître le
+    // lien lors d'un déploiement antérieur à ces réglages.
     const careersLink = document.querySelector('.nav__links a[href="carriere.html"]');
     if (careersLink) {
       // style.display plutôt que l'attribut hidden : la nav est en flex, et une
       // règle CSS sur les liens l'emporterait sur le display:none de hidden.
-      careersLink.style.display = content.careers && content.careers.nav_enabled === false ? 'none' : '';
+      const hideLink = (content.careers && content.careers.nav_enabled === false)
+        || (content.careers && content.careers.page_enabled === false);
+      careersLink.style.display = hideLink ? 'none' : '';
     }
 
     // Langue sur <html>
