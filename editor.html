@@ -431,6 +431,19 @@ body {
 .ed-user-status--ok { color: #4ba36b; }
 .ed-user-status--err { color: #e06a54; }
 .ed-error p { margin-top: 8px; color: var(--muted); font-size: 13px; }
+.ed-stats-total {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.ed-stats-total span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 8px;
+}
+.ed-stats-day-count { font-variant-numeric: tabular-nums; }
 </style>
 </head>
 <body>
@@ -447,6 +460,7 @@ body {
 <div id="editor-root"></div>
 <!-- Hors de #editor-root : render() réécrit ce conteneur à chaque bascule de
      langue, ce qui viderait le formulaire de création en cours de saisie. -->
+<div id="stats-root"></div>
 <div id="accounts-root"></div>
 
 <script>
@@ -1051,6 +1065,46 @@ function setCareersPageEnabled(on) {
   render(); // la page désactivée grise/désactive aussi la case du lien de menu
 }
 
+// ── Statistiques ─────────────────────────────────────────────────────────────
+
+let stats = null; // { total, by_day } (/api/stats)
+
+async function loadStats() {
+  if (!account || !account.admin) return;
+  try {
+    const r = await fetch('api/stats', { cache: 'no-store' });
+    if (r.ok) stats = await r.json();
+  } catch (e) {
+    stats = null;
+  }
+}
+
+function renderStats() {
+  const root = document.getElementById('stats-root');
+  if (!account || !account.admin || !stats) { root.innerHTML = ''; return; }
+
+  // Du plus récent au plus ancien, pour lire les derniers jours sans défiler.
+  const days = Object.entries(stats.by_day || {}).sort((a, b) => b[0].localeCompare(a[0]));
+  const rows = days.map(([day, count]) => `<div class="ed-user">
+      <span class="ed-user-name">${day}</span>
+      <span class="ed-user-spacer"></span>
+      <span class="ed-stats-day-count">${count}</span>
+    </div>`).join('');
+
+  root.innerHTML = `<section class="ed-section" id="ed-stats">
+    <div class="ed-section-header">Statistiques de visites</div>
+    <div class="ed-section-body">
+      <p class="ed-note">Nombre de chargements de la page d'accueil. Comptage agrégé sans
+        cookie ni identifiant de visiteur : ne distingue pas les visiteurs uniques des
+        rechargements de page.</p>
+      <div class="ed-stats-total">${stats.total}<span>visites au total</span></div>
+      <div class="ed-users" style="margin-top:16px">
+        ${rows || '<p class="ed-note">Aucune visite enregistrée pour l\'instant.</p>'}
+      </div>
+    </div>
+  </section>`;
+}
+
 // ── Comptes ───────────────────────────────────────────────────────────────────
 
 let account = null;    // compte connecté (/api/me)
@@ -1208,6 +1262,8 @@ async function init() {
   await loadAccount();
   await loadAccounts();
   renderAccounts();
+  await loadStats();
+  renderStats();
 
   try {
     const r = await fetch('content.json', { cache: 'no-store' });

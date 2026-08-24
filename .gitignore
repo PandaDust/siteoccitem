@@ -15,4 +15,10 @@ git-sync.log
 users.json
 users.json.tmp
 
+# Compteur de visites. Sur le VPS il vit dans /var/lib/occitem/stats.json
+# (variable STATS_FILE) ; ce filet couvre un lancement local sans la variable.
+# Change à chaque visite : le versionner spammerait l'historique git.
+stats.json
+stats.json.tmp
+
 __pycache__/

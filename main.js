@@ -10,6 +10,15 @@
   // ============================================================
   // INIT
   // ============================================================
+
+  // Compteur de visites (accueil uniquement) : appel public sans identifiant
+  // ni cookie, ignoré silencieusement en cas d'échec — ne doit jamais
+  // impacter l'affichage du site. #careersGrid n'existe que sur
+  // carriere.html.
+  if (!document.getElementById('careersGrid')) {
+    fetch('/admin/api/hit', { method: 'POST' }).catch(() => {});
+  }
+
   initPhotoCarousel(); // images statiques — pas besoin d'attendre content.json
 
   fetch('content.json', { cache: 'no-cache' })

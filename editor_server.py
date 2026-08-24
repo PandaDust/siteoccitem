@@ -46,6 +46,13 @@ USERS_FILE = Path(os.environ.get('USERS_FILE') or (BASE_DIR / 'users.json'))
 PBKDF2_ITERATIONS = 600_000
 # Sérialise les écritures concurrentes dans users.json.
 _users_lock = threading.Lock()
+
+# Compteur de visites de l'accueil, alimenté par un appel public (sans
+# authentification) déclenché depuis main.js. Hors du dépôt pour la même
+# raison que USERS_FILE : le fichier change à chaque visite, et le versionner
+# spammerait l'historique git en plus d'être écrasé au prochain déploiement.
+STATS_FILE = Path(os.environ.get('STATS_FILE') or (BASE_DIR / 'stats.json'))
+_stats_lock = threading.Lock()
 # Basic Auth réémet les identifiants à CHAQUE requête ; sans ce cache, charger
 # l'éditeur (page + JSON + images) déclencherait une dizaine de PBKDF2 à
 # 600 000 itérations, soit plusieurs secondes d'attente. On mémorise l'empreinte
@@ -135,8 +142,8 @@ def git_sync(paths, message):
 MAIN_EDITOR_PATHS = {'/editor.html', '/api/save', '/api/upload-image'}
 # Ressources exigeant l'accès « careers » (mini-éditeur RH, offres d'emploi)
 RH_EDITOR_PATHS = {'/career-admin.html', '/api/save-careers', '/api/upload-careers-image'}
-# Gestion des comptes : réservée aux administrateurs.
-ADMIN_PATHS = {'/api/users/list', '/api/users/create', '/api/users/delete'}
+# Gestion des comptes et statistiques : réservées aux administrateurs.
+ADMIN_PATHS = {'/api/users/list', '/api/users/create', '/api/users/delete', '/api/stats'}
 # Accessibles à tout compte authentifié (profil courant, mot de passe personnel).
 SELF_PATHS = {'/api/me', '/api/users/password'}
 
@@ -197,6 +204,45 @@ def _save_users(users):
 def _auth_cache_clear():
     with _auth_cache_lock:
         _auth_cache.clear()
+
+
+def _load_stats():
+    if not STATS_FILE.exists():
+        return {'total': 0, 'by_day': {}}
+    try:
+        with open(STATS_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return {
+            'total': int(data.get('total', 0)),
+            'by_day': dict(data.get('by_day', {})),
+        }
+    except (json.JSONDecodeError, OSError, ValueError):
+        # Fichier illisible : on repart d'un compteur à zéro plutôt que de
+        # faire planter les visites du site.
+        return {'total': 0, 'by_day': {}}
+
+
+def _save_stats(stats):
+    STATS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    tmp = STATS_FILE.with_suffix('.json.tmp')
+    with open(tmp, 'w', encoding='utf-8') as f:
+        json.dump(stats, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, STATS_FILE)
+
+
+def _record_hit():
+    """Incrémente le compteur de visites de l'accueil (total + jour courant).
+
+    Comptage agrégé sans cookie ni identifiant de visiteur : ne nécessite pas
+    de consentement RGPD, mais ne distingue pas non plus les visiteurs
+    uniques des rechargements de page.
+    """
+    today = datetime.now().strftime('%Y-%m-%d')
+    with _stats_lock:
+        stats = _load_stats()
+        stats['total'] += 1
+        stats['by_day'][today] = stats['by_day'].get(today, 0) + 1
+        _save_stats(stats)
 
 
 def _account_from_credentials(user, password):
@@ -332,12 +378,27 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self._me()
         if path == '/api/users/list':
             return self._users_list()
+        if path == '/api/stats':
+            return self._stats()
         super().do_GET()
 
     def do_POST(self):
+        # /api/hit est public (déclenché depuis main.js sur chaque visiteur de
+        # l'accueil, sans identifiants) : traité avant _check_auth, qui de
+        # toute façon le laisserait passer puisqu'il n'apparaît dans aucun des
+        # ensembles de chemins protégés.
+        path = urlsplit(self.path).path
+        # Alias '/admin/api/hit' : en local, editor_server.py sert tout le
+        # site à la racine (pas de préfixe /admin), alors qu'en production
+        # nginx ne proxifie que /admin/* vers ce serveur en retirant le
+        # préfixe — main.js appelle donc '/admin/api/hit' pour coller à la
+        # réalité de production, et les deux chemins sont acceptés ici pour
+        # que le compteur fonctionne aussi en test local.
+        if path in ('/api/hit', '/admin/api/hit'):
+            return self._hit()
+
         if not self._check_auth():
             return
-        path = urlsplit(self.path).path
         if path == '/api/save':
             self._save()
         elif path == '/api/upload-image':
@@ -394,6 +455,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 'admin': False, 'created': None, 'master': False, 'legacy': True,
             })
         self._respond(200, {'ok': True, 'users': listed})
+
+    def _stats(self):
+        stats = _load_stats()
+        by_day = dict(sorted(stats.get('by_day', {}).items())[-30:])
+        self._respond(200, {'ok': True, 'total': stats.get('total', 0), 'by_day': by_day})
+
+    def _hit(self):
+        try:
+            _record_hit()
+        except OSError:
+            pass  # un compteur en panne ne doit pas gêner l'affichage du site
+        self._respond(200, {'ok': True})
 
     def _user_create(self):
         try:

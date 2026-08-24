@@ -40,7 +40,9 @@ assets/
 
 Non versionnés (voir `.gitignore`) : `_ressources/`, les `*.bak` créés à chaque
 enregistrement, `git-sync.log`, et `users.json` — ce dernier contient des
-empreintes de mots de passe et ne doit jamais entrer dans le dépôt.
+empreintes de mots de passe et ne doit jamais entrer dans le dépôt. `stats.json`
+(compteur de visites, voir « Compteur de visites ») est exclu pour une raison
+différente : il change à chaque visite et spammerait l'historique git.
 
 ## Règles de code
 
@@ -90,6 +92,13 @@ empreintes de mots de passe et ne doit jamais entrer dans le dépôt.
 - Basic Auth réémettant les identifiants à chaque requête, `editor_server.py` met en cache le résultat de l'authentification (TTL 5 min) : sans ce cache, chaque requête relancerait une dérivation de ~300 ms. Un changement de mot de passe exige donc un redémarrage du service pour prendre effet immédiatement.
 - Sans `AUTH_USER`/`AUTH_PASS`, l'éditeur reste **ouvert sans authentification** (usage local). Ne jamais exposer le serveur sans ces variables.
 
+### Compteur de visites
+- `main.js` appelle `POST /admin/api/hit` (sans identifiants, sans cookie) à chaque chargement d'`index.html` — pas `carriere.html`, repéré via l'absence de `#careersGrid`. Échec ignoré silencieusement : un compteur en panne ne doit jamais gêner l'affichage du site.
+- Comptage agrégé pur (total + par jour), aucun identifiant de visiteur stocké : ne nécessite pas de bandeau de consentement RGPD, mais ne distingue pas non plus les visiteurs uniques des rechargements de page.
+- Chemin backend canonique : `/api/hit` (comme les autres routes d'API, sans préfixe `/admin/`, celui-ci étant retiré par le proxy nginx en production). `/admin/api/hit` est accepté en alias uniquement pour qu'`editor_server.py` réponde aussi en test local, où il sert tout le site à la racine sans passer par nginx.
+- Stocké dans le fichier désigné par `STATS_FILE` (par défaut `stats.json` à la racine du dépôt — voir « Non versionnés »).
+- Visible dans `editor.html` (section « Statistiques de visites », réservée aux comptes `admin`) via `GET /api/stats`, qui renvoie le total et les 30 derniers jours.
+
 ## Déploiement (VPS)
 Le site est servi par nginx **directement depuis un clone git**, ce qui rend la
 synchronisation bidirectionnelle : les éditeurs écrivent dans le clone, et leurs
@@ -126,7 +135,8 @@ ne jamais les écrire dans le dépôt.
   sans authentification tout chemin absent de ses listes, donc `/admin/.git/config` fuiterait
   le dépôt entier sans lui.
 - **Service** : `occitem-editor.service` (utilisateur `occitem`), variables dans
-  `/etc/occitem/editor.env`, comptes dans `/var/lib/occitem/users.json`.
+  `/etc/occitem/editor.env`, comptes dans `/var/lib/occitem/users.json`, compteur de
+  visites dans `/var/lib/occitem/stats.json` (variable `STATS_FILE`).
   `GIT_AUTO_SYNC=1` n'y est posé qu'en production — en local les commits restent manuels.
 - **auto-deploy.sh** (cron `*/2`) : commite les résidus, `pull --rebase`, puis pousse les
   commits en attente. Il annule le rebase en cas de conflit plutôt que de laisser le dépôt
