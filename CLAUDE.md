@@ -49,7 +49,7 @@ empreintes de mots de passe et ne doit jamais entrer dans le dépôt.
 - Chaque texte visible porte `data-key="section.cle"` — le contenu est injecté par JS depuis `content.json`
 - Sections d'`index.html` : `#accueil`, `#apropos`, `#histoire`, `#technologie`, `#services`, `#marches`, `#confiance`, `#soutiens`, `#video`, `#contact`
 - `#confiance` = carrousel logos partenaires (assets/logos/)
-- Le lien « Carrières » de la nav est le seul lien sortant de la one-page ; son affichage dépend de `careers.nav_enabled` (voir « Langue »)
+- Le lien « Carrières » de la nav est le seul lien sortant de la one-page ; son affichage dépend de `careers.nav_enabled`, et la page elle-même (accès direct par URL compris) peut être coupée via `careers.page_enabled` (voir « Langue »)
 
 ### CSS
 - Variables CSS dans `:root` pour toutes les couleurs et espacements
@@ -101,10 +101,17 @@ GitHub (PandaDust/siteoccitem, branche master)
 /opt/occitem/site        ← clone git = racine web servie par nginx
 ```
 
-Hôte : VPS Oracle Cloud ARM (Ubuntu 24.04), accès SSH `qualityhub-vps`,
-IP `129.151.226.11`. Domaine cible : `occitem.com`. Le VPS héberge aussi
-QualityHub (port 8090) — vérifier `nginx -t` avant tout `reload`, une erreur
-de configuration couperait les deux sites.
+Hôte : VPS Oracle Cloud x86 (Ubuntu 24.04 Minimal, shape `VM.Standard.E2.1.Micro`,
+Always Free), accès SSH `occitem-vps`, IP réservée `82.70.250.62` — une IP
+réservée reste attachée à l'instance même après un arrêt/redémarrage côté
+Oracle, contrairement à une IP éphémère qui peut changer. Domaine `occitem.com`
+/ `www.occitem.com`, HTTPS via certbot (Let's Encrypt, renouvellement
+automatique, plugin nginx). VPS dédié uniquement au site occitem.
+
+Avant migration (jusqu'à fin août 2026), le site tournait sur le VPS ARM
+`qualityhub-vps` (129.151.226.11, partagé avec QualityHub) — entièrement
+décommissionné depuis : compte `occitem`, vhost nginx et clone git supprimés.
+Ne pas y chercher de trace du site.
 
 Éditeurs en production : `/admin/editor.html` et `/admin/career-admin.html`.
 Les identifiants vivent uniquement dans `/etc/occitem/editor.env` sur le VPS —
@@ -133,12 +140,17 @@ ne jamais les écrire dans le dépôt.
 - Tout le contenu texte est dans `content.json`, jamais hardcodé dans le HTML
 - Structure : `section.<lang>.<clé>`. Les **réglages non linguistiques** se placent à côté
   de `fr`/`en`, jamais dedans — par exemple `careers.nav_enabled` (affichage du lien
-  « Carrières » dans le menu). Dupliqué par langue, un tel réglage autoriserait des états
-  contradictoires entre FR et EN sans que rien ne le signale dans l'éditeur.
-  `getVal`/`setVal` d'`editor.html` insèrent toujours la langue courante : ces réglages
-  s'écrivent donc directement sur `data.<section>.<clé>`.
+  « Carrières » dans le menu) et `careers.page_enabled` (la page elle-même). Dupliqués par
+  langue, de tels réglages autoriseraient des états contradictoires entre FR et EN sans que
+  rien ne le signale dans l'éditeur. `getVal`/`setVal` d'`editor.html` insèrent toujours la
+  langue courante : ces réglages s'écrivent donc directement sur `data.<section>.<clé>`.
 - Un réglage absent de `content.json` doit valoir « activé » : un déploiement antérieur à
   son introduction ne doit pas faire disparaître d'élément du site.
+- `careers.page_enabled` à `false` : `carriere.html` redirige tout visiteur vers l'accueil
+  (vérifié côté client, dans `main.js`, avant tout rendu). `carriere.html?apercu=1` contourne
+  la redirection pour prévisualiser la page pendant qu'elle est coupée au public (bandeau
+  d'avertissement affiché) — utile pendant la construction d'une nouvelle campagne avec le
+  service RH. `editor.html` affiche un lien direct vers cet aperçu quand la case est décochée.
 
 ## Ne pas faire
 - Ne pas lancer de build ni de serveur — laisser l'utilisateur le faire
