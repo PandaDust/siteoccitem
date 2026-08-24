@@ -1005,6 +1005,15 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   min-height: auto;
   padding-top: 8rem;
 }
+.careers__preview-banner {
+  background: rgba(204, 53, 23, 0.12);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}
 .careers__back {
   display: inline-block;
   font-size: 0.85rem;

@@ -22,9 +22,24 @@
       // par cœur (favori, ancien mail, moteur de recherche) ne mène nulle part.
       // Vérification uniquement côté client : quelqu'un qui inspecte le réseau
       // verrait encore content.json/careers.json, comme pour nav_enabled.
+      //
+      // Exception : ?apercu=1 contourne la redirection, pour que le service RH
+      // puisse suivre la construction de la page pendant qu'elle est désactivée
+      // pour le public. Un bandeau le rappelle à l'écran pour éviter qu'un lien
+      // d'aperçu partagé par erreur ne soit pris pour la page publique.
+      const isPreview = new URLSearchParams(window.location.search).has('apercu');
       if (document.getElementById('careersGrid') && content.careers && content.careers.page_enabled === false) {
-        window.location.replace('index.html');
-        return;
+        if (!isPreview) {
+          window.location.replace('index.html');
+          return;
+        }
+        const container = document.querySelector('.careers .container');
+        if (container) {
+          const banner = document.createElement('div');
+          banner.className = 'careers__preview-banner';
+          banner.textContent = 'Aperçu interne — cette page est désactivée pour le public. Elle n\'est visible qu\'avec ce lien (?apercu=1).';
+          container.insertBefore(banner, container.firstChild);
+        }
       }
 
       initScrollReveal();   // observer doit exister avant render()

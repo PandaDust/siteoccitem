@@ -824,6 +824,7 @@ function renderCareers() {
         Activer la page carrières
       </label>
       <p class="ed-note" id="careers-page-note">${careersPageNote(pageOn)}</p>
+      ${pageOn ? '' : `<p class="ed-note"><a href="${careersPreviewUrl()}" target="_blank" rel="noopener">→ Aperçu de la page désactivée</a> (invisible pour un visiteur normal, elle n'apparaît qu'avec ce lien)</p>`}
     </div>
     <div class="ed-field">
       <label class="ed-check" ${pageOn ? '' : 'style="opacity:.5"'}>
@@ -1019,6 +1020,17 @@ function setCareersNavEnabled(on) {
   const note = document.getElementById('careers-nav-note');
   if (note) note.innerHTML = careersNavNote(on);
   markDirty();
+}
+
+function careersPreviewUrl() {
+  // editor.html est servi soit à la racine (editor_server.py en local), soit
+  // sous /admin/ (proxy nginx en production) : on retire l'un ou l'autre du
+  // chemin courant plutôt que de coder en dur une racine, pour que le lien
+  // fonctionne dans les deux cas sans distinguer l'environnement.
+  const base = window.location.pathname
+    .replace(/\/admin\/editor\.html$/, '/')
+    .replace(/\/editor\.html$/, '/');
+  return base + 'carriere.html?apercu=1';
 }
 
 function careersPageNote(on) {
