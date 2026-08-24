@@ -12,12 +12,15 @@ Spec complète : voir `SPEC.md`.
 
 ## Structure des fichiers
 ```
-index.html            ← structure HTML, data-key sur chaque texte
+index.html            ← page principale, data-key sur chaque texte
+carriere.html         ← page des offres d'emploi (liste rendue par main.js)
 style.css             ← tout le CSS (variables, layout, animations)
-main.js               ← switch langue, scroll reveal, compteurs, nav active
+main.js               ← switch langue, scroll reveal, compteurs, nav active, offres
 content.json          ← tous les textes FR/EN (seul fichier à éditer pour les textes)
-editor.html           ← éditeur visuel de content.json (UI WYSIWYG)
-editor_server.py      ← serveur local pour l'éditeur (python editor_server.py → port 8081)
+careers.json          ← offres d'emploi + intro RH (édité via career-admin.html)
+editor.html           ← éditeur visuel de content.json + gestion des comptes
+career-admin.html     ← mini-éditeur RH des offres (careers.json)
+editor_server.py      ← serveur des deux éditeurs (python editor_server.py → port 8081)
 assets/
   logo-blanc.png
   hero-bg.jpg
@@ -28,19 +31,25 @@ assets/
   bobinage-comparaison.png, tech-upin.jpg
   marche-aero.png, marche-marine.png, marche-pod.png, marche-terrestre.png
   service-concevoir.png, service-fabriquer.png, service-prototyper.png
+  careers-intro.png                                ← visuel d'intro page carrières
   fonts/
     PillGothic-Light.ttf, PillGothic-Light.woff2   ← police auto-hébergée
   logos/
-    (14 logos partenaires PNG pour le carrousel #confiance)
+    (logos partenaires PNG pour le carrousel #confiance)
 ```
+
+Non versionnés (voir `.gitignore`) : `_ressources/`, les `*.bak` créés à chaque
+enregistrement, `git-sync.log`, et `users.json` — ce dernier contient des
+empreintes de mots de passe et ne doit jamais entrer dans le dépôt.
 
 ## Règles de code
 
 ### HTML
-- Un seul `index.html`, pas de fichiers partiels
+- Deux pages seulement : `index.html` (one-page) et `carriere.html` (offres d'emploi). Pas de fichiers partiels.
 - Chaque texte visible porte `data-key="section.cle"` — le contenu est injecté par JS depuis `content.json`
-- Sections : `#accueil`, `#apropos`, `#technologie`, `#services`, `#marches`, `#confiance`, `#video`, `#contact`
+- Sections d'`index.html` : `#accueil`, `#apropos`, `#histoire`, `#technologie`, `#services`, `#marches`, `#confiance`, `#soutiens`, `#video`, `#contact`
 - `#confiance` = carrousel logos partenaires (assets/logos/)
+- Le lien « Carrières » de la nav est le seul lien sortant de la one-page ; son affichage dépend de `careers.nav_enabled` (voir « Langue »)
 
 ### CSS
 - Variables CSS dans `:root` pour toutes les couleurs et espacements
@@ -68,17 +77,78 @@ assets/
 
 ## Éditeur de contenu
 - `editor.html` + `editor_server.py` forment un éditeur visuel local (WYSIWYG) pour `content.json` et les images du site — voir `python editor_server.py` (port 8081)
+- `career-admin.html`, servi par le même serveur, édite `careers.json` (offres d'emploi). Destiné au client, avec des identifiants distincts de ceux de l'éditeur principal.
 - L'éditeur permet d'éditer les textes FR/EN et de visualiser/remplacer les images (fond hero, logo, photos atelier, cadres technologie, cartes services/marchés, logos partenaires confiance) via upload
 - **Important** : à chaque modification du site (nouvelle section, nouveau champ texte dans `content.json`, nouvelle image, renommage/déplacement d'un asset, changement de structure d'une liste), vérifier si `editor.html` doit être mis à jour en conséquence (nouveau champ à éditer, chemin d'image à corriger, etc.) pour qu'il reste synchronisé avec le site réel
 - Si un asset est utilisé à plusieurs endroits (ex : une image reprise dans deux sections), préférer des fichiers distincts pour que chaque usage soit modifiable indépendamment depuis l'éditeur
+- Les chemins d'API des éditeurs sont **relatifs** (`api/save`, pas `/api/save`) : en production ils sont servis sous `/admin/`, et un chemin absolu partirait à la racine du domaine, hors du bloc proxy.
+
+### Comptes et permissions
+- **Compte maître** : `AUTH_USER` / `AUTH_PASS` (variables d'environnement). Toujours administrateur, accès complet, non supprimable. Il ne figure pas dans `users.json`, pour qu'un fichier corrompu ou vidé ne puisse jamais verrouiller l'accès à l'éditeur.
+- **Comptes créés** depuis la section « Comptes d'accès » d'`editor.html` : deux accès indépendants (`content`, `careers`) et un indicateur `admin` qui autorise la gestion des comptes. Stockés dans le fichier désigné par `USERS_FILE`, en PBKDF2-HMAC-SHA256.
+- `RH_AUTH_USER` / `RH_AUTH_PASS` : compte RH hérité, conservé pour compatibilité. Supprimable une fois un vrai compte RH créé.
+- Basic Auth réémettant les identifiants à chaque requête, `editor_server.py` met en cache le résultat de l'authentification (TTL 5 min) : sans ce cache, chaque requête relancerait une dérivation de ~300 ms. Un changement de mot de passe exige donc un redémarrage du service pour prendre effet immédiatement.
+- Sans `AUTH_USER`/`AUTH_PASS`, l'éditeur reste **ouvert sans authentification** (usage local). Ne jamais exposer le serveur sans ces variables.
+
+## Déploiement (VPS)
+Le site est servi par nginx **directement depuis un clone git**, ce qui rend la
+synchronisation bidirectionnelle : les éditeurs écrivent dans le clone, et leurs
+modifications remontent sur GitHub.
+
+```
+GitHub (PandaDust/siteoccitem, branche master)
+   ↓ cron */2 : auto-deploy.sh (pull --rebase)      ↑ commit + push à chaque enregistrement
+/opt/occitem/site        ← clone git = racine web servie par nginx
+```
+
+Hôte : VPS Oracle Cloud ARM (Ubuntu 24.04), accès SSH `qualityhub-vps`,
+IP `129.151.226.11`. Domaine cible : `occitem.com`. Le VPS héberge aussi
+QualityHub (port 8090) — vérifier `nginx -t` avant tout `reload`, une erreur
+de configuration couperait les deux sites.
+
+Éditeurs en production : `/admin/editor.html` et `/admin/career-admin.html`.
+Les identifiants vivent uniquement dans `/etc/occitem/editor.env` sur le VPS —
+ne jamais les écrire dans le dépôt.
+
+- **nginx** : vhost `occitem`. Sert le site en public et proxifie `/admin/` vers `127.0.0.1:8081`.
+  Le bloc `/admin/` doit rester en `location ^~` : sans le `^~`, les `location` regex
+  (`\.json$`, images) l'emportent sur le préfixe et nginx cherche les fichiers dans
+  `<racine>/admin/`, qui n'existe pas — les éditeurs s'ouvrent alors sans aucune donnée.
+- **Blocages** : `/.git`, `*.py`, `*.bak`, `_ressources` renvoient 404, sur le vhost public
+  **et** dans le bloc `/admin/`. Le second n'est pas redondant : `_check_auth` laisse passer
+  sans authentification tout chemin absent de ses listes, donc `/admin/.git/config` fuiterait
+  le dépôt entier sans lui.
+- **Service** : `occitem-editor.service` (utilisateur `occitem`), variables dans
+  `/etc/occitem/editor.env`, comptes dans `/var/lib/occitem/users.json`.
+  `GIT_AUTO_SYNC=1` n'y est posé qu'en production — en local les commits restent manuels.
+- **auto-deploy.sh** (cron `*/2`) : commite les résidus, `pull --rebase`, puis pousse les
+  commits en attente. Il annule le rebase en cas de conflit plutôt que de laisser le dépôt
+  à moitié rebasé, et redémarre le service si `editor_server.py` a changé.
+- Toute modification poussée sur `master` part en production dans les 2 minutes.
+  Il n'y a pas d'environnement de préproduction.
 
 ## Langue
 - Switch FR/EN dans la nav — bascule via attribut `lang` sur `<html>` et re-render de tous les `[data-key]`
 - Langue par défaut : français
 - Tout le contenu texte est dans `content.json`, jamais hardcodé dans le HTML
+- Structure : `section.<lang>.<clé>`. Les **réglages non linguistiques** se placent à côté
+  de `fr`/`en`, jamais dedans — par exemple `careers.nav_enabled` (affichage du lien
+  « Carrières » dans le menu). Dupliqué par langue, un tel réglage autoriserait des états
+  contradictoires entre FR et EN sans que rien ne le signale dans l'éditeur.
+  `getVal`/`setVal` d'`editor.html` insèrent toujours la langue courante : ces réglages
+  s'écrivent donc directement sur `data.<section>.<clé>`.
+- Un réglage absent de `content.json` doit valoir « activé » : un déploiement antérieur à
+  son introduction ne doit pas faire disparaître d'élément du site.
 
 ## Ne pas faire
 - Ne pas lancer de build ni de serveur — laisser l'utilisateur le faire
 - Ne pas introduire de dépendances npm ou bundler (webpack, vite, etc.)
 - Ne pas créer de fichiers CSS ou JS supplémentaires — tout dans `style.css` et `main.js`
 - Ne pas modifier `_ressources/` — c'est le dossier source original, en lecture seule
+- Ne pas versionner `users.json` ni le placer dans la racine web : il contient des
+  empreintes de mots de passe, partirait sur GitHub au premier enregistrement et serait
+  écrasé à chaque déploiement
+- Ne pas tester les routes d'écriture (`/api/save`, `/api/save-careers`) avec un corps
+  partiel : elles remplacent le fichier entier, et un `{}` vide le contenu du site — puis
+  le commit automatique le pousse sur GitHub. Toujours renvoyer le JSON complet, modifié.
+- Ne pas utiliser de chemins d'API absolus dans les éditeurs (voir « Éditeur de contenu »)
