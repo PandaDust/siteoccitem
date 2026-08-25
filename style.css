@@ -165,13 +165,26 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   right: 0;
   z-index: 100;
   padding: 1rem 0;
-  transition: background var(--transition), padding var(--transition), backdrop-filter var(--transition);
+  transition: padding var(--transition);
+}
+/* Le fond flouté vit sur ::before (et non sur .nav) : un backdrop-filter posé
+   directement sur .nav ferait de .nav le containing block de tout descendant
+   position:fixed (dont le menu mobile .nav__links.open), qui se retrouverait
+   alors coincé sur la hauteur de la barre nav au lieu de couvrir l'écran. */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transition: background var(--transition), backdrop-filter var(--transition);
 }
 .nav.scrolled {
-  background: rgba(13, 27, 42, 0.95);
-  backdrop-filter: blur(10px);
   padding: 0.6rem 0;
   border-bottom: 1px solid var(--border);
+}
+.nav.scrolled::before {
+  background: rgba(13, 27, 42, 0.95);
+  backdrop-filter: blur(10px);
 }
 .nav__inner {
   display: flex;
