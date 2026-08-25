@@ -726,6 +726,7 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   box-shadow: 0 4px 24px rgba(0,0,0,0.35);
   background: var(--bg);
   transition: box-shadow 0.4s ease;
+  -webkit-perspective: 1600px;
   perspective: 1600px;
 }
 .market-card:hover {
@@ -749,10 +750,12 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   width: 100%;
   height: 100%;
   min-height: inherit;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
 .market-card.is-flipped .market-card__inner {
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 .market-card__face {
@@ -760,9 +763,11 @@ h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 300; line-height: 
   inset: 0;
   display: flex;
   flex-direction: column;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 .market-card__face--back {
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 .market-card__bg {
